@@ -88,6 +88,7 @@ class _BrandScreenState extends ConsumerState<BrandScreen> {
               fit: BoxFit.fill,
             ),
 
+
             // 🔹 Search Bar
             Padding(
               padding: const EdgeInsets.all(8.0),
