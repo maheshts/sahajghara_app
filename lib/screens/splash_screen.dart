@@ -70,11 +70,24 @@ class _SplashScreenState extends State<Splashscreen>
         if (isLogin) {
           Utills.customPrint('isLocation if $isLocation');
 
-          String? address = await showDialog(
-            context: context,
-            barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
-            builder: (context) => LocationDialog(),
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                address: "address",
+                latitude: 20.123344,
+                longitude:80.234425,
+              ),
+            ),
+                (Route<dynamic> route) => false,
           );
+
+
+          // String? address = await showDialog(
+          //   context: context,
+          //   barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
+          //   builder: (context) => LocationDialog(),
+          // );
           //await getUserLocation();
           //  Utills.customPrint('isLocation $isLocation');
           //   Navigator.pushReplacement(

@@ -1,7 +1,10 @@
+import 'dart:core';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:sahajghara/controllers/vendor_controller.dart';
+import 'package:sahajghara/core/AppData.dart';
 import 'package:sahajghara/helpers/custom_toast.dart';
 import 'package:sahajghara/helpers/navigation.dart';
 import 'dart:convert';
@@ -42,16 +45,48 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
   final noteController = TextEditingController();
   final categoryController = TextEditingController(text: "Low Heat Cement");
   final brandController = TextEditingController(text: "Ambuja Cements");
-  final quantityController = TextEditingController(text: "250");
+  final quantityController = TextEditingController(text: "");
   final locationController =
   TextEditingController(text: "250, Saheed Nagar, Bhubaneswar");
+  // List<String> cityist = [],
+
   String urgency = "Immediate";
   bool _loading = false;
   String name = "";
   String email = "";
   String phone = "";
   String address = "";
+  List<String> unitList = [
+    "Kg",
+    "Gram",
+    "Ltr",
+    "Ml",
+    "Bag",
+    "Box",
+    "Piece",
+    "Packet",
+    "Dozen",
+    "Meter",
+    "Feet",
+    "Inch",
+    "Ton",
 
+
+    "Roll",
+    "Set",
+
+    "Bucket",
+    "Drum",
+    "Bundle",
+    "Tray",
+    "Sheet",
+    "Pouch",
+  ];
+
+  String selectedUnit = "";
+  String selectedCity = "Bhubaneswar";
+  List<String> cityList=[
+    "Bhubaneswar"];
   Future<void> _submitInquiry() async {
     if (!_formKey.currentState!.validate()) return;
 
@@ -72,6 +107,8 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
       "subcategory": widget.subcategory,
       "brand": widget.brandId,
       "order_quantity": quantityController.text.trim(),
+      "order_unit": selectedUnit,
+      "city": selectedCity,
       "location": locationController.text.trim(),
       "requirment_urgency": urgency,
       "comments": noteController.text.trim(),
@@ -81,8 +118,8 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
     ref.read(vendorControllerProvider).submitVendorData(data.cast<String, String>()).then((respone){
       setState(() => _loading = false);
       if(respone.isSuccess){
-        CustomToast.displaySuccessToast(content:  "Inquiry submitted successfully");
-        Navigation.sideNavigation(context, ThankYouScreen());
+        CustomToast.displaySuccessToast(content: "Inquiry submitted successfully");
+         Navigation.sideNavigation(context, ThankYouScreen());
       }else{
         CustomToast.displayErrorToast(content:  respone.message);
       }
@@ -109,80 +146,198 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
      locationController.text = address;
     });
 
+    unitList = [];
+    unitList = AppData().units!;
 
 
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Inquiry Form")),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              _textField("Name",false,
-                  controller: nameController, validator: _validateName),
-              _textField("Phone Number",false,
-                  controller: phoneController,
-                  keyboardType: TextInputType.phone,
-                  validator: _validatePhone),
-              _textField("Email",false,
-                  controller: emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: _validateEmail),
-              _textField("Category",true,
-                  controller: categoryController,
-                  validator: (v) => _validateRequired(v, "cement category")),
-              _textField("Brand",true,
-                  controller: brandController,
-                  validator: (v) => _validateRequired(v, "cement brand")),
-              _textField("Order Quantity (KG)",false,
-                  controller: quantityController,
-                  keyboardType: TextInputType.number,
-                  validator: _validateQuantity),
-              _textField("Location",false,
-                  controller: locationController,
-                  validator: (v) => _validateRequired(v, "location")),
-              const SizedBox(height: 10),
-              Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text("Requirement Urgency")),
-              Row(
-                children: [
-                  Radio(
-                    value: "Immediate",
-                    groupValue: urgency,
-                    onChanged: (val) =>
-                        setState(() => urgency = val.toString()),
+      appBar: AppBar(title:  Text("Inquiry Form",style: nunitoItalic16.copyWith(fontSize: 20),)),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8),
+          child: Form(
+            key: _formKey,
+            child: ListView(
+              children: [
+                _textField("Name",false,
+                    controller: nameController, validator: _validateName),
+                _textField("Phone Number",false,
+                    controller: phoneController,
+                    keyboardType: TextInputType.phone,
+                    validator: _validatePhone),
+                _textField("Email",false,
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    validator: _validateEmail),
+                _textField("Category",true,
+                    controller: categoryController,
+                    validator: (v) => _validateRequired(v, "cement category")),
+                _textField("Brand",true,
+                    controller: brandController,
+                    validator: (v) => _validateRequired(v, "cement brand")),
+                Column(
+                  children: [
+                    _textField(
+                      "Order Quantity",
+                      false,
+                      controller: quantityController,
+                      keyboardType: TextInputType.number,
+                      validator: _validateQuantity,
+                    ),
+
+                    const SizedBox(height: 12),
+
+                    DropdownButtonFormField<String>(
+                      //value: selectedUnit,
+                      decoration: InputDecoration(
+                        labelText: "Select Unit",
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      items: unitList.map((unit) {
+                        return DropdownMenuItem(
+                          value: unit,
+                          child: Text(unit),
+                        );
+                      }).toList(),
+                      validator: (value) {
+                        if (value == null) {
+                          return 'Please select a unit';
+                        }
+                        return null;
+                      },
+                      onChanged: (value) {
+                        setState(() {
+                          selectedUnit = value!;
+                        });
+                        _formKey.currentState?.validate();
+                      },
+                    ),
+                  ],
+                ),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: _textField("Order Quantity ",false,
+                //           controller: quantityController,
+                //           keyboardType: TextInputType.number,
+                //           validator: _validateQuantity),
+                //     ),
+                //     SizedBox(width: 6,),
+                //     Expanded(
+                //       child: DropdownButtonFormField<String>(
+                //        // initialValue: selectedUnit,
+                //
+                //         decoration: InputDecoration(
+                //           labelText: "Select Unit",
+                //             helperText:"",
+                //           border: OutlineInputBorder(
+                //             borderRadius: BorderRadius.circular(8),
+                //           ),
+                //           contentPadding: const EdgeInsets.symmetric(
+                //             horizontal: 12,
+                //             vertical: 14,
+                //           ),
+                //         ),
+                //
+                //         items: unitList.map((unit) {
+                //           return DropdownMenuItem(
+                //             value: unit,
+                //             child: Text(unit),
+                //           );
+                //         }).toList(),
+                //         validator: (value) {
+                //           if (value == null || value.isEmpty) {
+                //             return 'Please select a unit';
+                //           }
+                //           return null;
+                //         },
+                //         onChanged: (value) {
+                //           setState(() {
+                //             selectedUnit = value!;
+                //           });
+                //           // Revalidate after selection
+                //           _formKey.currentState?.validate();
+                //         },
+                //       ),
+                //     ),
+                //
+                //   ],
+                // ),
+                SizedBox(height: 12,),
+                DropdownButtonFormField<String>(
+                  value: selectedCity,
+        
+                  decoration: InputDecoration(
+                    labelText: "Deliver City",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 14,
+                    ),
                   ),
-                  const Text("Immediately (<2 Days)"),
-                ],
-              ),
-              Row(
-                children: [
-                  Radio(
-                    value: "Later",
-                    groupValue: urgency,
-                    onChanged: (val) =>
-                        setState(() => urgency = val.toString()),
-                  ),
-                  const Text("Later (Not decided yet)"),
-                ],
-              ),
-              _textField("Comments / Special Requests", false,controller: noteController),
-              ElevatedButton(
-                onPressed: _loading ? null : _submitInquiry,
-                style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 14)),
-                child: _loading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    :  Text("Submit",
-                    style: nunitoItalic14White),
-              ),
-            ],
+        
+                  items: cityList.map((unit) {
+                    return DropdownMenuItem(
+                      value: unit,
+                      child: Text(unit),
+                    );
+                  }).toList(),
+        
+                  onChanged: (value) {
+                    setState(() {
+                      selectedCity = value!;
+                    });
+                  },
+                ),
+                _textField("Address",false,
+                    controller: locationController,
+                    validator: (v) => _validateRequired(v, "location")),
+                const SizedBox(height: 10),
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text("Requirement Urgency")),
+                Row(
+                  children: [
+                    Radio(
+                      value: "Immediate",
+                      groupValue: urgency,
+                      onChanged: (val) =>
+                          setState(() => urgency = val.toString()),
+                    ),
+                    const Text("Immediately (<2 Days)"),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Radio(
+                      value: "Later",
+                      groupValue: urgency,
+                      onChanged: (val) =>
+                          setState(() => urgency = val.toString()),
+                    ),
+                    const Text("Later (Not decided yet)"),
+                  ],
+                ),
+                _textField("Comments / Special Requests", false,controller: noteController),
+                ElevatedButton(
+                  onPressed: _loading ? null : _submitInquiry,
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: const EdgeInsets.symmetric(vertical: 14)),
+                  child: _loading
+                      ? const CircularProgressIndicator(color: Colors.white)
+                      :  Text("Submit",
+                      style: nunitoItalic14White),
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -244,6 +399,7 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
     if (int.tryParse(value) == null) {
       return "Quantity must be a number";
     }
+
     return null;
   }
 

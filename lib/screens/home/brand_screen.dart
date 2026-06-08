@@ -90,16 +90,22 @@ class _BrandScreenState extends ConsumerState<BrandScreen> {
 
 
             // 🔹 Search Bar
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SearchBar(
-                controller: _searchController,
-                hintText: 'Search brand...',
-                onChanged: _filterBrands,
-                leading: const Icon(Icons.search),
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.all(8.0),
+            //   child: SearchBar(
+            //     controller: _searchController,
+            //     hintText: 'Search brand...',
+            //     onChanged: _filterBrands,
+            //     leading: const Icon(Icons.search),
+            //   ),
+            // ),
 
+            Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Available brands",style: nunitoItalic16,),
+                )),
             // 🔹 Filtered List
         GridView.builder(
           padding: EdgeInsets.symmetric(horizontal: 16,vertical: 8),

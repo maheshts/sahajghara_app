@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/theme/app_constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -18,15 +19,20 @@ class ThankYouScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Inquiry Form")),
+      appBar: AppBar(title:  Text("Inquiry Posted",style: nunitoItalic16.copyWith(fontSize: 20),)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.thumb_up_alt_outlined,
-                  size: 100, color: Colors.indigo),
+              Lottie.asset(
+                'assets/lottie/successs.json',
+                height: 150,
+              ),
+
+              // const Icon(Icons.thumb_up_alt_outlined,
+              //     size: 100, color: Colors.indigo),
               const SizedBox(height: 20),
               const Text(
                 "THANK YOU!",

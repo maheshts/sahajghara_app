@@ -49,7 +49,7 @@ class _VendorListState extends ConsumerState<VendorList> {
         child: Scaffold(
           appBar: AppBar(
            //   backgroundColor: AppColors.primary,
-              title: Text(" ${widget.brandName} Vendors".toUpperCase(), style: nunitoItalic14)),
+              title: Text(" ${widget.brandName} Vendors".toUpperCase(), style: nunitoItalic16.copyWith(fontSize: 16))),
 
           // ✅ Show button only when vendors selected
           bottomNavigationBar: selectedVendors.isNotEmpty

@@ -1,10 +1,10 @@
 class AppImages {
-  static const splash = "assets/images/logo.png";
+  static const splash = "assets/images/icon.png";
   static const ellipsesplash = "assets/images/Ellipse 3.png";
   static const ellipsesplash4 = "assets/images/Ellipse 4.png";
   static const logo_circle = 'assets/images/Main_Icon_blue.png';
-  static const logo_circle1 = "assets/image/logo.png";
-  static const logo_circle_plaain = "assets/image/logo.png";
+  static const logo_circle1 = "assets/image/icon.png";
+  static const logo_circle_plaain = "assets/image/icon.png";
   static const header = "assets/images/bubles-header-white.png";
   static const bgHeader = "assets/svg/background.svg";
   static const logo = "assets/images/SahajLogoWhite.png";

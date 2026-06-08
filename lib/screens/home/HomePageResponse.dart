@@ -147,6 +147,7 @@ class Category {
   List<String>? subcategory;
   String? cloudinaryIdIcon;
   String? photoUrlIcon;
+  List<String>? units;
 
   Category(
       {this.sId,
@@ -159,7 +160,7 @@ class Category {
         this.photoUrl,
         this.subcategory,
         this.cloudinaryIdIcon,
-        this.photoUrlIcon});
+        this.photoUrlIcon,this.units});
 
   Category.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -177,6 +178,7 @@ class Category {
     subcategory = json['subcategory'].cast<String>();
     cloudinaryIdIcon = json['cloudinary_id_icon'];
     photoUrlIcon = json['photo_url_icon'];
+    units = json['units'].cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -196,6 +198,7 @@ class Category {
     data['subcategory'] = this.subcategory;
     data['cloudinary_id_icon'] = this.cloudinaryIdIcon;
     data['photo_url_icon'] = this.photoUrlIcon;
+    data['units'] = this.units;
     return data;
   }
 }

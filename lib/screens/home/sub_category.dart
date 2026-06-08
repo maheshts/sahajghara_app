@@ -35,7 +35,7 @@ class _SubCategoryState extends State<SubCategory> {
       });
     });
   }
-  void _filterSearch(String query) {
+  void _filterSearch1(String query) {
     final allItems = widget.subcategoryList ?? [];
     if (query.isEmpty) {
       setState(() => filteredList = allItems);
@@ -47,6 +47,31 @@ class _SubCategoryState extends State<SubCategory> {
             .toList();
       });
     }
+  }
+  void _filterSearch(String query) {
+    print("Query: $query");
+
+    final allItems = widget.subcategoryList ?? [];
+
+    print("Total Items: ${allItems.length}");
+
+    if (query.isEmpty) {
+      setState(() {
+        filteredList = allItems;
+      });
+    } else {
+      setState(() {
+        filteredList = allItems.where((item) {
+          print("Checking: $item");
+
+          return item
+              .toLowerCase()
+              .contains(query.toLowerCase().trim());
+        }).toList();
+      });
+    }
+
+    print("Filtered Count: ${filteredList.length}");
   }
 
   @override
@@ -135,12 +160,12 @@ class _SubCategoryState extends State<SubCategory> {
           const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
         leading:  Icon(Icons.search, color: AppColors.bgColors),
-        trailing: [
-          IconButton(
-            icon: const Icon(Icons.clear, color: Colors.red),
-            onPressed: () {},
-          ),
-        ],
+        // trailing: [
+        //   IconButton(
+        //     icon: const Icon(Icons.clear, color: Colors.red),
+        //     onPressed: () {},
+        //   ),
+        // ],
         onTap: () {
           debugPrint('Search bar tapped!');
         },

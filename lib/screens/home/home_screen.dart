@@ -19,6 +19,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../controllers/home_controller.dart';
+import '../../core/AppData.dart';
 import '../../helpers/navigation.dart';
 import '../../helpers/utillls.dart';
 import '../../nwdata/api/api_contants.dart';
@@ -67,7 +68,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final FocusNode _searchFocusNode = FocusNode();
   int _currentHintIndex = 0;
   late Timer _timer;
-
+  String selectedCity = "Bhubaneswar";
   @override
   void dispose() {
     _ytController.dispose();
@@ -115,6 +116,51 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       uName = pref.getString(APIConstants.accountName)!;
       Utills.customPrint('name $uName');
     });
+  }
+  void showCityDialog() {
+
+    showDialog(
+      context: context,
+      builder: (context) {
+
+        return AlertDialog(
+
+          title: const Text("Select City"),
+
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+
+              ListTile(
+                title: const Text("Bhubaneswar"),
+
+                onTap: () {
+
+                  setState(() {
+                    selectedCity = "Bhubaneswar";
+                  });
+
+                  Navigator.pop(context);
+                },
+              ),
+
+              // ListTile(
+              //   title: const Text("Cuttack"),
+              //
+              //   onTap: () {
+              //
+              //     setState(() {
+              //       selectedCity = "Cuttack";
+              //     });
+              //
+              //     Navigator.pop(context);
+              //   },
+              // ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   Future<void> checkForUpdate() async {
@@ -265,20 +311,37 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     ),
                                     Padding(
                                       padding: EdgeInsets.zero,
+
                                       child: Row(
                                         mainAxisAlignment: MainAxisAlignment.start,
                                         children: [
-                                          Icon(Icons.location_on,
-                                              color: AppColors.white),
+
+                                          const Icon(
+                                            Icons.location_on,
+                                            color: AppColors.white,
+                                            size: 18,
+                                          ),
+
                                           Flexible(
                                             child: Text(
-                                              widget.address,
+                                              selectedCity,
                                               style: nunitoItalic12White,
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-          
+
+                                          const SizedBox(width: 4),
+
+                                          InkWell(
+                                            onTap: showCityDialog,
+
+                                            child: const Icon(
+                                              Icons.edit,
+                                              color: Colors.white,
+                                              size: 16,
+                                            ),
+                                          ),
                                         ],
                                       ),
                                     ),
@@ -545,6 +608,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 onTap: () {
                   Utills.customPrint('item name {${item.title}}');
                   Utills.customPrint('item name {${json.encode(item)}}');
+                  AppData().units = item.units;
                   Navigation.sideNavigation(
                     context,
                     SubCategory(
