@@ -28,6 +28,7 @@ class APIConstants {
   static const mobile = "mobile";
   static const token = "token";
   static const fcmToken = "fcmToken";
+  static const uuid = "uuidid";
   static const shiftStartTime = 'shiftStartTime';
   static const shiftEndTime = 'shiftEndTime';
   static const stakeholderId = 'stakeholderId';

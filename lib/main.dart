@@ -1,16 +1,84 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:sahajghara/helpers/utillls.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/screens/home/home_screen.dart';
 import 'package:sahajghara/screens/intro_screen.dart';
 import 'package:sahajghara/screens/auth/login_screen.dart';
 import 'package:sahajghara/screens/splash_screen.dart';
+import 'package:sahajghara/service/NotificationService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'firebase_options.dart';
 import 'helpers/no_scroll.dart';
 
-void main() {
-  runApp(ProviderScope(child: MyApp()));
+
+final sharedPreferencesProvider =
+Provider<SharedPreferences>((ref) => throw UnimplementedError());
+
+final notificationCountProvider =
+StateNotifierProvider<NotificationNotifier, int>((ref) {
+  final prefs = ref.watch(sharedPreferencesProvider);
+  return NotificationNotifier(prefs);
+});
+
+
+
+class NotificationNotifier extends StateNotifier<int> {
+  final SharedPreferences prefs;
+
+  NotificationNotifier(this.prefs)
+      : super(prefs.getInt('notification_count') ?? 0);
+
+  Future<void> increment() async {
+    state++;
+    prefs.setInt('notification_count', state);
+    // if (await AppBadgePlus.isSupported()) {
+    //   AppBadgePlus.updateBadge(state);
+    // } else {
+    //   print("Badge not supported on this device");
+    // }
+  }
+
+  Future<void> clear() async {
+    state = 0;
+    prefs.setInt('notification_count', 0);
+    // if (await AppBadgePlus.isSupported()) {
+    //   AppBadgePlus.updateBadge(0);
+    // } else {
+    //   print("Badge not supported on this device");
+    // }
+  }
+}
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  Utills.customPrint("main 1");
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
+  Utills.customPrint("main 2");
+
+  final sharedPreferences = await SharedPreferences.getInstance();
+  FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+  Utills.customPrint("main 3");
+
+  await NotificationService.init();
+  await NotificationService.loadCount();
+  // runApp(const ProviderScope(child: MyApp()));
+  Utills.customPrint("main 4");
+
+  runApp(ProviderScope(
+    overrides: [
+      sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+    ],
+    child: MyApp(),
+  ));
 }
 
 final currentRouteProvider = StateProvider<String>((ref) => '');
@@ -60,8 +128,8 @@ class NavObserver extends NavigatorObserver {
 class MyApp extends ConsumerWidget {
   MyApp({super.key});
 
-  final GlobalKey<NavigatorState> navigatorKey =
-  GlobalKey<NavigatorState>();
+  // final GlobalKey<NavigatorState> navigatorKey =
+  // GlobalKey<NavigatorState>();
 
   final List<String> hideIdentifiers = [
     '/splash',

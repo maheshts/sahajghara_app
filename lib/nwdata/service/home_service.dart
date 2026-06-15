@@ -39,6 +39,7 @@ class HomeService {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var memberid = pref.getString(APIConstants.userId);
     String url = "${APIConstants.baseUrl}/homepage";
+    String? fcm = pref.getString(APIConstants.fcmToken);
     Utills.customPrint('url $url');
     Utills.customPrint('memberid $memberid');
     //http://api.zingara.club/api/Home/GetAllBanner?Longitude=21&Latitude=2313
@@ -46,7 +47,7 @@ class HomeService {
     try {
       Response response = await api.postMethod(
         url: url,
-        body: {"lat": latitude, "long": longitude, "user_id": memberid ?? 0},
+        body: {"lat": latitude, "long": longitude, "user_id": memberid ?? 0,"fcm_id":fcm},
       );
       var result = response.data;
 

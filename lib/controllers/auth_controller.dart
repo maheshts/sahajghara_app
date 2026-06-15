@@ -6,9 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/screens/auth/model/OtpResponse.dart';
 import 'package:sahajghara/screens/auth/model/RegisterResponse.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../helpers/CommonResponse.dart';
 import '../helpers/custom_toast.dart';
 import '../helpers/navigation.dart';

@@ -68,6 +68,7 @@ class _SubCategoryState extends State<SubCategory> {
               .toLowerCase()
               .contains(query.toLowerCase().trim());
         }).toList();
+        print("Filtered List: $filteredList");
       });
     }
 
@@ -113,7 +114,7 @@ class _SubCategoryState extends State<SubCategory> {
                       contentPadding: EdgeInsets.zero, // removes extra space
                       minVerticalPadding: 0, // minimizes height even more
                       title: Text(
-                        widget.subcategoryList![index],
+                        filteredList![index],
                         style: nunitoItalic14,
                       ),
                       trailing: Icon(
@@ -160,12 +161,14 @@ class _SubCategoryState extends State<SubCategory> {
           const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
         ),
         leading:  Icon(Icons.search, color: AppColors.bgColors),
-        // trailing: [
-        //   IconButton(
-        //     icon: const Icon(Icons.clear, color: Colors.red),
-        //     onPressed: () {},
-        //   ),
-        // ],
+        trailing: [
+          _searchController.text.length > 0 ? IconButton(
+            icon: const Icon(Icons.clear, color: Colors.red),
+            onPressed: () {
+              _searchController.clear();
+            },
+          ):SizedBox(),
+        ],
         onTap: () {
           debugPrint('Search bar tapped!');
         },

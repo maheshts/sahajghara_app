@@ -27,6 +27,7 @@ import '../../presentation/theme/app_colors.dart';
 import '../../presentation/theme/app_constants.dart';
 import '../utils/DottedLoader.dart';
 import '../utils/ErrorScreen.dart';
+import '../utils/notification_icon.dart';
 import 'dashboard_card.dart';
 import 'notification_screen.dart';
 
@@ -370,6 +371,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   ),
                                  // Icon(Icons.person, size: 18, color: Colors.white),
                                  // const SizedBox(width: 4),
+                                  SizedBox(width: 8),
+                                  NotificationBadgeIcon(phone: "phone"),
+                                  SizedBox(width: 8),
           //
                                 //  Icon(Icons.person, size: 18, color: Colors.white),
           
