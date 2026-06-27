@@ -62,7 +62,7 @@ var bookingWatch = ref.watch(listControllerProvider);
         itemCount: bookingWatch.contractorlist!.length,
         itemBuilder: (context, index) {
           Contractorlist c = bookingWatch.contractorlist![index];
-          return Container(
+          return  Container(
             margin: const EdgeInsets.only(bottom: 16),
             decoration: BoxDecoration(
               color: AppColors.white,
@@ -84,8 +84,12 @@ var bookingWatch = ref.watch(listControllerProvider);
                   children: [
                     CircleAvatar(
                       radius: 28,
-                      //backgroundImage: AssetImage(""),
-                      backgroundImage: NetworkImage(c.profileUrl!),
+                      backgroundImage: (c.profileUrl != null && c.profileUrl!.isNotEmpty)
+                          ? NetworkImage(c.profileUrl!)
+                          : null,
+                      child: (c.profileUrl == null || c.profileUrl!.isEmpty)
+                          ? const Icon(Icons.person, size: 28)
+                          : null,
                     ),
                     const SizedBox(width: 12),
                     Expanded(

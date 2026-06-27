@@ -65,6 +65,8 @@ class EnquiryDetails {
   final String? categoryName;
   final String? brandName;
   final String? vendorName;
+  final String? contractorName;
+  final String? contractorCode;
   final String? vendorCode;
   final String? customerName;
   final String? statusMessage;
@@ -95,6 +97,8 @@ class EnquiryDetails {
     this.brandName,
     this.vendorName,
     this.vendorCode,
+    this.contractorName,
+    this.contractorCode,
     this.customerName,
     this.statusMessage,
     this.projectType,
@@ -126,6 +130,8 @@ class EnquiryDetails {
       brandName: json['brand_name'] as String?,
       vendorName: json['vendor_name'] as String?,
       vendorCode: json['vendor_code'] as String?,
+      contractorName: json['contractor_name'] as String?,
+      contractorCode: json['contractor_code'] as String?,
       customerName: json['customer_name'] as String?,
       statusMessage: json['status_message'] as String?,
         projectType :json['project_type'] as String?,
@@ -157,6 +163,8 @@ class EnquiryDetails {
     'category_name': categoryName,
     'brand_name': brandName,
     'vendor_name': vendorName,
+    'contractor_code': contractorCode,
+    "contractor_name": contractorName,
     'vendor_code': vendorCode,
     'customer_name': customerName,
     'status_message': statusMessage,

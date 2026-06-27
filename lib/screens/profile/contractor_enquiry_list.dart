@@ -49,7 +49,7 @@ class _ContractorEnquiryListState extends ConsumerState<ContractorEnquiryList> {
       ),
       body:enquiryWatch.contractorEnquiryStatus == ContractorEnquiryListStatus.loading?Center(child: CircularProgressIndicator()): RefreshIndicator(
         onRefresh: _refresh,
-        child: cinquiryList!.isEmpty
+        child: cinquiryList.isEmpty
             ? ListView(
           physics: const AlwaysScrollableScrollPhysics(),
           children: const [
@@ -57,19 +57,21 @@ class _ContractorEnquiryListState extends ConsumerState<ContractorEnquiryList> {
             Center(child: Text('No inquiries found')),
           ],
         )
-            : ListView.separated(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          itemCount: cinquiryList!.length,
-          separatorBuilder: (_, __) => const SizedBox(height: 8),
-          itemBuilder: (context, index) {
-            final item = cinquiryList![index];
-            return  InkWell(
-                onTap: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ContractorEnquiryDetails(inquiryId: item.sId.toString(),isVendor: false,)));
-                },
-                child: _InquiryCard(item));
-          },
-        ),
+            : SafeArea(
+              child: ListView.separated(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        itemCount: cinquiryList!.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 8),
+                        itemBuilder: (context, index) {
+              final item = cinquiryList![index];
+              return  InkWell(
+                  onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ContractorEnquiryDetails(inquiryId: item.sId.toString(),isVendor: false,)));
+                  },
+                  child: _InquiryCard(item));
+                        },
+                      ),
+            ),
       ),
     );
   }

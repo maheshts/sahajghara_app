@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sahajghara/screens/home/notification_screen.dart';
 
 
+import '../../helpers/navigation.dart';
 import '../../main.dart';
 
 
@@ -21,6 +23,7 @@ class NotificationBadgeIcon extends ConsumerWidget {
           icon: const Icon(
             Icons.notifications,
             color: Colors.white,
+            size: 18,
             shadows: [
               Shadow(
                 color: Colors.black45,
@@ -33,7 +36,7 @@ class NotificationBadgeIcon extends ConsumerWidget {
             // Reset counter when clicked
             ref.read(notificationCountProvider.notifier).clear();
             // Navigate to notifications screen...
-            // Navigation.sideNavigation(context, ProfileScreen());
+             Navigation.sideNavigation(context, NotificationScreen());
             // Navigator.push(
             //     context,
             //     MaterialPageRoute(

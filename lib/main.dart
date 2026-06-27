@@ -173,7 +173,7 @@ class MyApp extends ConsumerWidget {
       designSize: const Size(360, 690),
       builder: (context, _) {
         return MaterialApp(
-          navigatorKey: navigatorKey,
+          navigatorKey: NotificationService.navigatorKey,
           debugShowCheckedModeBanner: false,
           title: 'SahajGhara',
           scrollBehavior: NoScrollBehaviour(),
@@ -181,7 +181,6 @@ class MyApp extends ConsumerWidget {
             colorScheme:
             ColorScheme.fromSeed(seedColor: AppColors.primary),
           ),
-
           // 👇 Inject observer with ref
           navigatorObservers: [
             //NavObserver(ref),

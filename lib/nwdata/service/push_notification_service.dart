@@ -76,7 +76,7 @@ class PushNotificationService {
 // when app is streaming then it called foreground
   _foregroundHandler() async {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      // print("_foregroundHandler recieved 2|${message.toString()}");
+       print("_foregroundHandler recieved 2|${message.toString()}");
       if (message.data.isNotEmpty) {
         await callToAction(message);
       }
@@ -124,6 +124,7 @@ class PushNotificationService {
   }
 
   Future callToAction(RemoteMessage message) async {
+    Utills.customPrint("message $message");
     // try {
     //   UserService userService = UserService();
     //   Utills.customPrint('callToAction1');

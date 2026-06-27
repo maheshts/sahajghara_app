@@ -71,7 +71,7 @@ class User {
   String? phoneVerifiedAt;
   int? status;
   String? type;
-  String? createdAt;
+
   String? password;
 
   User(
@@ -85,7 +85,6 @@ class User {
         this.phoneVerifiedAt,
         this.status,
         this.type,
-        this.createdAt,
         this.password});
 
   User.fromJson(Map<String, dynamic> json) {
@@ -99,7 +98,7 @@ class User {
     phoneVerifiedAt = json['phone_verified_at'];
     status = json['status'];
     type = json['type'];
-    createdAt = json['created_at'];
+
     password = json['password'];
   }
 
@@ -115,7 +114,7 @@ class User {
     data['phone_verified_at'] = this.phoneVerifiedAt;
     data['status'] = this.status;
     data['type'] = this.type;
-    data['created_at'] = this.createdAt;
+
     data['password'] = this.password;
     return data;
   }

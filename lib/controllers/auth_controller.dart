@@ -15,6 +15,7 @@ import '../nwdata/api/api_contants.dart';
 import '../nwdata/api/api_helper.dart';
 import '../nwdata/service/auth_service.dart';
 import '../presentation/widgets/load_state/loader/popup_loader.dart';
+import '../screens/home/home_screen.dart';
 import '../screens/location.dart';
 import '../screens/auth/otp_verify.dart';
 import '../screens/auth/signup_screen.dart';
@@ -62,6 +63,7 @@ class AuthController extends ChangeNotifier {
   OtpResponse? otpResponse;
 
   String mobile = "";
+  String _userid = "";
   int otp = 0;
   String token = "";
   String message = "";
@@ -178,6 +180,7 @@ class AuthController extends ChangeNotifier {
       );
 
       Utills.customPrint('register1|$data');
+      Utills.customPrint('register1|${data.hasError}');
 
       if (data.hasError == false) {
         // save values in pref
@@ -196,7 +199,8 @@ class AuthController extends ChangeNotifier {
         CustomToast.displayErrorToast(content: data.message ?? "Registration failed");
         return CommonResponse(isSuccess: false, message: data.message ?? "Registration failed");
       }
-    } catch (error) {
+    } catch (error,stackTrace) {
+      Utills.customPrint("statck register$stackTrace");
       PopupLoader().hideLoader();
       CustomToast.displayErrorToast(content: "Unexpected error occurred");
       return CommonResponse(isSuccess: false, message: "Unexpected error occurred");
@@ -321,6 +325,7 @@ class AuthController extends ChangeNotifier {
 
       //
        otp = otpResponse!.result?.otp ?? 0;
+       _userid = otpResponse!.result?.user!.sId ?? "";
       // token = result['token'];
       bool? isRegister = otpResponse!.result?.register;
       if(otpResponse!.hasError == false){
@@ -337,8 +342,9 @@ class AuthController extends ChangeNotifier {
       PopupLoader().hideLoader();
       changePasswordStatus = ChangePasswordStatus.authenticated;
       notifyListeners();
-    } catch (error) {
+    } catch (error,stackTrace) {
       Utills.customPrint('otp 4 $error');
+      Utills.customPrint('otp 4 $stackTrace');
       PopupLoader().hideLoader();
       CustomToast.displayWarningToast(content: error.toString());
       changePasswordStatus = ChangePasswordStatus.error;
@@ -387,39 +393,55 @@ class AuthController extends ChangeNotifier {
     verifyOTPStatus = VerifyOTPStatus.loading;
     PopupLoader().showLoader(context);
     try {
-      // var result = await authService.otpverify(context,
-      //     mobile,otp,token);
+      var result = await authService.otpverify(context,
+          mobile, otp, _userid);
 
 
       // if(result['statusCode'] == 1){
       //   Navigation.sideNavigation(context, OtpVerify(otp,token));
       // }
 
-      //Utills.customPrint('otp 2 $result');
-     // Utills.customPrint('otp memberMobile ${result["memberMobile"]}');
-    Utills.customPrint('overidy tp 2 $otp');
-    Utills.customPrint('overidy register${otpResponse!.result!.register}');
-     // Utills.customPrint('otp 2 $token');
-      if(otpResponse!.result!.register == false){
-
-        Navigation.replace(context, SignUpScreen(mobile: mobile));
-      }else{
-       // Navigation.replace(context, NewHomeScreen(mobile: mobile));
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        pref.setBool(APIConstants.authenticated,true);
-
-        pref.setString(APIConstants.userId, otpResponse!.result!.user!.sId.toString());
-        pref.setBool(APIConstants.authenticated, true);
-        pref.setString(APIConstants.accountName, otpResponse!.result!.user!.name.toString());
-        pref.setString(APIConstants.mobile, otpResponse!.result!.user!.phone.toString());
-        pref.setString(APIConstants.email, otpResponse!.result!.user!.email.toString());
-
-        _showLocationDialog(context);
-
-      }
+      Utills.customPrint('fcm update 2 $result');
+      // Utills.customPrint('otp memberMobile ${result["memberMobile"]}');
+      Utills.customPrint('overidy tp 2 $otp');
+      Utills.customPrint('overidy register${otpResponse!.result!.register}');
+      // Utills.customPrint('otp 2 $token');
       PopupLoader().hideLoader();
-      changePasswordStatus = ChangePasswordStatus.authenticated;
-    } catch (error) {
+
+      if (result['HasError'] == false) {
+        if (otpResponse!.result!.register == false) {
+          Navigation.replace(context, SignUpScreen(mobile: mobile));
+        } else {
+          // Navigation.replace(context, NewHomeScreen(mobile: mobile));
+          SharedPreferences pref = await SharedPreferences.getInstance();
+          pref.setBool(APIConstants.authenticated, true);
+
+          pref.setString(APIConstants.userId, otpResponse!.result!.user!.sId.toString());
+          pref.setBool(APIConstants.authenticated, true);
+          pref.setString(APIConstants.accountName, otpResponse!.result!.user!.name.toString());
+          pref.setString(APIConstants.mobile, otpResponse!.result!.user!.phone.toString());
+          pref.setString(APIConstants.email, otpResponse!.result!.user!.email.toString());
+
+         // _showLocationDialog(context);
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HomeScreen(
+                address: "address",
+                latitude: 20.123344,
+                longitude:80.234425,
+              ),
+            ),
+                (Route<dynamic> route) => false,
+          );
+
+        }
+        PopupLoader().hideLoader();
+        changePasswordStatus = ChangePasswordStatus.authenticated;
+      }else{
+        CustomToast.displayErrorToast(content: "Unable to process.");
+      }
+      } catch (error) {
       Utills.customPrint('otp 4 $error');
       PopupLoader().hideLoader();
       CustomToast.displayWarningToast(content: error
@@ -429,6 +451,7 @@ class AuthController extends ChangeNotifier {
       throw Exception(error.toString());
     }
     notifyListeners();
+
   }
 
   var companyProfileData = {};

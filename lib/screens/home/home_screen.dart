@@ -357,23 +357,24 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   //   icon: const Icon(Icons.refresh, size: 18, color: Colors.white),
                                   // ),
                                   //const SizedBox(width: 8), // Controlled spacing
+
+                                  //const SizedBox(width: 8),
+                                  NotificationBadgeIcon(phone: "phone"),
                                   InkWell(
                                       onTap: () => ref.read(homeControllerProvider).getHomeData(context),
                                       child: Icon(Icons.refresh, size: 18, color: Colors.white)),
-                                  const SizedBox(width: 4),
                                   IconButton(
                                     visualDensity: VisualDensity.compact,
                                     padding: EdgeInsets.zero,
                                     constraints: const BoxConstraints(),
           
                                        onPressed: () => Navigation.sideNavigation(context, ProfileScreens()),
-                                    icon: const Icon(Icons.person, size: 18, color: Colors.white),
+                                    icon: const Icon(Icons.menu, size: 18, color: Colors.white),
                                   ),
                                  // Icon(Icons.person, size: 18, color: Colors.white),
                                  // const SizedBox(width: 4),
-                                  SizedBox(width: 8),
-                                  NotificationBadgeIcon(phone: "phone"),
-                                  SizedBox(width: 8),
+                                  //SizedBox(width: 8),
+                                  //SizedBox(width: 8),
           //
                                 //  Icon(Icons.person, size: 18, color: Colors.white),
           

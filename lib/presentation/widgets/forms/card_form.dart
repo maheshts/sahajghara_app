@@ -156,7 +156,7 @@ class _CardFormState extends State<CardForm> {
       suffixIcon: suffixIcon,
       hintText: hintText,
       labelText: labelText,
-      labelStyle: nunitoItalic14.copyWith(color: Colors.blueGrey),
+      labelStyle: nunitoItalic14.copyWith(color: Colors.black54),
       contentPadding: contentPadding ??
           const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       filled: true,

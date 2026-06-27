@@ -16,6 +16,7 @@ import '../../presentation/theme/app_theme.dart';
 import '../../presentation/widgets/button/custom_arrow_button.dart';
 import '../../presentation/widgets/button/login_button.dart';
 import '../../presentation/widgets/forms/card_form.dart';
+import '../home/home_screen.dart';
 import '../location.dart';
 
 
@@ -132,6 +133,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       controller: nameController,
                       keyboardType: TextInputType.text,
                       bgColor: AppColors.txtBgColor,
+
                     ),
                     CardForm(
                       hintText: "Email*",
@@ -179,8 +181,19 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                                 // barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
                                 // builder: (context) => SignupSuccess(),
                                 // );
-                                 _showLocationDialog();
-                                 //
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HomeScreen(
+                                      address: "address",
+                                      latitude: 20.123344,
+                                      longitude:80.234425,
+                                    ),
+                                  ),
+                                      (Route<dynamic> route) => false,
+                                );
+
+                                //
                               }else{
                                 CustomToast.displayWarningToast(content: response.message);
                               }

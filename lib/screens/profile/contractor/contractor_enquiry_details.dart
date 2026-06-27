@@ -335,12 +335,27 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
         // _infoRow("Urgency", d.requirmentUrgency),
         // _infoRow("Location", d.location),
         // _infoRow("Created At", d.createdAt),
-        _infoRow("Name", item.customerName.toString()),
+        widget.isVendor == true ?   _infoRow("Name", item.customerName.toString()):SizedBox(),
+        widget.isVendor == false? _infoRow("Contractor", item.contractorName.toString()):SizedBox(),
         item.status == 3?
         _infoRow("Phone", item.phone.toString()) : _infoRow("Phone", maskPhone(item.phone.toString())),
         _infoRow("Location", item.location.toString()),
         _infoRow("Project Size", item.projectSize.toString()+" Feet"),
         _infoRow("Project Type", item.projectType.toString()),
+     item.adminComments != null && item.adminComments!.isNotEmpty?
+     widget.isVendor == false?
+           Column(children: [
+             Text("From SahajGhara Team",style: nunitoItalic14,),
+             Text(item.adminComments.toString(),style: nunitoItalic13,)
+           ],) : SizedBox():Text(""),
+    item.vendorComments != null && item.vendorComments!.isNotEmpty?
+    widget.isVendor == false?
+           Column(children: [
+             Text("From Contractor",style: nunitoItalic14,),
+             Text(item.vendorComments.toString(),style: nunitoItalic13,)
+           ],) : SizedBox():SizedBox(),
+      // _infoRow("SahajaGhar Team", item.adminComments.toString()):SizedBox(),
+      //   widget.isVendor == false? _infoRow("Contractor", item.vendorComments.toString()):SizedBox(),
 
       ],
     );

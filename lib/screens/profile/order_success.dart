@@ -33,17 +33,17 @@ class _OrderSuccessState extends State<OrderSuccess> {
     Utills.customPrint('add $add');
     Utills.customPrint('lat $lat');
     Utills.customPrint('long $long');
-    if (add != null && lat != null && long != null) {
+    //if (add != null && lat != null && long != null) {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(builder: (context) =>
             HomeScreen(
-                address: add.toString(), latitude: lat, longitude: long)),
+                address: add.toString(), latitude: 2.444, longitude: 3.3333)),
             (Route<dynamic> route) => false,
       );
-    }else {
-      Utills.customPrint("Missing address or coordinates");
-    }
+    // }else {
+    //   Utills.customPrint("Missing address or coordinates");
+    // }
 
   }
 

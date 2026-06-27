@@ -19,6 +19,7 @@ import '../../screens/contractor/model/PortfolioData.dart';
 import '../api/api_contants.dart';
 import '../api/api_helper.dart';
 import '../api/exceptions.dart';
+import '../model/notification_model.dart';
 
 class HomeService {
   APIHelper api = APIHelper();
@@ -181,7 +182,7 @@ class HomeService {
     }
   }
   paymentConfirm({orderid, transactionid, paymentstatus, statusmsg}) async {
-    Utills.customPrint('orderConfirm');
+    Utills.customPrint('paymentConfirm');
     String url = "${APIConstants.baseUrl}/paymentSuccess";
     Utills.customPrint('paymentConfirm url $url');
     SharedPreferences pref = await SharedPreferences.getInstance();
@@ -357,6 +358,49 @@ submitContractor(data) async {
       };
     }
   }
+  Future<List<NotificationModel>> getNotifications() async {
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var userid = pref.getString(APIConstants.userId);
+
+    try {
+      String url =
+          "${APIConstants.baseUrl}/notificationList?user_id=$userid";
+      Utills.customPrint('url $url');
+      Response response = await api.getMethod(url: url);
+      var result = response.data;
+      Utills.customPrint("result $result");
+
+      // final response = await http.get(
+      //   Uri.parse(
+      //     "https://sahajaapp-cv53.onrender.com/api/notificationList",
+      //   ),
+      //   headers: {
+      //     "Authorization": "Bearer $token",
+      //     "Accept": "application/json",
+      //   },
+      // );
+
+      if (response.statusCode == 200) {
+        final jsonData = response.data;
+
+        if(jsonData['success']) {
+          List<dynamic> list =
+              jsonData['data']['data'] ?? [];
+
+          return list
+              .map((e) => NotificationModel.fromJson(e))
+              .toList();
+        }
+      }
+
+      return [];
+    } catch (e) {
+
+      throw Exception(e.toString());
+    }
+  }
+
+
   vendormyenquirylists({memberId}) async {
     Utills.customPrint('orderConfirm');
     SharedPreferences pref = await SharedPreferences.getInstance();

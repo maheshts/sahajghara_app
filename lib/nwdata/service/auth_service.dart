@@ -1,9 +1,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:sahajghara/nwdata/service/push_notification_service.dart';
 import 'package:sahajghara/screens/auth/model/OtpResponse.dart';
 import 'package:sahajghara/screens/auth/model/RegisterResponse.dart';
+import 'package:sahajghara/service/NotificationService.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -50,17 +54,19 @@ class AuthService {
 
       var result = response.data;
       Utills.customPrint('register $result');
-
-
-      if (response.statusCode == 200) {
+      Utills.customPrint('register service ${result['HasError']}');
+      Utills.customPrint('HasError value: ${result['HasError']}');
+      Utills.customPrint('HasError type: ${result['HasError'].runtimeType}');
+      final hasError = result['HasError'];
+      if (hasError == false|| hasError.toString().toLowerCase() == 'false') {
         RegisterResponse response = RegisterResponse.fromJson(result);
         CustomToast.displaySuccessToast(content: "Registration successful");
         return response;
       } else {
-        CustomToast.displayErrorToast(content: result['msg'] ?? "Something went wrong");
+        CustomToast.displayErrorToast(content: result['Message'] ?? "Something went wrong");
         return {
           "status_Code": result['status_Code'],
-          "msg": result['msg'] ?? "Something went wrong"
+          "msg": result['Message'] ?? "Something went wrong"
         };
       }
     } on DioException catch (dioError) {
@@ -258,6 +264,7 @@ class AuthService {
     try{
     var dio = Dio();
     print("url '${APIConstants.baseUrl}/generateOTP");
+    Utills.customPrint("data1 $data1");
     dio.interceptors.add(LogInterceptor(responseBody: true, requestBody: true));
     var response = await dio.request(
       '${APIConstants.baseUrl}/generateOTP',
@@ -309,20 +316,35 @@ class AuthService {
  //      throw CustomException.fromDioError(dioError);
  //    }
   }
-  otpverify(context, phone,otp,token) async {
+  otpverify(context, phone,otp,uid) async {
     String url =
-        "${APIConstants.baseUrl}/Member/validateotp";
-
+        "${APIConstants.baseUrl}/updateFcmToken";
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    var memberid = pref.getString(APIConstants.userId);
+    // String url = "${APIConstants.baseUrl}/homepage";
+    String? fcm = pref.getString(APIConstants.fcmToken);
+    debugPrint(
+        "Firebase Apps => ${Firebase.apps.length}"
+    );
     Utills.customPrint('otps  $url');
+
+
+    Utills.customPrint('otps  ${FirebaseMessaging.instance.getToken()}');
+    if(fcm == null || fcm.isEmpty){
+      fcm = await NotificationService.inittoken();
+    }
+    Utills.customPrint('fcm  $fcm');
+
+
 
 
     var headers = {
       'Content-Type': 'application/json'
     };
     var data = {
-      "memberMobile":phone,
-      "otp": otp,
-      "token": token,
+      "user_id":uid,
+      "fcm_token": fcm,
+      // "token": token,
     };
     Utills.customPrint('otps  phone$data');
 

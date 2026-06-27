@@ -237,7 +237,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
                   ),
                   _item(
                     Icons.group_add_outlined,
-                    "Refer Sahaj Ghara",
+                    "Refer SahajGhara",
                     action: ProfileAction.refer,
                   ),
                   _item(Icons.help_outline, "FAQ", action: ProfileAction.faq),
@@ -361,8 +361,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
 
     switch (action) {
       case ProfileAction.refer:
-        String shareText =
-            "Hey! Check out this amazing app and earn money! 🎉\nDownload here";
+        String shareText = '''
+🏠 Build Smarter with Sahaj Ghara!
+
+Download Sahaj Ghara today and access the best building material supply platform for all your construction needs.
+
+✅ Order construction materials online
+✅ Compare prices from trusted suppliers
+✅ Connect directly with suppliers
+✅ Save time and reduce construction costs
+✅ Get quality materials delivered to your doorstep
+
+📲 Download Now:
+https://play.google.com/store/apps/details?id=com.app.sahajghara
+
+🚀 Start building with confidence using Sahaj Ghara!
+''';
+
+        Share.share(shareText);
+
         Share.share(shareText);
         // Navigator.push(...);
         break;

@@ -24,8 +24,9 @@ class ThankYouScreen extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
+            // mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              SizedBox(height: 50),
               Lottie.asset(
                 'assets/lottie/successs.json',
                 height: 150,
