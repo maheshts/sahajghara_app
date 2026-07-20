@@ -227,7 +227,8 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
                 items: [
                   _item(
                     Icons.shopping_bag_outlined,
-                    "Vendor Enquiry",
+                    // "Vendor Enquiry",
+                    "My Order",
                     action: ProfileAction.vendorenquiry,
                   ),
                   _item(

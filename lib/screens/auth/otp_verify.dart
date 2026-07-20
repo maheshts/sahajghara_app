@@ -40,9 +40,9 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
     super.initState();
     formatPhone = formatPhoneNumber(widget.phoneno);
 
-    Future.delayed(const Duration(seconds: 2), () {
-      CustomToast.displaySuccessToast(content: "Login Otp is ${widget.otp}");
-    });
+    // Future.delayed(const Duration(seconds: 2), () {
+    //   CustomToast.displaySuccessToast(content: "Login Otp is ${widget.otp}");
+    // });
 
     _startTimer();
   }

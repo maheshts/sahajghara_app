@@ -105,7 +105,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                       _infoRow("Location", inquiry.location),
                       _infoRow("Urgency", inquiry.requirmentUrgency),
                       //_infoRow("Date", inquiry.createdAt),
-                      _infoRow("Comments", inquiry.comments),
+                      _infoRow("Status", inquiry.statusMessage),
 
                       // const Divider(height: 18, color: Colors.black12),
                       //

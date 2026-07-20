@@ -336,9 +336,9 @@ class AuthController extends ChangeNotifier {
       Utills.customPrint('otp 2 $otp');
       Utills.customPrint('otp 2 $token');
     //  Utills.customPrint('otp 2 ${otpResponse!.result?.user?.toJson()}');
-       Future.delayed(const Duration(seconds: 1), () {
-         CustomToast.displaySuccessToast(content: "Login Otp is ${otp}");
-       });
+    //    Future.delayed(const Duration(seconds: 1), () {
+    //      CustomToast.displaySuccessToast(content: "Login Otp is ${otp}");
+    //    });
       PopupLoader().hideLoader();
       changePasswordStatus = ChangePasswordStatus.authenticated;
       notifyListeners();

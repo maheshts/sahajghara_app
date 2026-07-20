@@ -31,221 +31,175 @@ class Splashscreen extends StatefulWidget {
 
 class _SplashScreenState extends State<Splashscreen>
     with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
-  bool _showProgressIndicator = false;
-  double _progress = 0.0; // Initial progress value
-  late Timer _timer;
-  bool isLocation = false;
+  late final AnimationController _controller;
+  late final Animation<double> _animation;
 
-  String _address = "Fetching address...";
+  Timer? _timer;
+
+  bool _showProgressIndicator = false;
+  double _progress = 0.0;
 
   @override
   void initState() {
     super.initState();
 
-    // Initialize the animation controller
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
       vsync: this,
+      duration: const Duration(seconds: 1),
     );
 
-    // Define scale animation
-    _animation = CurvedAnimation(parent: _controller, curve: Curves.easeOut);
+    _animation = CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    );
 
-    // Start the animation and show the progress indicator after completion
-    _controller.forward().then((_) {
-      setState(() {
-        _showProgressIndicator = true;
-        _startProgress();
-      });
-      checkForUpdate();
+    _initializeApp();
+  }
 
-      Timer(Duration(seconds: 1), () async {
-        SharedPreferences pref = await SharedPreferences.getInstance();
-        bool isLogin = pref.getBool(APIConstants.authenticated) ?? false;
-        Utills.customPrint('isLocation isLogin$isLogin');
-        Utills.customPrint('isLocation isLogin!$isLogin!');
+  Future<void> _initializeApp() async {
+    // Start logo animation
+    await _controller.forward();
 
-        if (isLogin) {
-          Utills.customPrint('isLocation if $isLocation');
+    if (!mounted) return;
 
-          Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(
-              builder: (context) => HomeScreen(
-                address: "address",
-                latitude: 20.123344,
-                longitude:80.234425,
-              ),
-            ),
-                (Route<dynamic> route) => false,
-          );
-
-
-          // String? address = await showDialog(
-          //   context: context,
-          //   barrierDismissible: false, // Prevent dismissing the dialog by tapping outside
-          //   builder: (context) => LocationDialog(),
-          // );
-          //await getUserLocation();
-          //  Utills.customPrint('isLocation $isLocation');
-          //   Navigator.pushReplacement(
-          //     context,
-          //     MaterialPageRoute(builder: (context) => LocationScreen()),
-          //   );
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     //builder: (context) => LoginPage(),
-          //     builder: (context) => HomeScreen(title: "ddf"),
-          //   ),
-          // );
-
-        } else {
-          Utills.customPrint('isLocation else $isLocation');
-          Navigator.pushReplacementNamed(context, '/intro');
-          //
-          // Navigator.pushReplacement(
-          //   context,
-          //   MaterialPageRoute(
-          //     //builder: (context) => LoginPage(),
-          //     builder: (context) => IntroScreen(),
-          //   ),
-          // );
-        }
-      });
+    setState(() {
+      _showProgressIndicator = true;
     });
+
+    _startProgress();
+
+    // Check Play Store update (don't block app if it fails)
+    await checkForUpdate();
+
+    // Small splash delay
+    await Future.delayed(const Duration(seconds: 1));
+
+    if (!mounted) return;
+
+    final pref = await SharedPreferences.getInstance();
+
+    final isLogin =
+        pref.getBool(APIConstants.authenticated) ?? false;
+
+    Utills.customPrint("User Logged In : $isLogin");
+
+    if (!mounted) return;
+
+    if (isLogin) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(
+          builder: (_) => HomeScreen(
+            address: "address",
+            latitude: 20.123344,
+            longitude: 80.234425,
+          ),
+        ),
+            (route) => false,
+      );
+    } else {
+      Navigator.pushReplacementNamed(context, '/intro');
+    }
   }
 
   Future<void> checkForUpdate() async {
     try {
-      AppUpdateInfo updateInfo = await InAppUpdate.checkForUpdate();
+      final updateInfo = await InAppUpdate.checkForUpdate();
 
-      if (updateInfo.updateAvailability == UpdateAvailability.updateAvailable) {
+      if (updateInfo.updateAvailability ==
+          UpdateAvailability.updateAvailable) {
         if (updateInfo.immediateUpdateAllowed) {
-          // Force immediate update
           await InAppUpdate.performImmediateUpdate();
         } else if (updateInfo.flexibleUpdateAllowed) {
-          // Start flexible update
           await InAppUpdate.startFlexibleUpdate();
-          // After the update is downloaded, complete the update
           await InAppUpdate.completeFlexibleUpdate();
         }
       }
     } catch (e) {
-      print("Error checking for update: $e");
+      debugPrint("Update Check Error : $e");
     }
+  }
+
+  void _startProgress() {
+    _timer = Timer.periodic(
+      const Duration(milliseconds: 100),
+          (timer) {
+        if (!mounted) {
+          timer.cancel();
+          return;
+        }
+
+        setState(() {
+          _progress += 0.05;
+
+          if (_progress >= 1.0) {
+            _progress = 1.0;
+            timer.cancel();
+          }
+        });
+      },
+    );
   }
 
   @override
   void dispose() {
+    _timer?.cancel();
     _controller.dispose();
-    _timer.cancel(); // Clean up the timer when widget is disposed
     super.dispose();
   }
-
-  void _startProgress() {
-    // Increment progress every 100ms
-    _timer = Timer.periodic(Duration(milliseconds: 100), (timer) {
-      setState(() {
-        _progress += 0.05; // Increase progress by a small value
-        if (_progress >= 1.0) {
-          _timer.cancel(); // Stop the timer when progress reaches 1.0
-        }
-      });
-    });
-  }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: double.infinity,
         height: double.infinity,
         color: AppColors.primary,
-        child: Stack(
-          children: [
-            // Positioned(
-            //   top: -44,
-            //   right: -20,
-            //   child: ClipOval(child:Image.asset(
-            //     AppImages.ellipsesplash,
-            //   ),),
-            //   height: Utills.height(context) / 3,
-            //   width: Utills.height(context) / 3,),
-            // Transform.rotate(
-            //     angle: 15 / 360,
-            //     child:  Image.asset(
-            //       AppImages.ellipsesplash4,
-            //       height: Utills.height(context)/3,
-            //       width: Utills.height(context) / 3,
-            //     ),
-            // ),
-            // Positioned(
-            //   bottom: 0,
-            //   left: 0,
-            //   child: Transform.rotate(
-            //     angle: 200 * (3.141592653589793 / 200), //
-            //     child: Image.asset(
-            //       AppImages.ellipsesplash4,
-            //       height: Utills.height(context) / 3,
-            //       width: Utills.height(context) / 3,
-            //     ),
-            //   ),
-            // ),
-            Align(
-              alignment: Alignment.center,
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  // Animated logo
-
-                  ScaleTransition(
-                    scale: _animation,
-                    child: Container(
-                      height: 120,
-                      // width: 120,
-                      child: Image.asset(
-                        AppImages.logo,
-                          width: 150,
-                          height: 150,
-                      )
-                    ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ScaleTransition(
+                scale: _animation,
+                child: SizedBox(
+                  height: 120,
+                  child: Image.asset(
+                    AppImages.logo,
+                    width: 150,
+                    height: 150,
                   ),
-                  const SizedBox(height: 20),
-                  if (_showProgressIndicator)
-                    SizedBox(
-                      width: 200, // Set the width of the progress bar
-                      child: LinearProgressIndicator(
-                        minHeight: 6, // Increase the thickness of the bar
-                        backgroundColor: Colors.grey,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white),
-                        value: _progress,
-                      ),
-                    ),
-                  const SizedBox(height: 20),
-                  // Text below the logo
-                  Text(
-                    AppStrings.appName,
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w700,
-                      color: Colors.white,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  // Show progress indicator after animation
-
-                ],
+                ),
               ),
-            ),
-          ],
+
+              const SizedBox(height: 20),
+
+              if (_showProgressIndicator)
+                SizedBox(
+                  width: 200,
+                  child: LinearProgressIndicator(
+                    minHeight: 6,
+                    value: _progress,
+                    backgroundColor: Colors.grey.shade400,
+                    valueColor: const AlwaysStoppedAnimation<Color>(
+                      Colors.white,
+                    ),
+                  ),
+                ),
+
+              const SizedBox(height: 20),
+
+              Text(
+                AppStrings.appName,
+                style: const TextStyle(
+                  fontSize: 34,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
-
-
 }

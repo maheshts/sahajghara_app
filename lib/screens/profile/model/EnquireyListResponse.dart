@@ -71,6 +71,7 @@ class EnquiryData {
   String? brandName;
   String? vendorName;
   String? customerName;
+  String? statusMessage;
 
   EnquiryData(
       {this.sId,
@@ -87,7 +88,7 @@ class EnquiryData {
         this.categoryName,
         this.brandName,
         this.vendorName,
-        this.customerName});
+        this.customerName,this.statusMessage});
 
   EnquiryData.fromJson(Map<String, dynamic> json) {
     sId = json['_id'];
@@ -105,6 +106,7 @@ class EnquiryData {
     brandName = json['brand_name'];
     vendorName = json['vendor_name'];
     customerName = json['customer_name'];
+    statusMessage = json['status_message'];
   }
 
   Map<String, dynamic> toJson() {
@@ -124,6 +126,7 @@ class EnquiryData {
     data['brand_name'] = this.brandName;
     data['vendor_name'] = this.vendorName;
     data['customer_name'] = this.customerName;
+    data['status_message'] = this.statusMessage;
     return data;
   }
 }

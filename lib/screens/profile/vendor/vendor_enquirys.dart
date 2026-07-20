@@ -128,36 +128,8 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                       _infoRow("Location", inquiry.location),
                       _infoRow("Urgency", inquiry.requirmentUrgency),
                       _infoRow("Date", inquiry.createdAt),
-                      _infoRow("Comments", inquiry.comments),
+                      _infoRow("Status", inquiry.statusMessage),
 
-                      // const Divider(height: 18, color: Colors.black12),
-                      //
-                      // /// --- Bottom Row (Contact Info) ---
-                      // Column(
-                      //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //   children: [
-                      //     Row(
-                      //       children: [
-                      //         const Icon(Icons.phone, size: 16, color: Colors.blueGrey),
-                      //         const SizedBox(width: 5),
-                      //         Text(
-                      //           inquiry.phone.toString(),
-                      //           style: const TextStyle(fontSize: 13, color: Colors.black87),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //     Row(
-                      //       children: [
-                      //         const Icon(Icons.email_outlined, size: 16, color: Colors.blueGrey),
-                      //         const SizedBox(width: 5),
-                      //         Text(
-                      //           inquiry.email ?? "",
-                      //           style: const TextStyle(fontSize: 13, color: Colors.black87),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ],
-                      // ),
                     ],
                   ),
                 ),
