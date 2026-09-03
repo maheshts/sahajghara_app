@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sahajghara/helpers/utillls.dart';
 
 import '../../helpers/navigation.dart';
 import '../profile/vendor/vendor_enquirys.dart';
@@ -61,6 +62,7 @@ class DashboardCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
+        Utills.customPrint("item status: ${item.status}");
         Navigation.sideNavigation(context, VendorEnquirys(itemStatus: item.status!,));
 
       },

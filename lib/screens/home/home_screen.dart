@@ -241,7 +241,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         },
         child: SafeArea(
           top: false,
-          bottom: false,
+          bottom: true,
           child: Scaffold(
 
           
@@ -437,6 +437,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           ),
                           categoryWidget(homeWatch.categoryList, homeWatch.brandList),
                          // partnerWithUsButton(),
+                          SizedBox(height: 8,),
                         ],
                       ),
                     ),
@@ -591,7 +592,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     );
   }
 
-  Widget categoryWidget(List<Category> categoryList, List<Brand> brandList) {
+  Widget categoryWidget1(List<Category> categoryList, List<Brand> brandList) {
     return Container(
       height: Utills.height(context) / 3 -30,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
@@ -687,6 +688,115 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  Widget categoryWidget(List<Category> categoryList, List<Brand> brandList) {
+    // final items = categoryList.length > 6 ? categoryList.sublist(0, 6) : categoryList;
+    final items = categoryList;
+
+    if (items.isEmpty) return const SizedBox.shrink();
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          // Dynamically compute item width based on screen width minus gap constraints
+          final double itemWidth = (constraints.maxWidth - 24) / 3;
+
+          return Wrap(
+            spacing: 12,      // Horizontal space between items
+            runSpacing: 16,   // Vertical space between item rows
+            alignment: WrapAlignment.start,
+            children: List.generate(
+              items.length,
+                  (index) {
+                var item = items[index];
+
+                return SizedBox(
+                  width: itemWidth,
+                  child: InkWell(
+                    onTap: () {
+                      AppData().units = item.units;
+                      Navigation.sideNavigation(
+                        context,
+                        SubCategory(
+                          categoryId: item.sId,
+                          categoryName: item.title,
+                          image: item.photoUrl,
+                          subcategoryList: item.subcategory,
+                          brandList: brandList,
+                        ),
+                      );
+                    },
+                    borderRadius: BorderRadius.circular(16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min, // Enforce min layout boundaries
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        // Perfect Image Square Container
+                        Container(
+                          width: itemWidth,
+                          height: itemWidth, // Force a perfect square frame
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(16),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primaryDeep.withOpacity(0.06),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                            border: Border.all(
+                              color: AppColors.primaryDeep.withOpacity(0.12),
+                              width: 1,
+                            ),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(15),
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: CachedNetworkImage(
+                                imageUrl: item.photoUrl ?? '',
+                                fit: BoxFit.contain,
+                                placeholder: (context, url) => const Center(
+                                  child: SizedBox(
+                                    height: 20,
+                                    width: 20,
+                                    child: CircularProgressIndicator(strokeWidth: 2),
+                                  ),
+                                ),
+                                errorWidget: (context, url, error) => Icon(
+                                  Icons.category_rounded,
+                                  color: AppColors.primaryDeep.withOpacity(0.3),
+                                  size: 24,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        // Text safely scales down as long as needed without truncation limits
+                        Text(
+                          capitalizeFirstOnly(item.title ?? ''),
+                          textAlign: TextAlign.center,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: nunitoItalic14.copyWith(
+                            color: AppColors.primaryDeep,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          );
+        },
       ),
     );
   }

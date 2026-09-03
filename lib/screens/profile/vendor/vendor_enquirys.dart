@@ -35,18 +35,22 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
    // final inquiryList = enquiryWatch.enquiryList;
     if(enquiryWatch.getEnquiryStatus == EnquiryListStatus.loaded){
         filterList.clear();
-        if(widget.itemStatus > 0) {
-          for (var element in enquiryWatch.enquiryList!) {
-            if (element.status == widget.itemStatus) {
-              filterList.add(element);
-            }
-          }
-        }else{
+        // 1. Clear the filter list first to remove old data
+
+        if (widget.itemStatus > 0) {
+          // 2. Use .where() for a cleaner, more readable Dart syntax
+          var matchedElements = enquiryWatch.enquiryList!
+              .where((element) => element.status == widget.itemStatus);
+
+          filterList.addAll(matchedElements);
+        } else {
+          // 3. This adds ALL items when itemStatus is 0 or less
           filterList.addAll(enquiryWatch.enquiryList!);
         }
-      // Utills.customPrint("filter list ${filterList.length}");
+
+        Utills.customPrint("filter list ${filterList.length}");
       // Utills.customPrint("enquiry list ${enquiryWatch.enquiryList!.length}");
-      // Utills.customPrint("item status ${widget.itemStatus}");
+      Utills.customPrint("item status ${widget.itemStatus}");
       // Utills.customPrint("enquiry list ${enquiryWatch.enquiryList![0].status}");
       // Utills.customPrint("enquiry list ${enquiryWatch.enquiryList![0].sId}");
     }
@@ -59,7 +63,8 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
         ),
         backgroundColor: Colors.white,
         elevation: 1,
-        //centerTitle: true,
+        //c
+        // enterTitle: true,
         iconTheme: const IconThemeData(color: Colors.black87),
       ),
       body: SafeArea(
@@ -71,7 +76,7 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
           padding: const EdgeInsets.all(12),
           itemCount: filterList.length,
           itemBuilder: (context, index) {
-            final inquiry = enquiryWatch.enquiryList![index];
+            final inquiry =filterList[index];
             return InkWell(
               onTap: (){
                 Utills.customPrint("click");
@@ -92,6 +97,7 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                         "#${inquiry.code}",
                         style: nunitoItalic12White.copyWith(color: AppColors.primary, fontSize: 13),
                       ),
+                      Text("status: ${inquiry.status}"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
