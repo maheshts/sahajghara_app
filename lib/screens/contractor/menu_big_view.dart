@@ -5,7 +5,8 @@ import 'ContractorReposne.dart';
 
 class MenuViewScreen extends StatefulWidget {
   final List<Imagepath>? menuimageList;
-  const MenuViewScreen({super.key,required this.menuimageList});
+  final String description;
+  const MenuViewScreen({super.key,required this.menuimageList,required this.description});
 
   @override
   State<MenuViewScreen> createState() => _MenuViewScreenState();
@@ -54,7 +55,7 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
           children: [
             Column(
               children: [
-                // Display selected image (swipe-enabled)
+                // Main image
                 Expanded(
                   child: Center(
                     child: PageView.builder(
@@ -66,38 +67,50 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                           panEnabled: true,
                           minScale: 0.5,
                           maxScale: 4.0,
-                          child:CachedNetworkImage(
-                            imageUrl:widget.menuimageList![index].profileUrl.toString(),
-                   fit: BoxFit.contain,
-                        width: double.infinity,
-                        height: double.infinity,
-                        errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.grey),
-                        // Use a placeholder while the image is loading
-                   placeholder: (context, url) => const Center(
-                        child: SizedBox(
-                        height: 20,   // ⬅️ any small size you like
-                          width: 20,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                        ),
-
+                          child: CachedNetworkImage(
+                            imageUrl: widget.menuimageList![index].profileUrl.toString(),
+                            fit: BoxFit.contain,
+                            width: double.infinity,
+                            height: double.infinity,
+                            errorWidget: (context, url, error) =>
+                            const Icon(Icons.error, color: Colors.grey),
+                            placeholder: (context, url) => const Center(
+                              child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                ),
+                              ),
+                            ),
                           ),
-
-
-                          // Image.network(
-                          //   fit: BoxFit.contain,
-                          //   errorBuilder: (context, error, stackTrace) =>
-                          //   const Text("Failed to load image",
-                          //       style: TextStyle(color: Colors.white)),
-                          // ),
                         );
                       },
                     ),
                   ),
                 ),
+
                 const SizedBox(height: 10),
 
-                // Image list at the bottom
+                // ONE description for all images
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Text(
+                    widget.description ?? "",
+                    textAlign: TextAlign.center,
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 15,
+                      height: 1.4,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 10),
+
+                // Image thumbnails
                 if (widget.menuimageList!.isNotEmpty)
                   SizedBox(
                     height: 100,
@@ -117,17 +130,23 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Opacity(
                               opacity: _currentIndex == index ? 1.0 : 0.5,
-                              child: Image.network(
-                                widget.menuimageList![index].profileUrl.toString(),
+                              child: CachedNetworkImage(
+                                imageUrl: widget
+                                    .menuimageList![index]
+                                    .profileUrl
+                                    .toString(),
                                 width: 80,
                                 height: 80,
                                 fit: BoxFit.cover,
-                                errorBuilder: (context, error, stackTrace) =>
+                                errorWidget: (context, url, error) =>
                                     Container(
                                       width: 80,
                                       height: 80,
                                       color: Colors.grey,
-                                      child: const Icon(Icons.broken_image, color: Colors.white),
+                                      child: const Icon(
+                                        Icons.broken_image,
+                                        color: Colors.white,
+                                      ),
                                     ),
                               ),
                             ),
@@ -137,11 +156,14 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                     ),
                   )
                 else
-                  const Text("No images available", style: TextStyle(color: Colors.white)),
+                  const Text(
+                    "No images available",
+                    style: TextStyle(color: Colors.white),
+                  ),
               ],
             ),
 
-            // Close Button at the top right
+            // Close button
             Positioned(
               right: 16,
               top: 2,
@@ -149,7 +171,10 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(Icons.close, color: Colors.white),
+                child: const Icon(
+                  Icons.close,
+                  color: Colors.white,
+                ),
               ),
             ),
           ],

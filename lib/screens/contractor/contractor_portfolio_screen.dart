@@ -56,7 +56,8 @@ class _ContractorPortfolioScreenState
                   horizontal: 16,
                   vertical: 10,
                 ),
-                child: GridView.builder(
+                child: widget.portfolioList!.first.imagepath != null && widget.portfolioList!.first.imagepath!.isNotEmpty?
+                GridView.builder(
                   itemCount: widget.portfolioList!.length,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 3,
@@ -71,7 +72,7 @@ class _ContractorPortfolioScreenState
                       onTap: () {
                         Navigation.sideNavigation(
                           context,
-                          MenuViewScreen(menuimageList: p.imagepath),
+                          MenuViewScreen(menuimageList: p.imagepath,description: '${p.title} - ${p.description ??""}' ,),
                         );
                       },
                       child: Column(
@@ -102,40 +103,42 @@ class _ContractorPortfolioScreenState
                       ),
                     );
                   },
-                ),
-              ),
-            ),
-
+                ):
+                Text("No Portfolio Found",style: TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black87),),
+      ),),
             // Bottom button
-            ElevatedButton(
-              onPressed: () {
-                Navigation.sideNavigation(
-                  context,
-                  AskquoteScreen(
-                    contractorId: widget.portfolioList!.first.userId
-                        .toString(),
-                    contractorName: widget.contractorName.toString(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigation.sideNavigation(
+                      context,
+                      AskquoteScreen(
+                        contractorId: widget.portfolioList!.first.userId.toString(),
+                        contractorName: widget.contractorName.toString(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFF003B73),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 12),
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF003B73),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 12,horizontal: 106),
-
-              ),
-              child: const Text(
-                "Ask for a quote",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  child: const Text(
+                    "Ask for a quote",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ],
+            )          ],
         ),
       ),
     );

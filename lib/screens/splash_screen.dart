@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:in_app_update/in_app_update.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/theme/app_strings.dart';
 import 'package:sahajghara/screens/home/home_screen.dart';
@@ -35,6 +36,7 @@ class _SplashScreenState extends State<Splashscreen>
   late final Animation<double> _animation;
 
   Timer? _timer;
+  String _appVersion = '';
 
   bool _showProgressIndicator = false;
   double _progress = 0.0;
@@ -54,6 +56,17 @@ class _SplashScreenState extends State<Splashscreen>
     );
 
     _initializeApp();
+
+    _loadAppVersion();
+  }
+  Future<void> _loadAppVersion() async {
+    final packageInfo = await PackageInfo.fromPlatform();
+
+    if (!mounted) return;
+
+    setState(() {
+      _appVersion = packageInfo.version + packageInfo.buildNumber;
+    });
   }
 
   Future<void> _initializeApp() async {
@@ -151,54 +164,77 @@ class _SplashScreenState extends State<Splashscreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        color: AppColors.primary,
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ScaleTransition(
-                scale: _animation,
-                child: SizedBox(
-                  height: 120,
-                  child: Image.asset(
-                    AppImages.logo,
-                    width: 150,
-                    height: 150,
-                  ),
-                ),
-              ),
+      body: Stack(
+        children:[
 
-              const SizedBox(height: 20),
-
-              if (_showProgressIndicator)
-                SizedBox(
-                  width: 200,
-                  child: LinearProgressIndicator(
-                    minHeight: 6,
-                    value: _progress,
-                    backgroundColor: Colors.grey.shade400,
-                    valueColor: const AlwaysStoppedAnimation<Color>(
-                      Colors.white,
+        Container(
+          width: double.infinity,
+          height: double.infinity,
+          color: AppColors.primary,
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ScaleTransition(
+                  scale: _animation,
+                  child: SizedBox(
+                    height: 120,
+                    child: Image.asset(
+                      AppImages.logo,
+                      width: 150,
+                      height: 150,
                     ),
                   ),
                 ),
 
-              const SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-              Text(
-                AppStrings.appName,
-                style: const TextStyle(
-                  fontSize: 34,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white,
+                if (_showProgressIndicator)
+                  SizedBox(
+                    width: 200,
+                    child: LinearProgressIndicator(
+                      minHeight: 6,
+                      value: _progress,
+                      backgroundColor: Colors.grey.shade400,
+                      valueColor: const AlwaysStoppedAnimation<Color>(
+                        Colors.white,
+                      ),
+                    ),
+                  ),
+
+                const SizedBox(height: 20),
+
+                Text(
+                  AppStrings.appName,
+                  style: const TextStyle(
+                    fontSize: 34,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
+          Positioned(
+            bottom: 40,
+            left: 0,
+            right: 0,
+            child: Center(
+              child: Text(
+                _appVersion.isEmpty
+                    ? ''
+                    : 'Version $_appVersion',
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+          ),
+      ],
+
       ),
     );
   }

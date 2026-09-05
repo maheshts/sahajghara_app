@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/controllers/list_controller.dart';
 import 'package:sahajghara/helpers/navigation.dart';
+import 'package:sahajghara/helpers/utillls.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/widgets/dummy_shimmer.dart';
 import 'package:sahajghara/screens/contractor/askquote_screen.dart';
@@ -97,7 +100,7 @@ var bookingWatch = ref.watch(listControllerProvider);
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            c.name ?? "N/A",
+                            '${c.name!} #${c.contractorCode}' ?? "N/A" ,
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
@@ -190,6 +193,9 @@ var bookingWatch = ref.watch(listControllerProvider);
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {
+                          Utills.customPrint("portfolio list length: ${c.portfolioList?.length}");
+                          Utills.customPrint("portfolio  ${json.encode(c.portfolioList)}");
+                          
                           Navigator.push(
                             context,
                             MaterialPageRoute(

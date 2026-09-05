@@ -128,13 +128,14 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
           },
         ),
         actions: [
-          Padding(
+         (enableVendor == false && enableContractor == false)?
+      Padding(
             padding: const EdgeInsets.only(right: 12),
             child: TextButton.icon(
               onPressed: () {
                 // TODO: navigate to PartnerWithUs page
                 var profileRead = ref.read(vendorControllerProvider);
-                showPartnerBottomSheet(context, profileRead);
+                showPartnerBottomSheet(context, profileRead,enableVendor,enableContractor);
               },
               icon: Icon(
                 Icons.handshake_outlined,
@@ -156,7 +157,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
                 ),
               ),
             ),
-          ),
+          ):SizedBox(),
         ],
       ),
       body: SafeArea(
@@ -531,7 +532,7 @@ Future<void> _logout(BuildContext context) async {
 
 void showPartnerBottomSheet(
   BuildContext context,
-  VendorController profileRead,
+  VendorController profileRead, bool enableVendor, bool enableContractor,
 ) {
   showModalBottomSheet(
     context: context,
@@ -565,7 +566,7 @@ void showPartnerBottomSheet(
 
             SizedBox(height: 20),
 
-            _partnerOption(
+        enableVendor ?SizedBox(): _partnerOption(
               icon: Icons.store_mall_directory_outlined,
               title: "Vendor",
               onTap: () {
@@ -583,7 +584,7 @@ void showPartnerBottomSheet(
 
             SizedBox(height: 12),
 
-            _partnerOption(
+           enableContractor ?SizedBox(): _partnerOption(
               icon: Icons.handshake_outlined,
               title: "Contractor",
               onTap: () {

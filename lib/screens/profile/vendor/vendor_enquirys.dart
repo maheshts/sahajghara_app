@@ -97,7 +97,7 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                         "#${inquiry.code}",
                         style: nunitoItalic12White.copyWith(color: AppColors.primary, fontSize: 13),
                       ),
-                      Text("status: ${inquiry.status}"),
+                      //Text("status: ${inquiry.status}"),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [

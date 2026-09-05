@@ -55,6 +55,7 @@ class Contractorlist {
   String? phone;
   String? alternateNumber;
   String? experience;
+  String? contractorCode;
   String? grade;
   String? numberofproject;
   String? minProjectBudget;
@@ -76,6 +77,7 @@ class Contractorlist {
         this.phone,
         this.alternateNumber,
         this.experience,
+        this.contractorCode,
         this.grade,
         this.numberofproject,
         this.minProjectBudget,
@@ -97,6 +99,7 @@ class Contractorlist {
     phone = json['phone'];
     alternateNumber = json['alternate_number'];
     experience = json['experience'];
+    contractorCode = json['contractor_code'];
     grade = json['grade'];
     numberofproject = json['numberofproject'];
     minProjectBudget = json['min_project_budget'];
@@ -125,6 +128,7 @@ class Contractorlist {
     data['phone'] = this.phone;
     data['alternate_number'] = this.alternateNumber;
     data['experience'] = this.experience;
+    data['contractor_code'] = this.contractorCode;
     data['grade'] = this.grade;
     data['numberofproject'] = this.numberofproject;
     data['min_project_budget'] = this.minProjectBudget;
