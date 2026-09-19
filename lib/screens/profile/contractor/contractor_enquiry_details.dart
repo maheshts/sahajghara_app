@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:sahajghara/helpers/CommonResponse.dart';
+import 'package:sahajghara/helpers/custom_toast.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/theme/app_constants.dart';
 import 'package:sahajghara/screens/profile/vendor/vendor_reply.dart';
 import 'package:sahajghara/screens/vendor/EnquiryDetailResponse.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../helpers/utillls.dart';
+import '../../../nwdata/api/api_contants.dart';
 import '../../vendor/provider/update_controller.dart';
 import '../../vendor/provider/vendro_detail_controller.dart';
 
@@ -22,6 +27,7 @@ class ContractorEnquiryDetails extends ConsumerStatefulWidget {
 class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails> {
 
   late EnquiryDetails details;
+  String cid = "";
   @override
   void initState() {
     // TODO: implement initState
@@ -57,7 +63,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
           final EnquiryDetails details = data.data as EnquiryDetails;
 
           return Scaffold(
-            appBar: _buildAppBar(details),
+            appBar: _buildAppBar1(details),
             bottomNavigationBar: _buildBottomBar(details),
             body: _buildBody(details),
           );
@@ -210,7 +216,6 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 ////////////////////////////////////////////////////////////
   /// 🔹 BODY
 ////////////////////////////////////////////////////////////
-
   Widget _buildBody(EnquiryDetails details) {
     final int quantity = details.approvedQuantity ?? 0;
     final double pricePerQty = details.pricePerQuantity ?? 0;
@@ -218,103 +223,1036 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 
     final double subTotal = quantity * pricePerQty;
     final double total = subTotal + transport;
+    cid = details.sId!;
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildStatusBadge(details.statusMessage),
-              const SizedBox(height: 16),
-              // Text("${details.statusMessage} - ${details.status ?? 0}",
-              //     style: nunitoItalic15.copyWith(color: AppColors.primary)),
+    return RefreshIndicator(
+      onRefresh: () async {
+        await ref
+            .read(vendorDetailProvider.notifier)
+            .getContractorEnquiryDetailsData(widget.inquiryId);
+      },
+      child: SingleChildScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(12, 10, 12, 30),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
 
-              _buildProductSection(details),
-              const SizedBox(height: 10),
+            // ============================================================
+            // PROJECT HEADER
+            // ============================================================
 
-              // if (_canShowVendorDetails(details))
-              //   _buildVendorSection(details),
-              //
-              // if (_canShowVendorPriceBreakdown(details) ||
-              //     _canShowCustomerPriceBreakdown(details))
-              //   _buildPriceSection(details.pricePerQuantity,details.transportApplicable.toString(), details.transportPrice!,total!),
-              //
-              // const SizedBox(height: 10),
+            _buildProjectHeader(details),
 
-              // _buildCommentSection(details),
-              //
-              // const SizedBox(height: 14),
+            const SizedBox(height: 14),
 
-             if(_canShowCustomerPrice(details))
-               ElevatedButton(
-                 style: ElevatedButton.styleFrom(
-                   backgroundColor: AppColors.primary,
-                   shape: RoundedRectangleBorder(
-                     borderRadius: BorderRadius.circular(10),
-                   ),
-                 ),
-                onPressed: () async {
+            // ============================================================
+            // STATUS
+            // ============================================================
 
-                  final body = {
-                    "_id": widget.inquiryId,
-                    "status": 5,
-                  };
-                  await ref
-                      .read(vendorQuotationProvider.notifier)
-                      .addVendorQuotation(body).then((response) {
-                    if(response.isSuccess){
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(content: Text("Quotation Confirmed Successfully")),
-                      );
-                      Navigator.pop(context,true);
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text(response.message)),
-                      );
-                    }
-                  });
-                },
-                child:  Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primaryDeep,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 12),
-                      ),
-                      onPressed: () async {
-                        final body = {
-                          "_id": widget.inquiryId,
-                          "status": 5,
-                        };
-                        await ref
-                            .read(vendorQuotationProvider.notifier)
-                            .addVendorQuotation(body).then((response) {
-                          if(response.isSuccess){
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("Quotation Confirmed successfully")),
-                            );
-                            Navigator.pop(context,true);
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text(response.message)),
-                            );
-                          }
-                        });
-
-                  }, child: Text("Confirm Order",style: nunitoItalic14White))
-                  //,
+            Row(
+              children: [
+                const Text(
+                  "Inquiry Status",
+                  style: TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF334155),
+                  ),
                 ),
-              )
+                const Spacer(),
+                _buildStatusBadge(details.statusMessage),
+              ],
+            ),
+
+            const SizedBox(height: 14),
+
+            // ============================================================
+            // PROJECT DETAILS
+            // ============================================================
+
+            _buildProjectDetailsCard(details),
+
+            const SizedBox(height: 12),
+
+            // ============================================================
+            // PERSON DETAILS
+            // ============================================================
+
+            _buildPersonCard(details),
+
+            // ============================================================
+            // COMMENTS
+            // ============================================================
+
+            if ((details.adminComments ?? "").isNotEmpty ||
+                (details.vendorComments ?? "").isNotEmpty) ...[
+              const SizedBox(height: 12),
+              _buildCommentsCard(details),
             ],
+
+            // ============================================================
+            // PRICE
+            // ============================================================
+
+            if (_canShowVendorPriceBreakdown(details) ||
+                _canShowCustomerPriceBreakdown(details)) ...[
+              const SizedBox(height: 12),
+              _buildPriceSection(
+                details.pricePerQuantity,
+                details.transportApplicable.toString(),
+                details.transportPrice ?? 0,
+                total,
+              ),
+            ],
+
+            const SizedBox(height: 18),
+
+            // ============================================================
+            // RATE US
+            // ============================================================
+
+            widget.isVendor? SizedBox():_buildRateUsButton(),
+
+            const SizedBox(height: 15),
+
+            // ============================================================
+            // CONFIRM ORDER
+            // ============================================================
+
+            // if (_canShowCustomerPrice(details))
+            //   _buildConfirmOrderButton(),
+
+            const SizedBox(height: 10),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildProjectHeader(EnquiryDetails details) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(18),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF0D47A1),
+            Color(0xFF1976D2),
+            Color(0xFF42A5F5),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF1565C0).withOpacity(0.20),
+            blurRadius: 14,
+            offset: const Offset(0, 7),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Row(
+            children: [
+
+              Container(
+                width: 48,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.18),
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                child: const Icon(
+                  Icons.home_work_rounded,
+                  color: Colors.white,
+                  size: 26,
+                ),
+              ),
+
+              const SizedBox(width: 12),
+
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    const Text(
+                      "House Construction Inquiry",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
+
+                    Text(
+                      "#${details.code ?? "-"}",
+                      style: TextStyle(
+                        color: Colors.white.withOpacity(0.80),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 18),
+
+          Text(
+            details.projectType ?? "Construction Project",
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 22,
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+
+          const SizedBox(height: 5),
+
+          Row(
+            children: [
+
+              const Icon(
+                Icons.location_on_rounded,
+                color: Colors.white70,
+                size: 16,
+              ),
+
+              const SizedBox(width: 4),
+
+              Expanded(
+                child: Text(
+                  details.location ?? "-",
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.white70,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProjectDetailsCard(EnquiryDetails details) {
+    return _buildModernCard(
+      title: "Project Details",
+      icon: Icons.architecture_rounded,
+      children: [
+
+        Row(
+          children: [
+
+            Expanded(
+              child: _buildDetailTile(
+                icon: Icons.category_outlined,
+                title: "Project Type",
+                value: details.projectType?.toString() ?? "-",
+              ),
+            ),
+
+            const SizedBox(width: 10),
+
+            Expanded(
+              child: _buildDetailTile(
+                icon: Icons.straighten_rounded,
+                title: "Project Size",
+                value: "${details.projectSize ?? "-"} Feet",
+              ),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 10),
+
+        _buildLocationTile(details.location),
+      ],
+    );
+  }
+
+  Widget _buildDetailTile({
+    required IconData icon,
+    required String title,
+    required String value,
+  }) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F8FC),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Icon(
+            icon,
+            color: AppColors.primary,
+            size: 20,
+          ),
+
+          const SizedBox(height: 8),
+
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 10,
+              color: Colors.grey.shade600,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+
+          const SizedBox(height: 3),
+
+          Text(
+            value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 13,
+              color: Color(0xFF172B4D),
+              fontWeight: FontWeight.w800,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildLocationTile(String? location) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF8ED),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              color: const Color(0xFFFFE7BE),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: const Icon(
+              Icons.location_on_rounded,
+              color: Color(0xFFE88A00),
+              size: 20,
+            ),
+          ),
+
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Text(
+                  "Project Location",
+                  style: TextStyle(
+                    fontSize: 10,
+                    color: Colors.grey.shade600,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+
+                const SizedBox(height: 3),
+
+                Text(
+                  location ?? "-",
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF263238),
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildPersonCard(EnquiryDetails details) {
+    final bool showCustomer = widget.isVendor;
+
+    final String name = showCustomer
+        ? details.customerName?.toString() ?? "-"
+        : details.contractorName?.toString() ?? "-";
+
+    final String role = showCustomer
+        ? "Customer Details"
+        : "Contractor Details";
+
+    final String phone = showCustomer? details.phone.toString() : details.contractorCode.toString();
+
+    return _buildModernCard(
+      title: role,
+      icon: showCustomer
+          ? Icons.person_outline_rounded
+          : Icons.engineering_rounded,
+      children: [
+
+        Row(
+          children: [
+
+            CircleAvatar(
+              radius: 24,
+              backgroundColor: AppColors.primary.withOpacity(0.10),
+              child: Icon(
+                showCustomer
+                    ? Icons.person_rounded
+                    : Icons.engineering_rounded,
+                color: AppColors.primary,
+              ),
+            ),
+
+            const SizedBox(width: 12),
+
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  Text(
+                    name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: Color(0xFF172B4D),
+                    ),
+                  ),
+
+                  const SizedBox(height: 3),
+
+                  Text(
+                    role,
+                    style: TextStyle(
+                      fontSize: 11,
+                      color: Colors.grey.shade600,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            if (details.status == 3)
+              IconButton(
+                onPressed: () {
+                  // Call phone
+                },
+                icon: const Icon(
+                  Icons.phone_rounded,
+                  color: Colors.green,
+                ),
+              ),
+          ],
+        ),
+
+        if (phone != "-") ...[
+          const SizedBox(height: 12),
+
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: const Color(0xFFF6F8FA),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+
+                Icon(
+                  Icons.phone_outlined,
+                  size: 17,
+                  color: Colors.grey.shade600,
+                ),
+
+                const SizedBox(width: 8),
+
+                Text(
+                  details.status == 3
+                      ? phone
+                      : maskPhone(phone),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
+  Widget _buildModernCard({
+    required String title,
+    required IconData icon,
+    required List<Widget> children,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(15),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFFE5EAF0),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.035),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Row(
+            children: [
+
+              Container(
+                width: 34,
+                height: 34,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withOpacity(0.10),
+                  borderRadius: BorderRadius.circular(9),
+                ),
+                child: Icon(
+                  icon,
+                  color: AppColors.primary,
+                  size: 19,
+                ),
+              ),
+
+              const SizedBox(width: 9),
+
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w800,
+                  color: Color(0xFF172B4D),
+                ),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          ...children,
+        ],
+      ),
+    );
+  }
+  Widget _buildCommentsCard(EnquiryDetails details) {
+    return _buildModernCard(
+      title: "Communication",
+      icon: Icons.chat_bubble_outline_rounded,
+      children: [
+
+        if ((details.adminComments ?? "").isNotEmpty)
+          _buildCommentItem(
+            title: "SahajGhara Team",
+            comment: details.adminComments!,
+            icon: Icons.support_agent_rounded,
+          ),
+
+        if ((details.adminComments ?? "").isNotEmpty &&
+            (details.vendorComments ?? "").isNotEmpty)
+          const SizedBox(height: 10),
+
+        if ((details.vendorComments ?? "").isNotEmpty)
+          _buildCommentItem(
+            title: "Contractor",
+            comment: details.vendorComments!,
+            icon: Icons.engineering_rounded,
+          ),
+      ],
+    );
+  }
+  Widget _buildCommentItem({
+    required String title,
+    required String comment,
+    required IconData icon,
+  }) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF7F9FC),
+        borderRadius: BorderRadius.circular(11),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+
+          Icon(
+            icon,
+            size: 19,
+            color: AppColors.primary,
+          ),
+
+          const SizedBox(width: 9),
+
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w800,
+                    color: Color(0xFF172B4D),
+                  ),
+                ),
+
+                const SizedBox(height: 4),
+
+                Text(
+                  comment,
+                  style: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey.shade700,
+                    height: 1.4,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+  Widget _buildStatusBadge(String? status) {
+    final String value = (status ?? "Pending").toLowerCase();
+
+    Color bgColor;
+    Color textColor;
+    IconData icon;
+
+    if (value.contains("complete") ||
+        value.contains("approved") ||
+        value.contains("confirmed")) {
+      bgColor = Colors.green.withOpacity(0.12);
+      textColor = Colors.green.shade700;
+      icon = Icons.check_circle_outline_rounded;
+    } else if (value.contains("reject") ||
+        value.contains("cancel")) {
+      bgColor = Colors.red.withOpacity(0.12);
+      textColor = Colors.red.shade700;
+      icon = Icons.cancel_outlined;
+    } else if (value.contains("progress")) {
+      bgColor = Colors.blue.withOpacity(0.12);
+      textColor = Colors.blue.shade700;
+      icon = Icons.autorenew_rounded;
+    } else {
+      bgColor = Colors.orange.withOpacity(0.12);
+      textColor = Colors.orange.shade800;
+      icon = Icons.schedule_rounded;
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 10,
+        vertical: 6,
+      ),
+      decoration: BoxDecoration(
+        color: bgColor,
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+
+          Icon(
+            icon,
+            size: 14,
+            color: textColor,
+          ),
+
+          const SizedBox(width: 5),
+
+          Text(
+            (status ?? "Pending").toUpperCase(),
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.w800,
+              color: textColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRateUsButton() {
+    return Container(
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(14),
+        gradient: const LinearGradient(
+          colors: [
+            Color(0xFFFFB300),
+            Color(0xFFF57C00),
+          ],
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.orange.withOpacity(0.18),
+            blurRadius: 10,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(14),
+          onTap: () {
+            _showRateUsDialog(context);
+          },
+          child: const Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 13,
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                Icon(
+                  Icons.star_rounded,
+                  color: Colors.white,
+                  size: 21,
+                ),
+
+                SizedBox(width: 8),
+
+                Text(
+                  "Rate Your Experience",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
+  void _showRateUsDialog(BuildContext context) {
+    int contractorRating = 0;
+    int serviceRating = 0;
+    int overallRating = 0;
+
+    final TextEditingController commentController =
+    TextEditingController();
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            return Container(
+              padding: EdgeInsets.only(
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+              ),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(24),
+                ),
+              ),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    // =====================================================
+                    // HEADER
+                    // =====================================================
+
+                    Row(
+                      children: [
+
+                        Container(
+                          width: 45,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: Colors.orange.withOpacity(0.12),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: const Icon(
+                            Icons.star_rounded,
+                            color: Colors.orange,
+                            size: 26,
+                          ),
+                        ),
+
+                        const SizedBox(width: 12),
+
+                        const Expanded(
+                          child: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+
+                              Text(
+                                "Rate Your Experience",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w800,
+                                  color: Color(0xFF172B4D),
+                                ),
+                              ),
+
+                              SizedBox(height: 3),
+
+                              Text(
+                                "Your feedback helps us improve",
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          icon: const Icon(Icons.close_rounded),
+                        ),
+                      ],
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // =====================================================
+                    // RATING 1
+                    // =====================================================
+
+                    _ratingBar(
+                      title: "Contractor Service",
+                      subtitle: "How was the contractor service?",
+                      rating: contractorRating,
+                      onChanged: (value) {
+                        setModalState(() {
+                          contractorRating = value;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // =====================================================
+                    // RATING 2
+                    // =====================================================
+
+                    _ratingBar(
+                      title: "Timely Completion",
+                      subtitle: "Was your project complete in time?",
+                      rating: serviceRating,
+                      onChanged: (value) {
+                        setModalState(() {
+                          serviceRating = value;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(height: 16),
+
+                    // =====================================================
+                    // RATING 3
+                    // =====================================================
+
+                    _ratingBar(
+                      title: "Overall Experience(Communication,Behaviour,Quality)",
+                      subtitle: "How would you rate overall?",
+                      rating: overallRating,
+                      onChanged: (value) {
+                        setModalState(() {
+                          overallRating = value;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // =====================================================
+                    // COMMENT
+                    // =====================================================
+
+                    const Text(
+                      "Comment",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        color: Color(0xFF172B4D),
+                      ),
+                    ),
+
+                    const SizedBox(height: 8),
+
+                    TextField(
+                      controller: commentController,
+                      maxLines: 4,
+                      decoration: InputDecoration(
+                        hintText: "Tell us about your experience...",
+                        hintStyle: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey.shade400,
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xFFF6F8FA),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide.none,
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 20),
+
+                    // =====================================================
+                    // SUBMIT
+                    // =====================================================
+
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        onPressed: () async {
+
+                          if (contractorRating == 0 ||
+                              serviceRating == 0 ||
+                              overallRating == 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  "Please provide all ratings",
+                                ),
+                              ),
+                            );
+                            return;
+                          }
+
+                          // final ratingData = {
+                          //   "inquiryId": widget.inquiryId,
+                          //   "contractorRating": contractorRating,
+                          //   "serviceRating": serviceRating,
+                          //   "overallRating": overallRating,
+                          //   "comment": commentController.text.trim(),
+                          // };
+                          SharedPreferences preferences = await SharedPreferences.getInstance();
+                          String customerId = preferences.getString(APIConstants.userId) ?? "";
+
+                          final dd = {
+                            "contractor_id": cid,
+                            "user_id": customerId,
+                            "inquiry_id": widget.inquiryId,
+                            "rating": 5,
+                            "quality_of_work": contractorRating,
+                            "timely_completion": serviceRating,
+                            "communication": overallRating,
+                            "comment": commentController.text.trim(),
+                          };
+
+                          debugPrint(
+                            "RATING DATA: $dd",
+                          );
+                          final CommonResponse? result = await ref
+                              .read(reviewSubmitProvider.notifier)
+                              .submitReview(dd);
+
+// Handle the result safely
+                          if (result != null) {
+                            if (result.isSuccess) {
+                              // Action on success (e.g., Navigate back, clear form, show success toast)
+                              Utills.customPrint("Success: ${result.message}");
+                              Navigator.pop(context);
+                              CustomToast.displaySuccessToast(content: "Thank you for your feedback!");
+
+
+                            } else {
+                              // Action on failure
+                              Utills.customPrint("Failed: ${result.message}");
+                              CustomToast.displayWarningToast(content: result.message ?? "Failed to submit review.");
+
+                            }
+                          }
+
+                          // ScaffoldMessenger.of(this.context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text(
+                          //       "Thank you for your feedback!",
+                          //     ),
+                          //   ),
+                          // );
+                        },
+                        child: const Text(
+                          "Submit Review",
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+
 
 ////////////////////////////////////////////////////////////
   /// 🔹 SECTIONS
@@ -446,6 +1384,148 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
       },
     );
   }
+}
+Widget _ratingBar({
+  required String title,
+  required String subtitle,
+  required int rating,
+  required Function(int) onChanged,
+}) {
+  return Container(
+    padding: const EdgeInsets.all(13),
+    decoration: BoxDecoration(
+      color: const Color(0xFFF7F9FC),
+      borderRadius: BorderRadius.circular(13),
+      border: Border.all(
+        color: const Color(0xFFE7EBF0),
+      ),
+    ),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 13,
+            fontWeight: FontWeight.w800,
+            color: Color(0xFF172B4D),
+          ),
+        ),
+
+        const SizedBox(height: 3),
+
+        Text(
+          subtitle,
+          style: TextStyle(
+            fontSize: 10,
+            color: Colors.grey.shade600,
+          ),
+        ),
+
+        const SizedBox(height: 9),
+
+        Row(
+          children: List.generate(5, (index) {
+            final int starNumber = index + 1;
+
+            return GestureDetector(
+              onTap: () {
+                onChanged(starNumber);
+              },
+              child: Padding(
+                padding: const EdgeInsets.only(right: 6),
+                child: Icon(
+                  starNumber <= rating
+                      ? Icons.star_rounded
+                      : Icons.star_border_rounded,
+                  size: 29,
+                  color: starNumber <= rating
+                      ? const Color(0xFFFFB300)
+                      : Colors.grey.shade400,
+                ),
+              ),
+            );
+          }),
+        ),
+      ],
+    ),
+  );
+}
+PreferredSizeWidget _buildAppBar1(EnquiryDetails details) {
+  return AppBar(
+    backgroundColor: Colors.white,
+    elevation: 0,
+    iconTheme: const IconThemeData(
+      color: Color(0xFF172B4D),
+    ),
+    titleSpacing: 0,
+    title: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text(
+          "Inquiry Details",
+          style: TextStyle(
+            color: Color(0xFF172B4D),
+            fontSize: 16,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
+        Text(
+          "#${details.code ?? "-"}",
+          style: TextStyle(
+            color: Colors.grey.shade500,
+            fontSize: 10,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+      ],
+    ),
+    // actions: [
+    //   if (_canAddQuote(details))
+    //     Padding(
+    //       padding: const EdgeInsets.only(right: 12),
+    //       child: ElevatedButton.icon(
+    //         style: ElevatedButton.styleFrom(
+    //           backgroundColor: AppColors.primary.withOpacity(0.10),
+    //           foregroundColor: AppColors.primary,
+    //           elevation: 0,
+    //           shape: RoundedRectangleBorder(
+    //             borderRadius: BorderRadius.circular(10),
+    //           ),
+    //         ),
+    //         onPressed: () async {
+    //           final result = await Navigator.push(
+    //             context,
+    //             MaterialPageRoute(
+    //               builder: (_) => VendorReplyScreen(
+    //                 inquiryId: widget.inquiryId,
+    //                 details: details,
+    //               ),
+    //             ),
+    //           );
+    //
+    //           if (result == true) {
+    //             await ref
+    //                 .read(vendorDetailProvider.notifier)
+    //                 .getEnquiryDetail(widget.inquiryId);
+    //           }
+    //         },
+    //         icon: const Icon(
+    //           Icons.add_rounded,
+    //           size: 17,
+    //         ),
+    //         label: const Text(
+    //           "Add Quote",
+    //           style: TextStyle(
+    //             fontSize: 11,
+    //             fontWeight: FontWeight.w800,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    // ],
+  );
 }
 Widget _buildStatusBadge(String? status) {
   return Container(

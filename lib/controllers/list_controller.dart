@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/controllers/vendor_controller.dart';
+import 'package:sahajghara/screens/profile/contractor/ContractorDetailData.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/CommonResponse.dart';
@@ -15,6 +16,7 @@ import '../screens/profile/model/EnquireyListResponse.dart';
 final listControllerProvider = ChangeNotifierProvider((ref) => ListController());
 enum EnquiryListStatus {  loading, loaded, error }
 enum ContractorListStatus {  loading, loaded, error }
+enum ContractorDetailStatus {  loading, loaded, error }
 enum ContractorEnquiryListStatus {  loading, loaded, error }
 enum BookPreStatus {  loading, loaded, error }
 enum EventDetailStatus {  loading, loaded, error }
@@ -26,7 +28,9 @@ class ListController extends ChangeNotifier{
   BookPreStatus preBookStatus = BookPreStatus.loading;
   EventDetailStatus getEventDataStatus = EventDetailStatus.loading;
   ContractorListStatus getContractorListDataStatus = ContractorListStatus.loading;
+  ContractorDetailStatus getContractorDetailDataStatus = ContractorDetailStatus.loading;
   List<Contractorlist>? contractorlist;
+  Details? contractorDetail;
 
 
 
@@ -41,8 +45,7 @@ class ListController extends ChangeNotifier{
       getEnquiryStatus = EnquiryListStatus.loading;
       notifyListeners();
 
-      EnquireyListResponse vendorListResponse = await HomeService()
-          .enquirylists();
+      EnquireyListResponse vendorListResponse = await HomeService().enquirylists();
       if (vendorListResponse.hasError == true) {
         getEnquiryStatus = EnquiryListStatus.error;
         notifyListeners();
@@ -60,8 +63,8 @@ class ListController extends ChangeNotifier{
             isSuccess: true, message: vendorListResponse.message ?? "");
       }
     } catch (error,stacktrace) {
-      Utills.customPrint('EnquiryList error: |$error');
-      Utills.customPrint('EnquiryList error: |$stacktrace');
+      Utills.customPrint('Myorder error: |$error');
+      Utills.customPrint('Myorder error: |$stacktrace');
       //  PopupLoader().hideLoader();
       getEnquiryStatus = EnquiryListStatus.error;
       notifyListeners();
@@ -93,8 +96,8 @@ class ListController extends ChangeNotifier{
             isSuccess: true, message: vendorListResponse.message ?? "");
       }
     } catch (error,stacktrace) {
-      Utills.customPrint('EnquiryList error: |$error');
-      Utills.customPrint('EnquiryList error: |$stacktrace');
+      Utills.customPrint('getVendorMyEnquiryList error: |$error');
+      Utills.customPrint('getVendorMyEnquiryList error: |$stacktrace');
 
       //  PopupLoader().hideLoader();
       getEnquiryStatus = EnquiryListStatus.error;
@@ -155,8 +158,10 @@ class ListController extends ChangeNotifier{
         return CommonResponse(
             isSuccess: true, message: vendorListResponse.message ?? "");
       }
-    } catch (error) {
-      Utills.customPrint('EnquiryList error: |$error');
+    } catch (error,stacktrace) {
+      Utills.customPrint('Contractor error: |$error');
+      Utills.customPrint('MyContractor enquiry error: |$stacktrace');
+
       //  PopupLoader().hideLoader();
       contractorEnquiryStatus = ContractorEnquiryListStatus.error;
       notifyListeners();
@@ -190,6 +195,38 @@ class ListController extends ChangeNotifier{
       Utills.customPrint('EnquiryList stacktrace: |$stacktrace');
       //  PopupLoader().hideLoader();
       getContractorListDataStatus = ContractorListStatus.error;
+      notifyListeners();
+      return CommonResponse(isSuccess: false, message: "Server error.");
+    }
+  }
+  Future<CommonResponse> getContractorDetails(id) async {
+    try {
+      getContractorDetailDataStatus = ContractorDetailStatus.loading;
+      notifyListeners();
+
+      ContractorDetailData vendorListResponse = await HomeService().getContractorDetail(id);
+      if (vendorListResponse.hasError == true) {
+        getContractorDetailDataStatus = ContractorDetailStatus.error;
+        notifyListeners();
+        return CommonResponse(
+            isSuccess: false, message: vendorListResponse.message ?? "");
+      } else {
+        contractorDetail = vendorListResponse.result!.details!;
+        //contractorlist = vendorListResponse.result!.contractorlist!;
+        //
+         Utills.customPrint('ContractorDetailStatus  response: ${contractorDetail!.phone}');
+
+        getContractorDetailDataStatus = ContractorDetailStatus.loaded;
+
+        notifyListeners();
+        return CommonResponse(
+            isSuccess: true, message: vendorListResponse.message ?? "");
+      }
+    } catch (error,stacktrace) {
+      Utills.customPrint('ContractorDetailStatus error: |$error');
+      Utills.customPrint('ContractorDetailStatus stacktrace: |$stacktrace');
+      //  PopupLoader().hideLoader();
+      getContractorDetailDataStatus = ContractorDetailStatus.error;
       notifyListeners();
       return CommonResponse(isSuccess: false, message: "Server error.");
     }

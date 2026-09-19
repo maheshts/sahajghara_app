@@ -5,6 +5,7 @@ import 'package:sahajghara/nwdata/model/EnquiryResponse.dart';
 import 'package:sahajghara/nwdata/model/brand_response.dart';
 import 'package:sahajghara/screens/contractor/portfolio_list.dart';
 import 'package:sahajghara/screens/home/HomePageResponse.dart';
+import 'package:sahajghara/screens/profile/contractor/ContractorDetailData.dart';
 import 'package:sahajghara/screens/profile/model/ContractorEnquiryListResponse.dart';
 import 'package:sahajghara/screens/profile/model/EnquireyListResponse.dart';
 import 'package:sahajghara/screens/vendor/VendorListResponse.dart';
@@ -45,15 +46,16 @@ class HomeService {
     Utills.customPrint('memberid $memberid');
     //http://api.zingara.club/api/Home/GetAllBanner?Longitude=21&Latitude=2313
 
+    var data ={"lat": latitude, "long": longitude, "user_id": memberid ?? 0,"fcm_id":fcm};
     try {
       Response response = await api.postMethod(
         url: url,
-        body: {"lat": latitude, "long": longitude, "user_id": memberid ?? 0,"fcm_id":fcm},
+        body: data,
       );
       var result = response.data;
 
       Utills.customPrint('Home bannerdata $result');
-      Utills.customPrint('Home bannerdata $result');
+
       // final List<dynamic> jsonData = json.decode(response.data);
       //print('Response data type: ${response.data.runtimeType}');
 
@@ -358,6 +360,51 @@ submitContractor(data) async {
       };
     }
   }
+  getContractorDetail(cid) async {
+
+    String url = "${APIConstants.baseUrl}/contractor/details";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String customerId = preferences.getString(APIConstants.userId) ?? "";
+    Utills.customPrint('inquirySubmit url $url');
+    try {
+      //for contractor 2
+      var data={
+        "contractor_id":cid,
+
+      };
+      Utills.customPrint('detail data $data');
+
+      Response response = await api.postMethod(url: url, body: data);
+      var result = response.data;
+
+      Utills.customPrint('submitEnquiry $result');
+
+      Utills.customPrint('Home service response $result');
+      if (response.statusCode != 200) {
+        CustomToast.displayErrorToast(content: response.statusMessage);
+      } else {
+        ContractorDetailData homePageResponse = ContractorDetailData.fromJson(response.data);
+
+        return homePageResponse;
+      }
+    } on DioException catch (dioError) {
+      CustomToast.displayErrorToast(content: "Unable to Proceed");
+      Utills.customPrint("DioException: ${dioError.message}");
+      Utills.customPrint("Response: ${dioError.response?.data}");
+
+      // return safe map instead of throwing
+      return {
+        "status_Code": dioError.response?.statusCode ?? 500,
+        "msg":
+        dioError.response?.data?['message'] ??
+            "Server error. Please try again.",
+      };
+    }
+  }
+
+
+
+
   Future<List<NotificationModel>> getNotifications() async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var userid = pref.getString(APIConstants.userId);
@@ -369,16 +416,6 @@ submitContractor(data) async {
       Response response = await api.getMethod(url: url);
       var result = response.data;
       Utills.customPrint("result $result");
-
-      // final response = await http.get(
-      //   Uri.parse(
-      //     "https://sahajaapp-cv53.onrender.com/api/notificationList",
-      //   ),
-      //   headers: {
-      //     "Authorization": "Bearer $token",
-      //     "Accept": "application/json",
-      //   },
-      // );
 
       if (response.statusCode == 200) {
         final jsonData = response.data;
@@ -465,9 +502,9 @@ submitContractor(data) async {
       Response response = await api.postMethod(url: url, body: data);
       var result = response.data;
 
-      Utills.customPrint('PreOrder service response $result');
+      Utills.customPrint('COntracctoenquirylist  $result');
       // final List<dynamic> jsonData = json.decode(response.data);
-      print('Response data type: ${response.data.runtimeType}');
+     // print('Response data type: ${response.data.runtimeType}');
 
       // var jsonResponse = jsonDecode(response.data);
 
@@ -480,8 +517,8 @@ submitContractor(data) async {
         return homePageResponse;
       }
     } on DioException catch (dioError) {
-      Utills.customPrint("DioException: ${dioError.message}");
-      Utills.customPrint("Response: ${dioError.response?.data}");
+      Utills.customPrint("DioException clist: ${dioError.message}");
+     // Utills.customPrint("Response: ${dioError.response?.data}");
 
       // return safe map instead of throwing
       return {
@@ -577,7 +614,9 @@ submitContractor(data) async {
       };
     }
   }
- Future<PortfolioData> getportFoliolist({memberId}) async {
+
+
+  Future<PortfolioData> getportFoliolist({memberId}) async {
     SharedPreferences pref = await SharedPreferences.getInstance();
     var userid = pref.getString(APIConstants.userId);
 

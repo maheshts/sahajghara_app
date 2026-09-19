@@ -293,109 +293,100 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                   stops: [0.4, 1.0]
                               )
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              AppBar(
-                                backgroundColor: Colors.transparent,
-                                elevation: 0.0,
-                                centerTitle: false,
-                                automaticallyImplyLeading: false,
-                                title: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 18.0),
-                                      child: Text(
-                                          "Hi $uName", textAlign: TextAlign.start,
-                                          style: nunitoItalic14White),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.zero,
-
-                                      child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-
-                                          const Icon(
-                                            Icons.location_on,
-                                            color: AppColors.white,
-                                            size: 18,
-                                          ),
-
-                                          Flexible(
-                                            child: Text(
-                                              selectedCity,
-                                              style: nunitoItalic12White,
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
-                                          ),
-
-                                          const SizedBox(width: 4),
-
-                                          InkWell(
-                                            onTap: showCityDialog,
-
-                                            child: const Icon(
-                                              Icons.edit,
-                                              color: Colors.white,
-                                              size: 16,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
+                          child: AppBar(
+                            backgroundColor: Colors.transparent,
+                            elevation: 0.0,
+                            centerTitle: false,
+                            automaticallyImplyLeading: false,
+                            title: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8.0),
+                                  child: Text(
+                                      "Hi $uName", textAlign: TextAlign.start,
+                                      style: nunitoItalic14White),
                                 ),
-                                actions: <Widget>[
-                                  // IconButton(
-                                  //   visualDensity: VisualDensity.compact,
-                                  //   padding: EdgeInsets.zero,
-                                  //   constraints: const BoxConstraints(),
-                                  //   onPressed: () => ref.read(homeControllerProvider).getHomeData(context),
-                                  //   icon: const Icon(Icons.refresh, size: 18, color: Colors.white),
-                                  // ),
-                                  //const SizedBox(width: 8), // Controlled spacing
+                                Padding(
+                                  padding: EdgeInsets.zero,
 
-                                  //const SizedBox(width: 8),
-                                  NotificationBadgeIcon(phone: "phone"),
-                                  InkWell(
-                                      onTap: () => ref.read(homeControllerProvider).getHomeData(context),
-                                      child: Icon(Icons.refresh, size: 18, color: Colors.white)),
-                                  IconButton(
-                                    visualDensity: VisualDensity.compact,
-                                    padding: EdgeInsets.zero,
-                                    constraints: const BoxConstraints(),
-          
-                                       onPressed: () => Navigation.sideNavigation(context, ProfileScreens()),
-                                    icon: const Icon(Icons.menu, size: 18, color: Colors.white),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+
+                                      const Icon(
+                                        Icons.location_on,
+                                        color: AppColors.white,
+                                        size: 18,
+                                      ),
+
+                                      Flexible(
+                                        child: Text(
+                                          selectedCity,
+                                          style: nunitoItalic12White,
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+
+                                      const SizedBox(width: 4),
+
+                                      InkWell(
+                                        onTap: showCityDialog,
+
+                                        child: const Icon(
+                                          Icons.edit,
+                                          color: Colors.white,
+                                          size: 16,
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                 // Icon(Icons.person, size: 18, color: Colors.white),
-                                 // const SizedBox(width: 4),
-                                  //SizedBox(width: 8),
-                                  //SizedBox(width: 8),
-          //
-                                //  Icon(Icons.person, size: 18, color: Colors.white),
-          
-                                  // IconButton(
-                                  //   visualDensity: VisualDensity.compact,
-                                  //   padding: EdgeInsets.zero,
-                                  //   constraints: const BoxConstraints(),
-                                  //     onPressed: (){
-                                  //
-                                  //     },
-                                  //   // onPressed: () => Navigation.sideNavigation(context, NotificationScreen()),
-                                  // //  onPressed: () => Navigation.sideNavigation(context, VendorDashboard()),
-                                  //   icon: const Icon(Icons.notification_important_outlined, size: 18, color: Colors.white),
-                                  // ),
-                                  const SizedBox(width: 6), // End padding
-                                ],
+                                ),
+                              ],
+                            ),
+                            actions: <Widget>[
+                              // IconButton(
+                              //   visualDensity: VisualDensity.compact,
+                              //   padding: EdgeInsets.zero,
+                              //   constraints: const BoxConstraints(),
+                              //   onPressed: () => ref.read(homeControllerProvider).getHomeData(context),
+                              //   icon: const Icon(Icons.refresh, size: 18, color: Colors.white),
+                              // ),
+                              //const SizedBox(width: 8), // Controlled spacing
+
+                              //const SizedBox(width: 8),
+                              NotificationBadgeIcon(phone: "phone"),
+                              InkWell(
+                                  onTap: () => ref.read(homeControllerProvider).getHomeData(context),
+                                  child: Icon(Icons.refresh, size: 18, color: Colors.white)),
+                              IconButton(
+                                visualDensity: VisualDensity.compact,
+                                padding: EdgeInsets.zero,
+                                constraints: const BoxConstraints(),
+
+                                   onPressed: () => Navigation.sideNavigation(context, ProfileScreens()),
+                                icon: const Icon(Icons.menu, size: 18, color: Colors.white),
                               ),
-          
-                              // searchBar(),
-          
-          
+                             // Icon(Icons.person, size: 18, color: Colors.white),
+                             // const SizedBox(width: 4),
+                              //SizedBox(width: 8),
+                              //SizedBox(width: 8),
+                                    //
+                            //  Icon(Icons.person, size: 18, color: Colors.white),
+
+                              // IconButton(
+                              //   visualDensity: VisualDensity.compact,
+                              //   padding: EdgeInsets.zero,
+                              //   constraints: const BoxConstraints(),
+                              //     onPressed: (){
+                              //
+                              //     },
+                              //   // onPressed: () => Navigation.sideNavigation(context, NotificationScreen()),
+                              // //  onPressed: () => Navigation.sideNavigation(context, VendorDashboard()),
+                              //   icon: const Icon(Icons.notification_important_outlined, size: 18, color: Colors.white),
+                              // ),
+                              const SizedBox(width: 6), // End padding
                             ],
                           )
           

@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class ContractorEnquiryListResponse {
   bool? hasError;
   String? message;
@@ -95,7 +97,7 @@ class CList {
     sId = json['_id'];
     type = json['type'];
     name = json['name'];
-    phone = json['phone'];
+    phone =  JsonHelper.toStringValue(json['phone']);
     email = json['email'];
     projectType = json['project_type'];
     projectSize = json['project_size'];

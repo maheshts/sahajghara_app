@@ -65,7 +65,7 @@ class _SplashScreenState extends State<Splashscreen>
     if (!mounted) return;
 
     setState(() {
-      _appVersion = packageInfo.version + packageInfo.buildNumber;
+      _appVersion = "${packageInfo.version}.${packageInfo.buildNumber}";
     });
   }
 

@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:sahajghara/helpers/CommonResponse.dart';
 import 'package:sahajghara/screens/profile/model/ProfileResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -171,12 +172,11 @@ class ProfileService {
       return EnquiryDetailResponse();
     }
   }
-  addVendorQuotation(body) async {
+  submitReviews(body) async {
 
-    String url = "${APIConstants.baseUrl}/inquirySubmitUpdate";
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    String customerId = preferences.getString(APIConstants.userId) ?? "";
-    Utills.customPrint('inquirySubmit url $url');
+    String url = "${APIConstants.baseUrl}/contractor/reviewSubmit";
+
+    Utills.customPrint('reviewSubmit url $url');
     try {
       //for contractor 2
 
@@ -235,6 +235,96 @@ class ProfileService {
         ProfileResponse homePageResponse = ProfileResponse.fromJson(response.data);
 
         return homePageResponse;
+      }
+    } on DioException catch (dioError) {
+      CustomToast.displayErrorToast(content: "Unable to Proceed");
+      Utills.customPrint("DioException: ${dioError.message}");
+      Utills.customPrint("Response: ${dioError.response?.data}");
+
+      // return safe map instead of throwing
+      return {
+        "status_Code": dioError.response?.statusCode ?? 500,
+        "msg":
+        dioError.response?.data?['message'] ??
+            "Server error. Please try again.",
+      };
+    }
+  }
+
+  addVendorQuotation(body) async {
+
+    String url = "${APIConstants.baseUrl}/inquirySubmitUpdate";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String customerId = preferences.getString(APIConstants.userId) ?? "";
+    Utills.customPrint('inquirySubmit url $url');
+    try {
+      //for contractor 2
+
+      Utills.customPrint('inquirySubmit data $body');
+
+      Response response = await api.postMethod(url: url, body: body);
+      var result = response.data;
+
+      Utills.customPrint('submitEnquiry $result');
+
+      Utills.customPrint('Home service response $result');
+      if (response.statusCode != 200) {
+        CustomToast.displayErrorToast(content: response.statusMessage);
+      } else {
+        // ProfileResponse homePageResponse = ProfileResponse.fromJson(response.data);
+
+        return result;
+      }
+    } on DioException catch (dioError) {
+      CustomToast.displayErrorToast(content: "Unable to Proceed");
+      Utills.customPrint("DioException: ${dioError.message}");
+      Utills.customPrint("Response: ${dioError.response?.data}");
+
+      // return safe map instead of throwing
+      return {
+        "status_Code": dioError.response?.statusCode ?? 500,
+        "msg":
+        dioError.response?.data?['message'] ??
+            "Server error. Please try again.",
+      };
+    }
+  }
+
+  submitContractorRating() async {
+
+    String url = "${APIConstants.baseUrl}/reviewSubmit";
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    String customerId = preferences.getString(APIConstants.userId) ?? "";
+    Utills.customPrint('reviewSubmit url $url');
+    try {
+      //for contractor 2
+      var data={
+        "user_id":customerId,
+
+      };
+      Utills.customPrint('inquirySubmit data $data');
+
+      Response response = await api.postMethod(url: url, body: data);
+      var result = response.data;
+
+      Utills.customPrint('submitEnquiry $result');
+
+      Utills.customPrint('Home service response $result');
+      if (response.statusCode != 200) {
+        CustomToast.displayErrorToast(content: response.statusMessage);
+      } else {
+        if(result['HasError'] == true){
+          bool isSuccess = result['status_Code'] == 200;
+          String message = result['Message'] ?? "successful.";
+          CommonResponse commonResponse = CommonResponse(isSuccess: isSuccess, message: message);
+          return commonResponse;
+        } else {
+          bool isSuccess = false;
+          String message = result['Message'] ?? "Operation failed.";
+          CommonResponse commonResponse = CommonResponse(isSuccess: isSuccess, message: message);
+          return commonResponse;
+        }
+
       }
     } on DioException catch (dioError) {
       CustomToast.displayErrorToast(content: "Unable to Proceed");

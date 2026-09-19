@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/helpers/utillls.dart';
 import 'package:sahajghara/screens/profile/vendor/vendor_enquiry_details.dart';
+import 'package:sahajghara/screens/profile/vendor/vendor_quote_detail.dart';
 import 'package:shimmer/shimmer.dart';
 
 import '../../../controllers/list_controller.dart';
@@ -80,13 +81,37 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
             return InkWell(
               onTap: (){
                 Utills.customPrint("click");
-                  Navigator.push(context, MaterialPageRoute(builder: (context)=>VendorEnquiryDetails(inquiryId: inquiry.sId.toString(),isVendor: true)));
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>VendorQuoteDetail(inquiryId: inquiry.sId.toString(),isVendor: true)));
               },
-              child: Card(
-                margin: const EdgeInsets.only(bottom: 12),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                elevation: 3,
-                shadowColor: Colors.black26,
+              child: Container(
+              //  margin: const EdgeInsets.only(bottom: 12),
+                margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(16),
+                  gradient: const LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Color(0xFFF3F8FF),
+                      Color(0xFFE4F0FF),
+                      Color(0xFFD7E9FF),
+                    ],
+                  ),
+                  border: Border.all(
+                    color: const Color(0xFFD1E3F5),
+                    width: 1,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: const Color(0xFF1565C0).withOpacity(0.05),
+                      blurRadius: 12,
+                      offset: const Offset(0, 5),
+                    ),
+                  ],
+                ),
+               // shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                //elevation: 3,
+                //shadowColor: Colors.black26,
                 child: Padding(
                   padding: const EdgeInsets.all(14),
                   child: Column(

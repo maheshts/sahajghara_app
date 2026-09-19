@@ -91,11 +91,17 @@ class EnquiryData {
         this.customerName,this.statusMessage});
 
   EnquiryData.fromJson(Map<String, dynamic> json) {
+    int? _parseInt(dynamic value) {
+      if (value == null) return null;
+      if (value is int) return value;
+      return int.tryParse(value.toString());
+    }
+
     sId = json['_id'];
     name = json['name'];
     phone = json['phone'];
     email = json['email'];
-    orderQuantity = json['order_quantity'];
+    orderQuantity = _parseInt(json['order_quantity']);
     location = json['location'];
     requirmentUrgency = json['requirment_urgency'];
     comments = json['comments'];

@@ -16,6 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../helpers/utillls.dart';
 import '../nwdata/api/api_contants.dart';
+import 'home/home_screen.dart';
 
 class InquiryFormScreen extends ConsumerStatefulWidget {
   final String? categoryId;
@@ -115,13 +116,32 @@ class _InquiryFormScreenState extends  ConsumerState<InquiryFormScreen> {
     };
     Utills.customPrint('inquirySubmit data ${json.encode(data)}');
 
-    ref.read(vendorControllerProvider).submitVendorData(data.cast<String, String>()).then((respone){
+    ref.read(vendorControllerProvider).submitVendorData(data.cast<String, String>()).then((respone) {
       setState(() => _loading = false);
-      if(respone.isSuccess){
+      if (respone.isSuccess) {
         CustomToast.displaySuccessToast(content: "Inquiry submitted successfully");
-         Navigation.sideNavigation(context, ThankYouScreen());
-      }else{
-        CustomToast.displayErrorToast(content:  respone.message);
+
+        // 1. Clear the entire stack and place HomeScreen at the bottom
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomeScreen(
+              address: "Bbsr",
+              latitude: 1.222,
+              longitude: 3.222,
+            ),
+          ),
+              (route) => false, // This safely clears all previous screens
+        );
+
+        // 2. Immediately push ThankYouScreen on top of the HomeScreen
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ThankYouScreen()),
+        );
+
+      } else {
+        CustomToast.displayErrorToast(content: respone.message);
       }
     });
 

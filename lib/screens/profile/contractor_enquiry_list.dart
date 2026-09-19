@@ -66,9 +66,9 @@ class _ContractorEnquiryListState extends ConsumerState<ContractorEnquiryList> {
               final item = cinquiryList![index];
               return  InkWell(
                   onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>ContractorEnquiryDetails(inquiryId: item.sId.toString(),isVendor: false,)));
+                    //  Navigator.push(context, MaterialPageRoute(builder: (context)=>ContractorEnquiryDetails(inquiryId: item.sId.toString(),isVendor: false,)));
                   },
-                  child: _InquiryCard(item));
+                  child: _InquiryCard(item,context));
                         },
                       ),
             ),
@@ -77,7 +77,376 @@ class _ContractorEnquiryListState extends ConsumerState<ContractorEnquiryList> {
   }
 }
 
-Widget _InquiryCard(CList item) {
+
+
+Widget _InquiryCard(CList item, BuildContext context) {
+  return Container(
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFF3F8FF),
+          Color(0xFFE4F0FF),
+          Color(0xFFD7E9FF),
+        ],
+      ),
+      border: Border.all(
+        color: const Color(0xFFD1E3F5),
+        width: 1,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: const Color(0xFF1565C0).withOpacity(0.08),
+          blurRadius: 12,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
+    child: Material(
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ContractorEnquiryDetails(
+                inquiryId: item.sId.toString(),
+                isVendor: false,
+              ),
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              // =========================================================
+              // HEADER
+              // =========================================================
+              Row(
+                children: [
+
+                  // Construction icon
+                  Container(
+                    width: 46,
+                    height: 46,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary.withOpacity(0.12),
+                      borderRadius: BorderRadius.circular(13),
+                    ),
+                    child: Icon(
+                      Icons.home_work_rounded,
+                      color: AppColors.primary,
+                      size: 24,
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+
+                        Text(
+                          "${item.contractorName ?? "Contractor"}",
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: nunitoItalic15.copyWith(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: const Color(0xFF18324B),
+                          ),
+                        ),
+
+                        const SizedBox(height: 3),
+
+                        Text(
+                          "Contractor • ${item.contractorCode ?? "-"}",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.grey.shade600,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // Inquiry number
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 9,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.75),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: const Color(0xFFD0E2F5),
+                      ),
+                    ),
+                    child: Text(
+                      "#${item.code ?? "-"}",
+                      style: TextStyle(
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 16),
+
+              // =========================================================
+              // PROJECT INFORMATION
+              // =========================================================
+              Row(
+                children: [
+
+                  Expanded(
+                    child: _projectInfoBox(
+                      icon: Icons.category_outlined,
+                      title: "Project Type",
+                      value: item.projectType?.toString() ?? "-",
+                    ),
+                  ),
+
+                  const SizedBox(width: 10),
+
+                  Expanded(
+                    child: _projectInfoBox(
+                      icon: Icons.straighten_rounded,
+                      title: "Project Size",
+                      value: "${item.projectSize ?? "-"} Feet",
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              // =========================================================
+              // LOCATION
+              // =========================================================
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(11),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.65),
+                  borderRadius: BorderRadius.circular(11),
+                  border: Border.all(
+                    color: Colors.white.withOpacity(0.8),
+                  ),
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+
+                    Container(
+                      width: 32,
+                      height: 32,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFFFF3E0),
+                        borderRadius: BorderRadius.circular(9),
+                      ),
+                      child: const Icon(
+                        Icons.location_on_rounded,
+                        color: Color(0xFFE88900),
+                        size: 18,
+                      ),
+                    ),
+
+                    const SizedBox(width: 9),
+
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+
+                          Text(
+                            "Project Location",
+                            style: TextStyle(
+                              fontSize: 10,
+                              color: Colors.grey.shade600,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+
+                          const SizedBox(height: 2),
+
+                          Text(
+                            item.location?.toString() ?? "-",
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF243746),
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 13),
+
+              // =========================================================
+              // FOOTER
+              // =========================================================
+              Row(
+                children: [
+
+                  Icon(
+                    Icons.access_time_rounded,
+                    size: 15,
+                    color: Colors.grey.shade600,
+                  ),
+
+                  const SizedBox(width: 5),
+
+                  Expanded(
+                    child: Text(
+                      "Posted On: ${item.createdAt ?? "-"}",
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 11,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(width: 8),
+
+                  // View details
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 7,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(9),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: const [
+
+                        Text(
+                          "View Details",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+
+                        SizedBox(width: 4),
+
+                        Icon(
+                          Icons.arrow_forward_rounded,
+                          color: Colors.white,
+                          size: 14,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget _projectInfoBox({
+  required IconData icon,
+  required String title,
+  required String value,
+}) {
+  return Container(
+    padding: const EdgeInsets.symmetric(
+      horizontal: 10,
+      vertical: 10,
+    ),
+    decoration: BoxDecoration(
+      color: Colors.white.withOpacity(0.65),
+      borderRadius: BorderRadius.circular(11),
+      border: Border.all(
+        color: Colors.white.withOpacity(0.8),
+      ),
+    ),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+        Container(
+          width: 30,
+          height: 30,
+          decoration: BoxDecoration(
+            color: AppColors.primary.withOpacity(0.10),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Icon(
+            icon,
+            size: 16,
+            color: AppColors.primary,
+          ),
+        ),
+
+        const SizedBox(width: 7),
+
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+
+              Text(
+                title,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: 9,
+                  color: Colors.grey.shade600,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+
+              const SizedBox(height: 2),
+
+              Text(
+                value,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF18324B),
+                  fontWeight: FontWeight.w800,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+Widget _InquiryCard1(CList item) {
   return Card(
     elevation: 3,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),

@@ -37,16 +37,7 @@ class NotificationBadgeIcon extends ConsumerWidget {
             ref.read(notificationCountProvider.notifier).clear();
             // Navigate to notifications screen...
              Navigation.sideNavigation(context, NotificationScreen());
-            // Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (_) => AppWebView(
-            //         url:
-            //             "https://zingara.club/OrdersClaimMobApp/NotificationMember?mobileno=$phone&usertype=1",
-            //         // "https://eticket.zingara.club/Events/Index?propertyId=${item.propertyId}&categoryId=${item.categoryID}&userId=$memberid",
-            //         title: "Notifications",
-            //       ),
-            //     ));
+
           },
         ),
         if (unreadCount > 0)

@@ -75,9 +75,31 @@ class _VendorEnquirysState extends  ConsumerState<MyContractorEnquirys> {
 }
 
 Widget _InquiryCard(CList item) {
-  return Card(
-    elevation: 3,
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      gradient: const LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        colors: [
+          Color(0xFFF3F8FF),
+          Color(0xFFE4F0FF),
+          Color(0xFFD7E9FF),
+        ],
+      ),
+      border: Border.all(
+        color: const Color(0xFFD1E3F5),
+        width: 1,
+      ),
+      boxShadow: [
+        BoxShadow(
+          color: const Color(0xFF1565C0).withOpacity(0.05),
+          blurRadius: 12,
+          offset: const Offset(0, 5),
+        ),
+      ],
+    ),
     child: Padding(
       padding: const EdgeInsets.all(12.0),
       child: Column(

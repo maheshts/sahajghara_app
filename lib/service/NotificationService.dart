@@ -10,6 +10,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sahajghara/helpers/utillls.dart';
 import 'package:sahajghara/main.dart';
 import 'package:sahajghara/screens/profile/contractor/contractor_enquiry_details.dart';
+import 'package:sahajghara/screens/profile/vendor/vendor_quote_detail.dart';
 import 'package:sahajghara/screens/vendor/EnquiryDetailResponse.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:uuid/uuid.dart';
@@ -218,7 +219,7 @@ GlobalKey<NavigatorState>();
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (_) => VendorEnquiryDetails(
+              builder: (_) => VendorQuoteDetail(
                 isVendor: isVendor,
                 inquiryId: oid,
               ),
@@ -272,7 +273,7 @@ GlobalKey<NavigatorState>();
 
       navigatorKey.currentState?.push(
         MaterialPageRoute(
-          builder: (_) => VendorEnquiryDetails(
+          builder: (_) => VendorQuoteDetail(
             inquiryId: oid,
             isVendor: isVendor,
           ),
