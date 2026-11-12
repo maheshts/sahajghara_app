@@ -1,3 +1,4 @@
+import 'category_banner.dart';
 import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
@@ -83,11 +84,8 @@ class _BrandScreenState extends ConsumerState<BrandScreen> {
       body:homeWatch.detailStatus == GetDetailStatus.loading?Center(child: CircularProgressIndicator(color: Colors.blue,)): SingleChildScrollView(
         child: Column(
           children: [
-            CachedNetworkImage(
-              imageUrl: widget.image ?? "",
-              height: Utills.height(context) * 0.25,
-              fit: BoxFit.fill,
-            ),
+            CategoryBanner(imageUrl: widget.image),
+            const SizedBox(height: 8),
 
 
             // 🔹 Search Bar

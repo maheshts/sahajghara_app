@@ -8,7 +8,7 @@ import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/theme/app_constants.dart';
 import 'package:sahajghara/presentation/widgets/button/login_button.dart';
 
-import '../../helpers/utillls.dart';
+import '../home/category_banner.dart';
 import '../InquiryFormScreen.dart';
 
 class VendorList extends ConsumerStatefulWidget {
@@ -93,12 +93,8 @@ class _VendorListState extends ConsumerState<VendorList> {
               ? Center(child: Text("No Vendor Available", style: nunitoItalic16))
               : Column(
             children: [
-              CachedNetworkImage(
-                imageUrl: widget.image ?? "",
-                height: Utills.height(context) * 0.20,
-                fit: BoxFit.fill,
-              ),
-              SizedBox(height: 4),
+              CategoryBanner(imageUrl: widget.image),
+              const SizedBox(height: 8),
               Text("Ask Quote for ${widget.subcategory}", style: nunitoItalic16),
               SizedBox(height: 4),
 

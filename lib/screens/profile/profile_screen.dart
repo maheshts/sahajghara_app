@@ -272,6 +272,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
                 "App Versions: $_version",
                 style: nunitoItalic12White.copyWith(color: AppTheme.muted(context, Colors.grey)),
               ),
+              Text(
+                "Beura Infotech Pvt Ltd.",
+                style: nunitoItalic12White.copyWith(color: AppTheme.muted(context, Colors.blueGrey)),
+              ),
             ],
           ),
         ),
@@ -317,22 +321,25 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       decoration: _cardDecoration(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12),
-            child: Text(
-              title,
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                color: Colors.blue,
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(12),
+              child: Text(
+                title,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.blue,
+                ),
               ),
             ),
-          ),
-          const Divider(height: 1),
-          ...items,
-        ],
+            const Divider(height: 1),
+            ...items,
+          ],
+        ),
       ),
     );
   }

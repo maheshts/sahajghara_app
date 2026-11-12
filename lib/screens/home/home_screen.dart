@@ -1,3 +1,4 @@
+import 'category_banner.dart';
 import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:convert';
@@ -727,47 +728,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       mainAxisSize: MainAxisSize.min, // Enforce min layout boundaries
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        // Perfect Image Square Container
-                        Container(
-                          width: itemWidth,
-                          height: itemWidth, // Force a perfect square frame
-                          decoration: BoxDecoration(
-                            color: AppTheme.surface(context, Colors.white),
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: AppColors.primaryDeep.withOpacity(0.06),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                            border: Border.all(
-                              color: AppTheme.outline(context, AppColors.primaryDeep.withOpacity(0.12)),
-                              width: 1,
-                            ),
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(15),
-                            child: Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: CachedNetworkImage(
-                                imageUrl: item.photoUrl ?? '',
-                                fit: BoxFit.contain,
-                                placeholder: (context, url) => const Center(
-                                  child: SizedBox(
-                                    height: 20,
-                                    width: 20,
-                                    child: CircularProgressIndicator(strokeWidth: 2),
-                                  ),
-                                ),
-                                errorWidget: (context, url, error) => Icon(
-                                  Icons.category_rounded,
-                                  color: AppColors.primaryDeep.withOpacity(0.3),
-                                  size: 24,
-                                ),
-                              ),
-                            ),
-                          ),
+                        SizedBox(
+                          height: itemWidth,
+                          child: CategoryImageCard(imageUrl: item.photoUrl),
                         ),
                         const SizedBox(height: 8),
                         // Text safely scales down as long as needed without truncation limits

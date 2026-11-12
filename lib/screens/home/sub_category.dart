@@ -1,9 +1,8 @@
 import 'package:sahajghara/presentation/theme/app_theme.dart';
-import 'package:cached_network_image/cached_network_image.dart';
+import 'category_banner.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sahajghara/helpers/navigation.dart';
-import 'package:sahajghara/helpers/utillls.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/presentation/theme/app_constants.dart';
 import 'package:sahajghara/screens/home/HomePageResponse.dart';
@@ -83,11 +82,8 @@ class _SubCategoryState extends State<SubCategory> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            CachedNetworkImage(
-              imageUrl: widget.image ?? "",
-              height: Utills.height(context) * 0.20,
-              fit: BoxFit.fill,
-            ),
+            CategoryBanner(imageUrl: widget.image),
+            const SizedBox(height: 8),
             search(),
             ListView.builder(
               shrinkWrap: true, // ✅ important
@@ -95,27 +91,21 @@ class _SubCategoryState extends State<SubCategory> {
               // physics: const NeverScrollableScrollPhysics(),
               itemCount: filteredList.length,
               itemBuilder: (context, index) {
-                return InkWell(
-                  onTap: (){
-                    Navigation.sideNavigation(context, BrandScreen(brandList: widget.brandList,categoryId: widget.categoryId,categoryName: widget.categoryName,image: widget.image,subcategory: filteredList[index],));
-                  },
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0), // reduced vertical padding
-                    decoration: BoxDecoration(
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+                  child: Material(
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(5),
-                      color: const Color.fromRGBO(255, 255, 255, 1),
-                      border: Border.all(
-                        color: AppColors.borderColor,
-                        width: 1,
-                      ),
+                      side: BorderSide(color: AppColors.borderColor),
                     ),
+                    clipBehavior: Clip.antiAlias,
                     child: ListTile(
                       dense: true, // makes the tile more compact
-                      contentPadding: EdgeInsets.zero, // removes extra space
+                      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
                       minVerticalPadding: 0, // minimizes height even more
                       title: Text(
-                        filteredList![index],
+                        filteredList[index],
                         style: nunitoItalic14,
                       ),
                       trailing: Icon(
@@ -123,10 +113,21 @@ class _SubCategoryState extends State<SubCategory> {
                         color: AppTheme.accent(context, AppColors.primary),
                         size: 24, // optional: reduce icon size slightly
                       ),
+                      onTap: () {
+                        Navigation.sideNavigation(
+                          context,
+                          BrandScreen(
+                            brandList: widget.brandList,
+                            categoryId: widget.categoryId,
+                            categoryName: widget.categoryName,
+                            image: widget.image,
+                            subcategory: filteredList[index],
+                          ),
+                        );
+                      },
                     ),
                   ),
-                )
-                ;
+                );
               },
             ),
           ],
