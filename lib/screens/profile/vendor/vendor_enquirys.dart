@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/helpers/utillls.dart';
@@ -56,17 +57,17 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
       // Utills.customPrint("enquiry list ${enquiryWatch.enquiryList![0].sId}");
     }
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F9),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF4F6F9)),
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "My Enquiry's",
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+          style: TextStyle(color: AppTheme.foreground(context, Colors.black87), fontWeight: FontWeight.w600),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 1,
         //c
         // enterTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black87),
+        iconTheme: IconThemeData(color: AppTheme.foreground(context, Colors.black87)),
       ),
       body: SafeArea(
         top: true,
@@ -88,14 +89,14 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                 margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(16),
-                  gradient: const LinearGradient(
+                  gradient: LinearGradient(
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
-                    colors: [
+                    colors: AppTheme.gradient(context, [
                       Color(0xFFF3F8FF),
                       Color(0xFFE4F0FF),
                       Color(0xFFD7E9FF),
-                    ],
+                    ]),
                   ),
                   border: Border.all(
                     color: const Color(0xFFD1E3F5),
@@ -120,7 +121,7 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                       /// --- Header Row ---
                       Text(
                         "#${inquiry.code}",
-                        style: nunitoItalic12White.copyWith(color: AppColors.primary, fontSize: 13),
+                        style: nunitoItalic12White.copyWith(color: AppTheme.accent(context, AppColors.primary), fontSize: 13),
                       ),
                       //Text("status: ${inquiry.status}"),
                       Row(
@@ -128,10 +129,10 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
                         children: [
                           Text(
                             inquiry.name ?? "",
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.w600,
-                              color: Colors.black87,
+                              color: AppTheme.foreground(context, Colors.black87),
                             ),
                           ),
                           // Container(
@@ -181,9 +182,9 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
             width: 100,
             child: Text(
               "$label:",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
-                color: Colors.grey,
+                color: AppTheme.muted(context, Colors.grey),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -191,9 +192,9 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
           Expanded(
             child: Text(
               value ?? "-",
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
-                color: Colors.black87,
+                color: AppTheme.foreground(context, Colors.black87),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -232,10 +233,10 @@ class _VendorEnquirysState extends  ConsumerState<VendorEnquirys> {
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            const Text(
+            Text(
               "Please check your internet connection and try again.",
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 14, color: Colors.grey),
+              style: TextStyle(fontSize: 14, color: AppTheme.muted(context, Colors.grey)),
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
@@ -267,13 +268,13 @@ Widget _buildShimmerList() {
     itemCount: 5,
     itemBuilder: (context, index) {
       return Shimmer.fromColors(
-        baseColor: Colors.grey.shade300,
-        highlightColor: Colors.grey.shade100,
+        baseColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+        highlightColor: Theme.of(context).colorScheme.surfaceContainerLow,
         child: Container(
           height: 130,
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppTheme.surface(context, Colors.white),
             borderRadius: BorderRadius.circular(12),
           ),
         ),

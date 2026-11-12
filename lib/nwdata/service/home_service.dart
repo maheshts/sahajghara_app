@@ -1,3 +1,4 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -420,9 +421,8 @@ submitContractor(data) async {
       if (response.statusCode == 200) {
         final jsonData = response.data;
 
-        if(jsonData['success']) {
-          List<dynamic> list =
-              jsonData['data']['data'] ?? [];
+        if(JsonHelper.toBool(jsonData['success'])) {
+          final list = JsonHelper.objectList(jsonData['data'] is Map ? jsonData['data']['data'] : null);
 
           return list
               .map((e) => NotificationModel.fromJson(e))

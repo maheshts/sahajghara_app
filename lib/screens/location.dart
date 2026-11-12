@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -285,7 +286,7 @@ class _LocationDialogState extends State<LocationDialog> with WidgetsBindingObse
       builder: (ctx) {
         _dialogContext = ctx; // Save the dialog context
         return AlertDialog(
-          backgroundColor: Colors.white,
+          backgroundColor: AppTheme.surface(context, Colors.white),
           title: Text("Enable Location Services",style: nunito16,),
           content: Text("Location services are disabled. Please enable them to proceed.",style: nunitoItalic15,),
           actions: [
@@ -312,7 +313,7 @@ class _LocationDialogState extends State<LocationDialog> with WidgetsBindingObse
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.surface(context, Colors.white),
       title: Text(AppStrings.appName,style: nunito16,),
       content: Column(
         mainAxisSize: MainAxisSize.min,

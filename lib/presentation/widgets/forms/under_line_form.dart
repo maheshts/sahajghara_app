@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -81,10 +82,10 @@ class _UnderlineFormState extends State<UnderlineForm> {
     // final ThemeData theme = AppTheme.customTheme();
     return TextFormField(
       // key: widget.key,
-      cursorColor: Colors.black,
+      cursorColor: AppTheme.foreground(context, Colors.black),
       controller: widget.controller,
       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-            color: Colors.black,
+            color: AppTheme.foreground(context, Colors.black),
           ),
       // style: textFieldInputStyle(context, widget.inputTextFontWeight),
       keyboardType: widget.keyboardType ?? TextInputType.text,

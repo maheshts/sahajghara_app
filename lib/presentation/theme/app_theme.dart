@@ -1,111 +1,96 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../helpers/hexcolor.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  // //fontFamily
-  static const poppinsRegular = "Roboto-regular";
-  static const poppinsMedium = "Roboto-medium";
-  static const poppinsBold = "Roboto-bold";
+  static const poppinsRegular = 'Roboto-regular';
+  static const poppinsMedium = 'Roboto-medium';
+  static const poppinsBold = 'Roboto-bold';
+  static TextStyle primaryFont(TextStyle? style) =>
+      GoogleFonts.poppins(textStyle: style);
+  static ThemeData run() => lightTheme;
+  static final ThemeData lightTheme = _create(Brightness.light);
+  static final ThemeData darkTheme = _create(Brightness.dark);
 
-  static primaryFont(TextStyle? style) =>
-      GoogleFonts.poppins(textStyle: style!);
+  static ThemeData _create(Brightness brightness) {
+    final dark = brightness == Brightness.dark;
+    final scheme = ColorScheme.fromSeed(
+      seedColor: AppColors.primary,
+      brightness: brightness,
+      surface: dark ? const Color(0xFF1B2230) : Colors.white,
+    );
+    return ThemeData(
+      brightness: brightness,
+      colorScheme: scheme,
+      scaffoldBackgroundColor:
+          dark ? const Color(0xFF111722) : const Color(0xFFF6F7FB),
+      cardColor: scheme.surface,
+      dividerColor: scheme.outlineVariant,
+      appBarTheme: AppBarTheme(
+        backgroundColor: dark ? scheme.surface : AppColors.primary,
+        foregroundColor: dark ? scheme.onSurface : Colors.white,
+        elevation: 0,
+      ),
+      bottomSheetTheme: BottomSheetThemeData(backgroundColor: scheme.surface),
+      dialogTheme: DialogThemeData(backgroundColor: scheme.surface),
+      bottomNavigationBarTheme: BottomNavigationBarThemeData(
+        backgroundColor: scheme.surface,
+        selectedItemColor: scheme.primary,
+        unselectedItemColor: scheme.onSurfaceVariant,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: scheme.surfaceContainer,
+        hintStyle: TextStyle(color: scheme.onSurfaceVariant),
+      ),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith((states) =>
+            states.contains(WidgetState.selected)
+                ? scheme.onPrimary
+                : scheme.outline),
+        trackColor: WidgetStateProperty.resolveWith((states) =>
+            states.contains(WidgetState.selected)
+                ? scheme.primary
+                : scheme.surfaceContainerHighest),
+      ),
+    );
+  }
 
-  // execute
-  static ThemeData run() => 1 == 1 ? lightTheme : lightTheme;
+  static List<Color> gradient(BuildContext context, List<Color> lightColors) {
+    final theme = Theme.of(context);
+    if (theme.brightness == Brightness.light) return lightColors;
+    return List.generate(
+        lightColors.length,
+        (index) => Color.lerp(
+              theme.colorScheme.surfaceContainerLow,
+              theme.colorScheme.surfaceContainerHighest,
+              lightColors.length > 1 ? index / (lightColors.length - 1) : 0,
+            )!);
+  }
 
-  // light theme..........
-
-  static ThemeData lightTheme = ThemeData(
-    scaffoldBackgroundColor: HexColor("#E5E5E5"),
-    brightness: Brightness.light,
-    primaryColor: Colors.white,
-    cardColor: Colors.white,
-    unselectedWidgetColor: Colors.grey,
-
-    bottomSheetTheme:
-        const BottomSheetThemeData(backgroundColor: AppColors.white),
-    iconTheme: IconThemeData(
-      color: AppColors.logoYellow,
-    ),
-    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: AppColors.white,
-        elevation: 1,
-        selectedItemColor: Colors.blue,
-        unselectedItemColor: Colors.orange,
-        selectedIconTheme: IconThemeData(color: Colors.amber)),
-
-    // theme for text
-
-    // textTheme: TextTheme(
-    //   bodySmall: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_12.sp,
-    //           color: Colors.black,
-    //           //fontFamily: poppinsRegular,
-    //           fontWeight: FontWeight.w400)),
-    //   bodyLarge: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_14.sp,
-    //           color: Colors.grey,
-    //           //fontFamily: poppinsMedium,
-    //           fontWeight: FontWeight.w400)),
-    //   bodyMedium: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_16.sp,
-    //           color: Colors.black,
-    //           //fontFamily: poppinsMedium,
-    //           fontWeight: FontWeight.w500)),
-    //   titleMedium: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_18.sp,
-    //           //fontFamily: poppinsMedium,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.w500)),
-    //   titleSmall: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_20.sp,
-    //           //fontFamily: poppinsMedium,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.w600)),
-    //   displayLarge: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_22.sp,
-    //           //fontFamily: poppinsMedium,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.w600)),
-    //   displayMedium: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_24.sp,
-    //           //fontFamily: poppinsBold,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.w700)),
-    //   displaySmall: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_25.sp,
-    //           color: Colors.grey,
-    //           fontWeight: FontWeight.w700)),
-    //   headlineMedium: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_28.sp,
-    //           //fontFamily: poppinsBold,
-    //           color: Colors.black,
-    //           fontWeight: FontWeight.w700)),
-    //   headlineSmall: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_30.sp,
-    //           color: Colors.black,
-    //           //fontFamily: poppinsBold,
-    //           fontWeight: FontWeight.w700)),
-    //   titleLarge: GoogleFonts.poppins(
-    //       textStyle: TextStyle(
-    //           fontSize: Sizes.dimen_32.sp,
-    //           color: Colors.grey,
-    //           //fontFamily: poppinsBold,
-    //           fontWeight: FontWeight.w700)),
-    // ),
-    // colorScheme: ColorScheme(background: Colors.grey.shade200), bottomAppBarTheme: const BottomAppBarTheme(color: Colors.white)
-  );
+  /// Retain existing colors in light mode and provide readable dark equivalents.
+  static Color foreground(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.onSurface
+          : lightColor;
+  static Color muted(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.onSurfaceVariant
+          : lightColor;
+  static Color surface(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.surface
+          : lightColor;
+  static Color outline(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.outline
+          : lightColor;
+  static Color raisedSurface(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.surfaceContainerHighest
+          : lightColor;
+  static Color accent(BuildContext context, Color lightColor) =>
+      Theme.of(context).brightness == Brightness.dark
+          ? Theme.of(context).colorScheme.primary
+          : lightColor;
 }

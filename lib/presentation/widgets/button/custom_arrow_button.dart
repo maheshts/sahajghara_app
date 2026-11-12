@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/app_colors.dart';
-import '../../theme/app_theme.dart';
 
 class CustomArrowButton extends StatelessWidget {
   const CustomArrowButton(
@@ -15,7 +14,7 @@ class CustomArrowButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return InkWell(
       onTap: onTap,
       child: Container(

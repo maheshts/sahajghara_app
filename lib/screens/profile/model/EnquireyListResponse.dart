@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class EnquireyListResponse {
   bool? hasError;
   String? message;
@@ -6,10 +8,10 @@ class EnquireyListResponse {
   EnquireyListResponse({this.hasError, this.message, this.result});
 
   EnquireyListResponse.fromJson(Map<String, dynamic> json) {
-    hasError = json['HasError'];
-    message = json['Message'];
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -32,12 +34,12 @@ class Result {
   Result({this.currentPage, this.total, this.perPage, this.list});
 
   Result.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
-    total = json['total'];
-    perPage = json['per_page'];
+    currentPage = JsonHelper.toInt(json['current_page']);
+    total = JsonHelper.toInt(json['total']);
+    perPage = JsonHelper.toInt(json['per_page']);
     if (json['list'] != null) {
       list = <EnquiryData>[];
-      json['list'].forEach((v) {
+      JsonHelper.objectList(json['list']).forEach((v) {
         list!.add(new EnquiryData.fromJson(v));
       });
     }
@@ -97,22 +99,22 @@ class EnquiryData {
       return int.tryParse(value.toString());
     }
 
-    sId = json['_id'];
-    name = json['name'];
-    phone = json['phone'];
-    email = json['email'];
+    sId = JsonHelper.toStringValue(json['_id']);
+    name = JsonHelper.toStringValue(json['name']);
+    phone = JsonHelper.toStringValue(json['phone']);
+    email = JsonHelper.toStringValue(json['email']);
     orderQuantity = _parseInt(json['order_quantity']);
-    location = json['location'];
-    requirmentUrgency = json['requirment_urgency'];
-    comments = json['comments'];
-    status = json['status'];
-    code = json['code'];
-    createdAt = json['createdAt'];
-    categoryName = json['category_name'];
-    brandName = json['brand_name'];
-    vendorName = json['vendor_name'];
-    customerName = json['customer_name'];
-    statusMessage = json['status_message'];
+    location = JsonHelper.toStringValue(json['location']);
+    requirmentUrgency = JsonHelper.toStringValue(json['requirment_urgency']);
+    comments = JsonHelper.toStringValue(json['comments']);
+    status = JsonHelper.toInt(json['status']);
+    code = JsonHelper.toInt(json['code']);
+    createdAt = JsonHelper.toStringValue(json['createdAt']);
+    categoryName = JsonHelper.toStringValue(json['category_name']);
+    brandName = JsonHelper.toStringValue(json['brand_name']);
+    vendorName = JsonHelper.toStringValue(json['vendor_name']);
+    customerName = JsonHelper.toStringValue(json['customer_name']);
+    statusMessage = JsonHelper.toStringValue(json['status_message']);
   }
 
   Map<String, dynamic> toJson() {

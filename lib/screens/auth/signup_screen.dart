@@ -62,13 +62,13 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   @override
   Widget build(BuildContext context) {
 
-    //ThemeData theme = AppTheme.run();
+    //ThemeData theme = Theme.of(context);
    final authRead = ref.read(authControllerProvider);
    // final authWatch = ref.watch(stateCityControllerProvider);
     return Scaffold(
       resizeToAvoidBottomInset: true,
       // resizeToAvoidBottomInset: false,
-      backgroundColor: Color(0xfff7f6fb),
+      backgroundColor: AppTheme.surface(context, Color(0xfff7f6fb)),
       body:
       SingleChildScrollView(
         child:  Padding(
@@ -83,7 +83,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 height: 24,
                 width: 24,
                 decoration: BoxDecoration(
-                  color: Colors.white, // background color
+                  color: AppTheme.surface(context, Colors.white), // background color
                   shape: BoxShape.rectangle, // circular shape
                   border: Border.all(
                     color: AppColors.primary, // border color
@@ -99,7 +99,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                 ),
                 child: IconButton(
                   padding: EdgeInsets.zero, //
-                  icon: Icon(Icons.arrow_back_ios_new, size:16,color: AppColors.primary),
+                  icon: Icon(Icons.arrow_back_ios_new, size:16,color: AppTheme.accent(context, AppColors.primary)),
                   onPressed: () {
                     Navigator.pop(context);
                   },
@@ -119,7 +119,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
               Text("Create Account",textAlign: TextAlign.start,
                 style: nunito16.copyWith(
                   // color: getColor(),
-                    color: Colors.black87,
+                    color: AppTheme.foreground(context, Colors.black87),
                     fontWeight: FontWeight.bold,fontSize: 24),),
               SizedBox(height: 6,),
               Text("Find reliable experts for every build",style: nunitoItalic14,),
@@ -132,7 +132,7 @@ class _SignUpScreenState extends ConsumerState<SignUpScreen> {
                       labelText: "Name*",
                       controller: nameController,
                       keyboardType: TextInputType.text,
-                      bgColor: AppColors.txtBgColor,
+                      bgColor: AppTheme.surface(context, AppColors.txtBgColor),
 
                     ),
                     CardForm(

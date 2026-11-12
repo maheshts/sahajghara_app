@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:sahajghara/helpers/navigation.dart';
 import 'package:sahajghara/screens/auth/login_screen.dart';
@@ -27,7 +28,7 @@ class _IntroScreenState extends State<IntroScreen> {
     return SafeArea(
       top: false,
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         body: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -82,7 +83,7 @@ class _IntroScreenState extends State<IntroScreen> {
                 );
               },
             ),
-      
+
             // Dot indicator + button
             Positioned(
               bottom: 40,
@@ -111,7 +112,7 @@ class _IntroScreenState extends State<IntroScreen> {
                       }
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: AppTheme.surface(context, Colors.white),
                       foregroundColor: Colors.black,
                       shape: const CircleBorder(),
                       padding: const EdgeInsets.all(16),

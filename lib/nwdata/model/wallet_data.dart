@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class WalletResponse {
   double? walletBalance;
   double? bonusBalance;
@@ -6,11 +8,11 @@ class WalletResponse {
   WalletResponse({this.walletBalance, this.bonusBalance, this.result});
 
   WalletResponse.fromJson(Map<String, dynamic> json) {
-    walletBalance = json['wallet_balance'];
-    bonusBalance = json['bonus_balance'];
+    walletBalance = JsonHelper.toDouble(json['wallet_balance']);
+    bonusBalance = JsonHelper.toDouble(json['bonus_balance']);
     if (json['result'] != null) {
       result = <Result>[];
-      json['result'].forEach((v) {
+      JsonHelper.objectList(json['result']).forEach((v) {
         result!.add(new Result.fromJson(v));
       });
     }
@@ -58,19 +60,19 @@ class Result {
         this.transactionDate});
 
   Result.fromJson(Map<String, dynamic> json) {
-    walletID = json['walletID'];
-    memberID = json['memberID'];
-    openingBalance = json['openingBalance'];
-    currentBalance = json['currentBalance'];
-    currentWalletBalance = json['currentWalletBalance'];
-    currentBonusBalance = json['currentBonusBalance'];
-    creditedAmount = json['creditedAmount'];
-    debitedAmount = json['debitedAmount'];
-    amount = json['amount'];
-    type = json['type'];
-    walletTransactionID = json['walletTransactionID'];
-    bankTransactionID = json['bankTransactionID'];
-    transactionDate = json['transactionDate'];
+    walletID = JsonHelper.toInt(json['walletID']);
+    memberID = JsonHelper.toInt(json['memberID']);
+    openingBalance = JsonHelper.toDouble(json['openingBalance']);
+    currentBalance = JsonHelper.toDouble(json['currentBalance']);
+    currentWalletBalance = JsonHelper.toDouble(json['currentWalletBalance']);
+    currentBonusBalance = JsonHelper.toDouble(json['currentBonusBalance']);
+    creditedAmount = JsonHelper.toDouble(json['creditedAmount']);
+    debitedAmount = JsonHelper.toDouble(json['debitedAmount']);
+    amount = JsonHelper.toDouble(json['amount']);
+    type = JsonHelper.toStringValue(json['type']);
+    walletTransactionID = JsonHelper.toStringValue(json['walletTransactionID']);
+    bankTransactionID = JsonHelper.toStringValue(json['bankTransactionID']);
+    transactionDate = JsonHelper.toStringValue(json['transactionDate']);
   }
 
   Map<String, dynamic> toJson() {

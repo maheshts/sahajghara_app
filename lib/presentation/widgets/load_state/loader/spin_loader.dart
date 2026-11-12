@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -34,7 +35,7 @@ class SpinKits {
 
   static spinLines(context) {
     return SpinKitSpinningLines(
-      color: AppColors.primary,
+      color: AppTheme.accent(context, AppColors.primary),
       itemCount: 5,
       lineWidth: 5.sp,
       size: 80.sp,
@@ -53,7 +54,7 @@ class SpinKits {
 
   static dots(context) {
     return SpinKitThreeBounce(
-      color: AppColors.primary,
+      color: AppTheme.accent(context, AppColors.primary),
       size: 30.sp,
     );
   }

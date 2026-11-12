@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class EnquiryDetailResponse {
   bool? hasError;
   String? message;
@@ -6,10 +8,10 @@ class EnquiryDetailResponse {
   EnquiryDetailResponse({this.hasError, this.message, this.result});
 
   EnquiryDetailResponse.fromJson(Map<String, dynamic> json) {
-    hasError = json['HasError'];
-    message = json['Message'];
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
     result =
-    json['result'] != null ? new EnquiryResult.fromJson(json['result']) : null;
+    json['result'] is Map ? new EnquiryResult.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -31,20 +33,15 @@ class EnquiryResult {
   EnquiryResult({this.details, this.tracking, this.messages});
 
   EnquiryResult.fromJson(Map<String, dynamic> json) {
-    details = json['details'] != null
+    details = json['details'] is Map
         ? new EnquiryDetails.fromJson(json['details'])
         : null;
-    tracking = json['tracking'] != null
+    tracking = json['tracking'] is Map
         ? new EnquiryTracking.fromJson(json['tracking'])
         : null;
-    if (json['messages'] != null) {
-      final Map<String, dynamic> raw = json['messages'];
-      messages = raw.map(
-            (key, value) => MapEntry(
-          key,
-          StatusMessage.fromJson(value as Map<String, dynamic>),
-        ),
-      );
+    if (json['messages'] is Map) {
+      final raw = JsonHelper.toMap(json['messages']);
+      messages = Map.fromEntries(raw.entries.where((entry) => entry.value is Map).map((entry) => MapEntry(entry.key, StatusMessage.fromJson(JsonHelper.toMap(entry.value)))));
     }
   }
 
@@ -131,36 +128,36 @@ class EnquiryDetails {
 
   factory EnquiryDetails.fromJson(Map<String, dynamic> json) {
     return EnquiryDetails(
-      sId: json['_id'] as String?,
-      subcategory: json['subcategory'] as String?,
-      type: json['type'] as String?,
-      name: json['name'] as String?,
-      phone: json['phone'] as String?,
-      email: json['email'] as String?,
-      orderQuantity: _toInt(json['order_quantity']),
-      location: json['location'] as String?,
-      requirmentUrgency: json['requirment_urgency'] as String?,
-      comments: json['comments']?.toString(),
-      status: _toInt(json['status']),
-      code: _toInt(json['code']),
-      createdAt: json['createdAt'] as String?,
-      adminComments: json['admin_comments']?.toString(),
-      approvedQuantity: _toInt(json['approved_quantity']),
-      pricePerQuantity: _toDouble(json['price_per_quantity']),
-      transportApplicable: json['transport_applicable'] as String?,
-      transportPrice: _toDouble(json['transport_price']),
-      transportService: json['transport_service'] as String?,
-      vendorComments: json['vendor_comments']?.toString(),
-      categoryName: json['category_name'] as String?,
-      brandName: json['brand_name'] as String?,
-      vendorName: json['vendor_name'] as String?,
-      vendorCode: json['vendor_code'] as String?,
-      contractorName: json['contractor_name'] as String?,
-      contractorCode: json['contractor_code'] as String?,
-      customerName: json['customer_name'] as String?,
-      statusMessage: json['status_message'] as String?,
-      projectType: json['project_type'] as String?,
-      projectSize: json['project_size'] as String?,
+      sId: JsonHelper.toStringValue(json['_id']),
+      subcategory: JsonHelper.toStringValue(json['subcategory']),
+      type: JsonHelper.toStringValue(json['type']),
+      name: JsonHelper.toStringValue(json['name']),
+      phone: JsonHelper.toStringValue(json['phone']),
+      email: JsonHelper.toStringValue(json['email']),
+      orderQuantity: JsonHelper.toInt(json['order_quantity']),
+      location: JsonHelper.toStringValue(json['location']),
+      requirmentUrgency: JsonHelper.toStringValue(json['requirment_urgency']),
+      comments: JsonHelper.toStringValue(json['comments']),
+      status: JsonHelper.toInt(json['status']),
+      code: JsonHelper.toInt(json['code']),
+      createdAt: JsonHelper.toStringValue(json['createdAt']),
+      adminComments: JsonHelper.toStringValue(json['admin_comments']),
+      approvedQuantity: JsonHelper.toInt(json['approved_quantity']),
+      pricePerQuantity: JsonHelper.toDouble(json['price_per_quantity']),
+      transportApplicable: JsonHelper.toStringValue(json['transport_applicable']),
+      transportPrice: JsonHelper.toDouble(json['transport_price']),
+      transportService: JsonHelper.toStringValue(json['transport_service']),
+      vendorComments: JsonHelper.toStringValue(json['vendor_comments']),
+      categoryName: JsonHelper.toStringValue(json['category_name']),
+      brandName: JsonHelper.toStringValue(json['brand_name']),
+      vendorName: JsonHelper.toStringValue(json['vendor_name']),
+      vendorCode: JsonHelper.toStringValue(json['vendor_code']),
+      contractorName: JsonHelper.toStringValue(json['contractor_name']),
+      contractorCode: JsonHelper.toStringValue(json['contractor_code']),
+      customerName: JsonHelper.toStringValue(json['customer_name']),
+      statusMessage: JsonHelper.toStringValue(json['status_message']),
+      projectType: JsonHelper.toStringValue(json['project_type']),
+      projectSize: JsonHelper.toStringValue(json['project_size']),
     );
   }
 
@@ -197,23 +194,6 @@ class EnquiryDetails {
     'project_size': projectSize,
   };
 
-  /// 🔥 SAFE TYPE CONVERTERS
-
-  static int? _toInt(dynamic value) {
-    if (value == null) return null;
-    if (value is int) return value;
-    if (value is double) return value.toInt();
-    if (value is String) return int.tryParse(value);
-    return null;
-  }
-
-  static double? _toDouble(dynamic value) {
-    if (value == null) return null;
-    if (value is double) return value;
-    if (value is int) return value.toDouble();
-    if (value is String) return double.tryParse(value);
-    return null;
-  }
 }
 
 class EnquiryTracking {
@@ -237,19 +217,19 @@ class EnquiryTracking {
 
   factory EnquiryTracking.fromJson(Map<String, dynamic> json) {
     return EnquiryTracking(
-      status: EnquiryDetails._toInt(json['status']),
-      statusLabel: json['status_label'] as String?,
-      statusLabelAdmin: json['status_label_admin'] as String?,
-      isCancelled: json['is_cancelled'] as bool?,
-      isClosed: json['is_closed'] as bool?,
+      status: JsonHelper.toInt(json['status']),
+      statusLabel: JsonHelper.toStringValue(json['status_label']),
+      statusLabelAdmin: JsonHelper.toStringValue(json['status_label_admin']),
+      isCancelled: JsonHelper.toNullableBool(json['is_cancelled']),
+      isClosed: JsonHelper.toNullableBool(json['is_closed']),
       steps: json['steps'] != null
-          ? (json['steps'] as List)
-          .map((e) => TrackingStep.fromJson(e as Map<String, dynamic>))
+          ? JsonHelper.objectList(json['steps'])
+          .map((e) => TrackingStep.fromJson(e))
           .toList()
           : null,
       timeline: json['timeline'] != null
-          ? (json['timeline'] as List)
-          .map((e) => TimelineEvent.fromJson(e as Map<String, dynamic>))
+          ? JsonHelper.objectList(json['timeline'])
+          .map((e) => TimelineEvent.fromJson(e))
           .toList()
           : null,
     );
@@ -275,9 +255,9 @@ class TrackingStep {
 
   factory TrackingStep.fromJson(Map<String, dynamic> json) {
     return TrackingStep(
-      status: EnquiryDetails._toInt(json['status']),
-      label: json['label'] as String?,
-      state: json['state'] as String?,
+      status: JsonHelper.toInt(json['status']),
+      label: JsonHelper.toStringValue(json['label']),
+      state: JsonHelper.toStringValue(json['state']),
     );
   }
 
@@ -317,17 +297,17 @@ class TimelineEvent {
 
   factory TimelineEvent.fromJson(Map<String, dynamic> json) {
     return TimelineEvent(
-      id: json['_id']?.toString(),
-      event: json['event'] as String?,
-      title: json['title'] as String?,
-      description: json['description'] as String?,
-      fromStatus: EnquiryDetails._toInt(json['from_status']),
-      toStatus: EnquiryDetails._toInt(json['to_status']),
-      statusLabel: json['status_label'] as String?,
-      actorType: json['actor_type'] as String?,
+      id: JsonHelper.toStringValue(json['_id']),
+      event: JsonHelper.toStringValue(json['event']),
+      title: JsonHelper.toStringValue(json['title']),
+      description: JsonHelper.toStringValue(json['description']),
+      fromStatus: JsonHelper.toInt(json['from_status']),
+      toStatus: JsonHelper.toInt(json['to_status']),
+      statusLabel: JsonHelper.toStringValue(json['status_label']),
+      actorType: JsonHelper.toStringValue(json['actor_type']),
 
-      date: json['date'] as String?,
-      dateIso: json['date_iso'] as String?,
+      date: JsonHelper.toStringValue(json['date']),
+      dateIso: JsonHelper.toStringValue(json['date_iso']),
     );
   }
 
@@ -355,9 +335,9 @@ class StatusMessage {
 
   factory StatusMessage.fromJson(Map<String, dynamic> json) {
     return StatusMessage(
-      customer: json['customer'] as String?,
-      vendor: json['vendor'] as String?,
-      admin: json['admin'] as String?,
+      customer: JsonHelper.toStringValue(json['customer']),
+      vendor: JsonHelper.toStringValue(json['vendor']),
+      admin: JsonHelper.toStringValue(json['admin']),
     );
   }
 

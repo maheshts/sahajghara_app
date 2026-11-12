@@ -82,7 +82,7 @@ class _OutlineFormState extends State<OutlineForm> {
   // _OutlineFormFieldState({this.onSaved, this.inputTextFontWeight, this.onTap, this.prefixText, this.prefixIcon, this.textCapitalization, this.maxLines, this.controller, this.height, this.readOnly, this.suffixIcon, this.initialText, this.inputFormatters, this.onChanged, this.hintText, this.keyboardType, this.autofocus, this.obscureText, this.maxlength, this.focusNode, this.onFieldSubmitted, this.obscuringCharacter, this.key, this.suffix});
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = AppTheme.run();
+    final ThemeData theme = Theme.of(context);
     return Container(
         margin: EdgeInsets.only(top: 8.0, left: 0.w, right: 0.w, bottom: 8),
         height: widget.height ?? 40,
@@ -90,13 +90,13 @@ class _OutlineFormState extends State<OutlineForm> {
         decoration: BoxDecoration(
             border: Border.all(
                 color: widget.borderColor ?? Colors.transparent, width: 0.7),
-            color: widget.bgColor ?? Colors.white,
+            color: widget.bgColor ?? AppTheme.surface(context, Colors.white),
             borderRadius: BorderRadius.circular(10.sp)),
         child: TextFormField(
           // key: widget.key,
-          cursorColor: Colors.black54,
+          cursorColor: AppTheme.foreground(context, Colors.black54),
           controller: widget.controller,
-          style: nunito14.copyWith(color: Colors.black87),
+          style: nunito14.copyWith(color: AppTheme.foreground(context, Colors.black87)),
           // style: textFieldInputStyle(context, widget.inputTextFontWeight),
           keyboardType: widget.keyboardType ?? TextInputType.text,
           textCapitalization:
@@ -140,9 +140,9 @@ class _OutlineFormState extends State<OutlineForm> {
       alignLabelWithHint: true,
       suffixIcon: suffixIcon,
       hintText: hintText,
-      hintStyle: nunito14.copyWith(color: Colors.grey),
+      hintStyle: nunito14.copyWith(color: AppTheme.muted(context, Colors.grey)),
       labelText: labelText,
-      labelStyle: nunitoItalic15.copyWith(color: Colors.black),
+      labelStyle: nunitoItalic15.copyWith(color: AppTheme.foreground(context, Colors.black)),
       contentPadding: contentPadding ?? EdgeInsets.only(left: 1.w),
       fillColor: Colors.blueGrey.shade400,
       border: OutlineInputBorder(

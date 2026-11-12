@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -131,7 +132,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<VendorEnquiryDetails> {
       ) {
     return AppBar(
       elevation: 0,
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.surface(context, Colors.white),
       surfaceTintColor: Colors.white,
 
       iconTheme: const IconThemeData(
@@ -285,7 +286,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<VendorEnquiryDetails> {
     final double total = subTotal + transport;
 
     return Container(
-      color: const Color(0xFFF5F7FA),
+      color: AppTheme.surface(context, Color(0xFFF5F7FA)),
       child: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(14, 12, 14, 30),
@@ -468,7 +469,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<VendorEnquiryDetails> {
               vertical: 9,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.65),
+              color: AppTheme.surface(context, Colors.white).withOpacity(0.65),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -523,8 +524,8 @@ class _VendorEnquiryDetailsState extends ConsumerState<VendorEnquiryDetails> {
         14,
         14,
       ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context, Colors.white),
         border: Border(
           top: BorderSide(
             color: Color(0xFFE5E8EC),
@@ -975,11 +976,11 @@ _progressItem(
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
+          gradient: LinearGradient(
+            colors: AppTheme.gradient(context, [
               Color(0xFFF8FAFC),
               Color(0xFFF1F5F9),
-            ],
+            ]),
           ),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
@@ -1000,7 +1001,7 @@ _progressItem(
               ),
               child: Icon(
                 Icons.storefront_rounded,
-                color: AppColors.primary,
+                color: AppTheme.accent(context, AppColors.primary),
                 size: 26,
               ),
             ),
@@ -1061,7 +1062,7 @@ _progressItem(
                     style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.primary,
+                      color: AppTheme.accent(context, AppColors.primary),
                     ),
                   ),
                 ],
@@ -1166,7 +1167,7 @@ _progressItem(
                   style: TextStyle(
                     fontSize: 19,
                     fontWeight: FontWeight.w900,
-                    color: AppColors.primary,
+                    color: AppTheme.accent(context, AppColors.primary),
                   ),
                 ),
               ],
@@ -1232,7 +1233,7 @@ _progressItem(
         width: double.infinity,
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          color: const Color(0xFFFFFBF1),
+          color: AppTheme.surface(context, Color(0xFFFFFBF1)),
           borderRadius: BorderRadius.circular(13),
           border: Border.all(
             color: const Color(0xFFF0DFB7),
@@ -1378,7 +1379,7 @@ _progressItem(
       width: double.infinity,
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: const Color(0xFFE4E8ED),
@@ -1411,7 +1412,7 @@ _progressItem(
                 child: Icon(
                   icon,
                   size: 18,
-                  color: AppColors.primary,
+                  color: AppTheme.accent(context, AppColors.primary),
                 ),
               ),
 
@@ -1449,7 +1450,7 @@ _progressItem(
     return Container(
       padding: const EdgeInsets.all(11),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F9FB),
+        color: AppTheme.surface(context, Color(0xFFF7F9FB)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -1458,7 +1459,7 @@ _progressItem(
           Icon(
             icon,
             size: 18,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
           ),
 
           const SizedBox(width: 8),
@@ -1518,7 +1519,7 @@ _progressItem(
       width: double.infinity,
       padding: const EdgeInsets.all(11),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F9FB),
+        color: AppTheme.surface(context, Color(0xFFF7F9FB)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -1529,7 +1530,7 @@ _progressItem(
           Icon(
             icon,
             size: 18,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
           ),
 
           const SizedBox(width: 9),
@@ -1787,7 +1788,7 @@ _progressItem(
         return AlertDialog(
           title: Text(
             "Add Quote",
-            style: nunitoItalic15.copyWith(color: AppColors.primary),
+            style: nunitoItalic15.copyWith(color: AppTheme.accent(context, AppColors.primary)),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1829,7 +1830,7 @@ _progressItem(
         vertical: 6,
       ),
       decoration: BoxDecoration(
-        color: Colors.orange.shade100,
+        color: AppTheme.surface(context, Colors.orange.shade100),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Text(

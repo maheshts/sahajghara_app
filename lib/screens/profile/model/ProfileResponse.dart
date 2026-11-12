@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 import 'dart:ffi';
 
 class ProfileResponse {
@@ -9,9 +11,9 @@ class ProfileResponse {
 
   ProfileResponse.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -35,7 +37,7 @@ class Result {
   String? addressDetails;
   String? remark;
   String? type;
-  Null? alternateNumber;
+  String? alternateNumber;
   String? email;
   int? enableVendor;
   int? enableContractor;
@@ -84,39 +86,39 @@ class Result {
         this.productAsignList});
 
   Result.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    phone = json['phone'];
-    createdAt = json['createdAt'] != null
+    sId = JsonHelper.toStringValue(json['_id']);
+    name = JsonHelper.toStringValue(json['name']);
+    phone = JsonHelper.toStringValue(json['phone']);
+    createdAt = json['createdAt'] is Map
         ? new CreatedAt.fromJson(json['createdAt'])
         : null;
-    updatedAt = json['updatedAt'] != null
+    updatedAt = json['updatedAt'] is Map
         ? new CreatedAt.fromJson(json['updatedAt'])
         : null;
-    password = json['password'];
-    addressDetails = json['address_details'];
-    remark = json['remark'];
-    type = json['type'];
-    alternateNumber = json['alternate_number'];
-    email = json['email'];
-    enableVendor = json['enable_vendor'];
-    enableContractor = json['enable_contractor'];
-    requestContractor = json['request_contractor'];
-    contractorCode = json['contractor_code'];
-    lat = json['lat'];
-    long = json['long'];
-    vendorCode = json['vendor_code'];
-    requestVendor = json['request_vendor'];
-    experience = json['experience'];
-    grade = json['grade'];
-    maxProjectBudget = json['max_project_budget'];
-    minProjectBudget = json['min_project_budget'];
-    numberofproject = json['numberofproject'];
-    cloudinaryId = json['cloudinary_id'];
-    profileUrl = json['profile_url'];
+    password = JsonHelper.toStringValue(json['password']);
+    addressDetails = JsonHelper.toStringValue(json['address_details']);
+    remark = JsonHelper.toStringValue(json['remark']);
+    type = JsonHelper.toStringValue(json['type']);
+    alternateNumber = JsonHelper.toStringValue(json['alternate_number']);
+    email = JsonHelper.toStringValue(json['email']);
+    enableVendor = JsonHelper.toInt(json['enable_vendor']);
+    enableContractor = JsonHelper.toInt(json['enable_contractor']);
+    requestContractor = JsonHelper.toStringValue(json['request_contractor']);
+    contractorCode = JsonHelper.toStringValue(json['contractor_code']);
+    lat = JsonHelper.toStringValue(json['lat']);
+    long = JsonHelper.toStringValue(json['long']);
+    vendorCode = JsonHelper.toStringValue(json['vendor_code']);
+    requestVendor = JsonHelper.toInt(json['request_vendor']);
+    experience = JsonHelper.toStringValue(json['experience']);
+    grade = JsonHelper.toStringValue(json['grade']);
+    maxProjectBudget = JsonHelper.toStringValue(json['max_project_budget']);
+    minProjectBudget = JsonHelper.toStringValue(json['min_project_budget']);
+    numberofproject = JsonHelper.toStringValue(json['numberofproject']);
+    cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
+    profileUrl = JsonHelper.toStringValue(json['profile_url']);
     if (json['ProductAsignList'] != null) {
       productAsignList = <ProductAsignList>[];
-      json['ProductAsignList'].forEach((v) {
+      JsonHelper.objectList(json['ProductAsignList']).forEach((v) {
         productAsignList!.add(new ProductAsignList.fromJson(v));
       });
     }
@@ -168,7 +170,7 @@ class CreatedAt {
   CreatedAt({this.date});
 
   CreatedAt.fromJson(Map<String, dynamic> json) {
-    date = json['$date'] != null ? new Date.fromJson(json['$date']) : null;
+    date = json[r'$date'] is Map ? new Date.fromJson(json[r'$date']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -186,7 +188,7 @@ class Date {
   Date({this.numberLong});
 
   Date.fromJson(Map<String, dynamic> json) {
-    numberLong = json['$numberLong'];
+    numberLong = JsonHelper.toStringValue(json[r'$numberLong']);
   }
 
   Map<String, dynamic> toJson() {
@@ -215,13 +217,13 @@ class ProductAsignList {
         this.subcategories});
 
   ProductAsignList.fromJson(Map<String, dynamic> json) {
-    brandId = json['brand_id'];
-    brandTitle = json['brand_title'];
-    brandImage = json['brand_image'];
-    categoryId = json['category_id'];
-    categoryTitle = json['category_title'];
-    categoryImage = json['category_image'];
-    subcategories = json['subcategories'].cast<String>();
+    brandId = JsonHelper.toStringValue(json['brand_id']);
+    brandTitle = JsonHelper.toStringValue(json['brand_title']);
+    brandImage = JsonHelper.toStringValue(json['brand_image']);
+    categoryId = JsonHelper.toStringValue(json['category_id']);
+    categoryTitle = JsonHelper.toStringValue(json['category_title']);
+    categoryImage = JsonHelper.toStringValue(json['category_image']);
+    subcategories = JsonHelper.stringList(json['subcategories']);
   }
 
   Map<String, dynamic> toJson() {

@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -93,11 +94,11 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
     final defaultPinTheme = PinTheme(
       width: 56,
       height: 56,
-      textStyle: const TextStyle(
-          fontSize: 20, color: Colors.black87, fontWeight: FontWeight.w600),
+      textStyle: TextStyle(
+          fontSize: 20, color: AppTheme.foreground(context, Colors.black87), fontWeight: FontWeight.w600),
       decoration: BoxDecoration(
         border: Border.all(color: Color.fromRGBO(225, 225, 225, 1),),
-        color: AppColors.txtBgColor,
+        color: AppTheme.surface(context, AppColors.txtBgColor),
         borderRadius: BorderRadius.circular(8),
       ),
     );
@@ -110,7 +111,7 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
-      backgroundColor: const Color(0xfff7f6fb),
+      backgroundColor: AppTheme.surface(context, Color(0xfff7f6fb)),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -126,7 +127,7 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
                   height: 24,
                   width: 24,
                   decoration: BoxDecoration(
-                    color: Colors.white, // background color
+                    color: AppTheme.surface(context, Colors.white), // background color
                     shape: BoxShape.rectangle, // circular shape
                     border: Border.all(
                       color: AppColors.primary, // border color
@@ -142,7 +143,7 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
                   ),
                   child: IconButton(
                     padding: EdgeInsets.zero, //
-                    icon: Icon(Icons.arrow_back_ios_new, size:16,color: AppColors.primary),
+                    icon: Icon(Icons.arrow_back_ios_new, size:16,color: AppTheme.accent(context, AppColors.primary)),
                     onPressed: () {
                       Navigator.pop(context);
                     },
@@ -214,8 +215,8 @@ class _MyVerifyState extends ConsumerState<OtpVerify> {
                     : Center(
                       child: Text(
                                         "Resend in $_secondsRemaining sec",
-                                        style: const TextStyle(
-                        fontSize: 15, color: Colors.black54),
+                                        style: TextStyle(
+                        fontSize: 15, color: AppTheme.foreground(context, Colors.black54)),
                                       ),
                     ),
               ],

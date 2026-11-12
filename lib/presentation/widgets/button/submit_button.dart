@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/app_colors.dart';
 import '../../theme/app_strings.dart';
-import '../../theme/app_theme.dart';
 
 class SubmitButon extends StatelessWidget {
   const SubmitButon({Key? key, this.text, this.bgColor, this.textColor})
@@ -14,7 +13,7 @@ class SubmitButon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15.w, vertical: 8.h),
       alignment: Alignment.center,

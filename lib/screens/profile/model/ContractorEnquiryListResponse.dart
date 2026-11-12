@@ -8,10 +8,10 @@ class ContractorEnquiryListResponse {
   ContractorEnquiryListResponse({this.hasError, this.message, this.result});
 
   ContractorEnquiryListResponse.fromJson(Map<String, dynamic> json) {
-    hasError = json['HasError'];
-    message = json['Message'];
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -34,12 +34,12 @@ class Result {
   Result({this.currentPage, this.total, this.perPage, this.list});
 
   Result.fromJson(Map<String, dynamic> json) {
-    currentPage = json['current_page'];
-    total = json['total'];
-    perPage = json['per_page'];
+    currentPage = JsonHelper.toInt(json['current_page']);
+    total = JsonHelper.toInt(json['total']);
+    perPage = JsonHelper.toInt(json['per_page']);
     if (json['list'] != null) {
       list = <CList>[];
-      json['list'].forEach((v) {
+      JsonHelper.objectList(json['list']).forEach((v) {
         list!.add(new CList.fromJson(v));
       });
     }
@@ -94,22 +94,22 @@ class CList {
         this.customerName});
 
   CList.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    type = json['type'];
-    name = json['name'];
+    sId = JsonHelper.toStringValue(json['_id']);
+    type = JsonHelper.toStringValue(json['type']);
+    name = JsonHelper.toStringValue(json['name']);
     phone =  JsonHelper.toStringValue(json['phone']);
-    email = json['email'];
-    projectType = json['project_type'];
-    projectSize = json['project_size'];
-    location = json['location'];
-    comments = json['comments'];
-    status = json['status'];
-    code = json['code'];
-    createdAt = json['createdAt'];
-    vendorName = json['vendor_name'];
-    contractorName = json['contractor_name'];
-    contractorCode = json['contractor_code'];
-    customerName = json['customer_name'];
+    email = JsonHelper.toStringValue(json['email']);
+    projectType = JsonHelper.toStringValue(json['project_type']);
+    projectSize = JsonHelper.toStringValue(json['project_size']);
+    location = JsonHelper.toStringValue(json['location']);
+    comments = JsonHelper.toStringValue(json['comments']);
+    status = JsonHelper.toInt(json['status']);
+    code = JsonHelper.toInt(json['code']);
+    createdAt = JsonHelper.toStringValue(json['createdAt']);
+    vendorName = JsonHelper.toStringValue(json['vendor_name']);
+    contractorName = JsonHelper.toStringValue(json['contractor_name']);
+    contractorCode = JsonHelper.toStringValue(json['contractor_code']);
+    customerName = JsonHelper.toStringValue(json['customer_name']);
   }
 
   Map<String, dynamic> toJson() {

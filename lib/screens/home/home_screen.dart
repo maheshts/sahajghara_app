@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:async';
 import 'dart:convert';
 
@@ -244,8 +245,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           bottom: true,
           child: Scaffold(
 
-          
-              backgroundColor: Color(0xfff7f6fb),
+
+              backgroundColor: AppTheme.surface(context, Color(0xfff7f6fb)),
               body: homeWatch.getHomeDataStatus == GetHomeDataStatus.loading
                   ? Container(
                   decoration: BoxDecoration(
@@ -256,7 +257,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           //colors: [AppColors.btnColor,AppColors.white],
                           //gradient: const LinearGradient(
                           colors: [AppColors.primary, AppColors.primaryDeep],
-          
+
                           stops: [0.4, 1.0]
                       )
                   ),
@@ -289,7 +290,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                     AppColors.primary,
                                     AppColors.primaryDeep
                                   ],
-          
+
                                   stops: [0.4, 1.0]
                               )
                           ),
@@ -389,12 +390,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               const SizedBox(width: 6), // End padding
                             ],
                           )
-          
+
                       ),
                     ],
                   ),
-          
-          
+
+
                   Expanded(child:
                   RefreshIndicator(
                     onRefresh: () {
@@ -421,7 +422,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                                 "Deal With Us",
                                 style: nunitoItalic16.copyWith(
                                   fontWeight: FontWeight.bold,
-                                  color: AppColors.primaryDeep,
+                                  color: AppTheme.accent(context, AppColors.primaryDeep),
                                 ),
                               ),
                             ),
@@ -539,9 +540,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           bottomLeft: Radius.circular(5),
           bottomRight: Radius.circular(5),
         ),
-        color: Color.fromRGBO(255, 255, 255, 1),
+        color: AppTheme.surface(context, Color.fromRGBO(255, 255, 255, 1)),
         border: Border.all(
-          color: Color.fromRGBO(234, 234, 234, 1),
+          color: AppTheme.outline(context, Color.fromRGBO(234, 234, 234, 1)),
           width: 1,
         ),
       ),
@@ -550,10 +551,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         children: [
 
           Row(children: [
-            Icon(Icons.person, color: AppColors.primaryDeep, size: 20,),
+            Icon(Icons.person, color: AppTheme.accent(context, AppColors.primaryDeep), size: 20,),
             SizedBox(width: 4,),
             Text("Hire Contractors", style: nunitoItalic14.copyWith(
-                color: AppColors.primary, fontWeight: FontWeight.w200),)
+                color: AppTheme.accent(context, AppColors.primary), fontWeight: FontWeight.w200),)
 
           ],),
           Row(children: [
@@ -570,11 +571,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       bottomLeft: Radius.circular(5),
                       bottomRight: Radius.circular(5),
                     ),
-                    color: Color.fromRGBO(234, 234, 234, 1),
+                    color: AppTheme.raisedSurface(context, Color.fromRGBO(234, 234, 234, 1)),
                   ),
                   child: Text("Enquiry Now", style: nunitoItalic14,)),
             ),
-            Icon(Icons.call, color: AppColors.primaryDeep, size: 20,),
+            Icon(Icons.call, color: AppTheme.accent(context, AppColors.primaryDeep), size: 20,),
 
 
           ],),
@@ -629,9 +630,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       //  color: AppColors.primaryDeep.withOpacity(0.9),
                         shape: BoxShape.rectangle,
                         borderRadius: BorderRadius.circular(16),
-                        color: Colors.white,
+                        color: AppTheme.surface(context, Colors.white),
                         border: Border.all(
-                          color: AppColors.primaryDeep.withOpacity(0.5),
+                          color: AppTheme.outline(context, AppColors.primaryDeep.withOpacity(0.5)),
 
                           width: 1,
                         ),
@@ -671,7 +672,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       textAlign: TextAlign.center,
                       maxLines: 1,
                       style: nunitoItalic14.copyWith(
-                          color: AppColors.primaryDeep),
+                          color: AppTheme.accent(context, AppColors.primaryDeep)),
                     ),
                   ],
                 ),
@@ -731,7 +732,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           width: itemWidth,
                           height: itemWidth, // Force a perfect square frame
                           decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: AppTheme.surface(context, Colors.white),
                             borderRadius: BorderRadius.circular(16),
                             boxShadow: [
                               BoxShadow(
@@ -741,7 +742,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               ),
                             ],
                             border: Border.all(
-                              color: AppColors.primaryDeep.withOpacity(0.12),
+                              color: AppTheme.outline(context, AppColors.primaryDeep.withOpacity(0.12)),
                               width: 1,
                             ),
                           ),
@@ -776,7 +777,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: nunitoItalic14.copyWith(
-                            color: AppColors.primaryDeep,
+                            color: AppTheme.accent(context, AppColors.primaryDeep),
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -826,7 +827,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             "Vendor Dashboard",
             style: nunitoItalic16.copyWith(
               fontWeight: FontWeight.bold,
-              color: AppColors.primaryDeep,
+              color: AppTheme.accent(context, AppColors.primaryDeep),
             ),
           ),
         ),

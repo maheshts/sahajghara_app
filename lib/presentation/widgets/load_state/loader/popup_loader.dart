@@ -84,8 +84,8 @@ class CustomScreenLoader extends StatelessWidget {
         child: Container(
           height: 150,
           padding: const EdgeInsets.symmetric(horizontal: 30),
-          decoration: const BoxDecoration(
-              color: Colors.white60,
+          decoration: BoxDecoration(
+              color: AppTheme.surface(context, Colors.white60),
               borderRadius: BorderRadius.all(Radius.circular(10))),
           child: Stack(
             alignment: Alignment.center,
@@ -121,7 +121,7 @@ class CustomScreenLoader extends StatelessWidget {
                             color: Colors.transparent,
                             child: Text(
                               "Please wait..",
-                              style: AppTheme.run().textTheme.bodySmall,
+                              style: Theme.of(context).textTheme.bodySmall,
                             ))
                       ],
                     ),

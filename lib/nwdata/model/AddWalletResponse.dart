@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class AddWalletResponse {
   String? transactionId;
   String? message;
@@ -8,10 +10,10 @@ class AddWalletResponse {
       {this.transactionId, this.message, this.totalBalance, this.status});
 
   AddWalletResponse.fromJson(Map<String, dynamic> json) {
-    transactionId = json['transactionId'];
-    message = json['message'];
-    totalBalance = json['totalBalance'];
-    status = json['status'];
+    transactionId = JsonHelper.toStringValue(json['transactionId']);
+    message = JsonHelper.toStringValue(json['message']);
+    totalBalance = JsonHelper.toDouble(json['totalBalance']);
+    status = JsonHelper.toInt(json['status']);
   }
 
   Map<String, dynamic> toJson() {

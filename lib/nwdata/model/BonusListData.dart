@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class BonusListData {
   int? memberID;
   int? bonusID;
@@ -31,20 +33,20 @@ class BonusListData {
         this.createdOn});
 
   BonusListData.fromJson(Map<String, dynamic> json) {
-    memberID = json['memberID'];
-    bonusID = json['bonusID'];
-    mamberName = json['mamberName'];
-    bonusTransactionID = json['bonusTransactionID'];
-    openingBalance = json['openingBalance'];
-    currentBalance = json['currentBalance'];
-    bonusAmount = json['bonusAmount'];
-    creditedAmount = json['creditedAmount'];
-    debetedAmount = json['debetedAmount'];
-    amount = json['amount'];
-    type = json['type'];
-    status = json['status'];
-    notes = json['notes'];
-    createdOn = json['createdOn'];
+    memberID = JsonHelper.toInt(json['memberID']);
+    bonusID = JsonHelper.toInt(json['bonusID']);
+    mamberName = JsonHelper.toStringValue(json['mamberName']);
+    bonusTransactionID = JsonHelper.toStringValue(json['bonusTransactionID']);
+    openingBalance = JsonHelper.toDouble(json['openingBalance']);
+    currentBalance = JsonHelper.toDouble(json['currentBalance']);
+    bonusAmount = JsonHelper.toDouble(json['bonusAmount']);
+    creditedAmount = JsonHelper.toDouble(json['creditedAmount']);
+    debetedAmount = JsonHelper.toDouble(json['debetedAmount']);
+    amount = JsonHelper.toDouble(json['amount']);
+    type = JsonHelper.toStringValue(json['type']);
+    status = JsonHelper.toStringValue(json['status']);
+    notes = JsonHelper.toStringValue(json['notes']);
+    createdOn = JsonHelper.toStringValue(json['createdOn']);
   }
 
   Map<String, dynamic> toJson() {

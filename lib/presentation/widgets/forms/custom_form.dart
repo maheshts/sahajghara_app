@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:ecommerce/src/theme/theme.dart';
@@ -86,11 +87,11 @@ class _CustomFormState extends State<CustomForm> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
             border: Border.all(color: widget.borderColor ?? Colors.transparent),
-            color: widget.bgColor ?? Colors.white,
+            color: widget.bgColor ?? AppTheme.surface(context, Colors.white),
             borderRadius: BorderRadius.circular(2)),
         child: TextFormField(
           // key: widget.key,
-          cursorColor: Colors.black,
+          cursorColor: AppTheme.foreground(context, Colors.black),
           controller: widget.controller,
           // style: textFieldInputStyle(context, widget.inputTextFontWeight),
           keyboardType: widget.keyboardType ?? TextInputType.text,

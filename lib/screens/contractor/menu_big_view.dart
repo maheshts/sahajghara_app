@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -72,7 +73,7 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                       width: 42,
                       height: 42,
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.10),
+                        color: AppTheme.surface(context, Colors.white).withOpacity(0.10),
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white.withOpacity(0.12),
@@ -133,7 +134,7 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                         vertical: 7,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.10),
+                        color: AppTheme.surface(context, Colors.white).withOpacity(0.10),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Row(
@@ -298,7 +299,7 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
                       height: 34,
 
                       decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.08),
+                        color: AppTheme.surface(context, Colors.white).withOpacity(0.08),
                         borderRadius: BorderRadius.circular(9),
                       ),
 
@@ -566,7 +567,7 @@ class _MenuViewScreenState extends State<MenuViewScreen> {
             height: 76,
 
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.08),
+              color: AppTheme.surface(context, Colors.white).withOpacity(0.08),
               shape: BoxShape.circle,
             ),
 

@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 import 'package:sahajghara/screens/home/HomePageResponse.dart';
 
 class BrandResponse {
@@ -8,11 +10,11 @@ class BrandResponse {
   BrandResponse({this.hasError, this.message, this.data});
 
   BrandResponse.fromJson(Map<String, dynamic> json) {
-    hasError = json['HasError'];
-    message = json['Message'];
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
     if (json['data'] != null) {
       data = <Brands>[];
-      json['data'].forEach((v) {
+      JsonHelper.objectList(json['data']).forEach((v) {
         data!.add(new Brands.fromJson(v));
       });
     }
@@ -38,9 +40,9 @@ class Brands {
   Brands({this.id, this.name,this.photoUrl});
 
   Brands.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    photoUrl = json['photo_url'];
+    id = JsonHelper.toStringValue(json['id']);
+    name = JsonHelper.toStringValue(json['name']);
+    photoUrl = JsonHelper.toStringValue(json['photo_url']);
 
   }
 

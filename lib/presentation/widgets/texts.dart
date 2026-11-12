@@ -10,7 +10,7 @@ class HighlightText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return Text(
       text,
       style: AppTheme.primaryFont(
@@ -26,7 +26,7 @@ class Headline extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return Text(
       text,
       style: theme.textTheme.displayMedium?.copyWith(color: color),
@@ -42,7 +42,7 @@ class DrawerText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return Text(
       text,
       style: theme.textTheme.titleSmall?.copyWith(color: color),

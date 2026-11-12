@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/helpers/custom_toast.dart';
@@ -68,7 +69,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
       top: false,
       bottom: true,
       child: Scaffold(
-        backgroundColor: const Color(0xFFF5F7FA),
+        backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
         // ---------------------------------------------------------
         // APP BAR
@@ -219,7 +220,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
             height: 52,
             width: 52,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.14),
+              color: AppTheme.surface(context, Colors.white).withOpacity(.14),
               borderRadius: BorderRadius.circular(15),
             ),
             child: const Icon(
@@ -270,7 +271,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
       width: double.infinity,
       padding: const EdgeInsets.all(17),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
           color: const Color(0xFFE7EBF0),
@@ -292,7 +293,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
               Container(
                 padding: const EdgeInsets.all(9),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF3FF),
+                  color: AppTheme.surface(context, Color(0xFFEAF3FF)),
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: const Icon(
@@ -377,7 +378,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
       width: fullWidth ? double.infinity : null,
       padding: const EdgeInsets.all(13),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F9FC),
+        color: AppTheme.surface(context, Color(0xFFF7F9FC)),
         borderRadius: BorderRadius.circular(13),
         border: Border.all(
           color: const Color(0xFFE8ECF1),
@@ -441,7 +442,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
           height: 34,
           width: 34,
           decoration: BoxDecoration(
-            color: const Color(0xFFEAF3FF),
+            color: AppTheme.surface(context, Color(0xFFEAF3FF)),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Icon(
@@ -568,7 +569,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
           color: const Color(0xFF52708D),
         ),
         filled: true,
-        fillColor: const Color(0xFFF8FAFC),
+        fillColor: AppTheme.surface(context, Color(0xFFF8FAFC)),
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 12,
           vertical: 15,
@@ -749,7 +750,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
             minHeight: 42,
           ),
           filled: true,
-          fillColor: const Color(0xFFF8FAFC),
+          fillColor: AppTheme.surface(context, Color(0xFFF8FAFC)),
           contentPadding: const EdgeInsets.all(13),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(13),
@@ -770,11 +771,11 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
     return Container(
       padding: const EdgeInsets.all(18),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
-          colors: [
+        gradient: LinearGradient(
+          colors: AppTheme.gradient(context, [
             Color(0xFFEAF8F0),
             Color(0xFFF7FCF9),
-          ],
+          ]),
         ),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(
@@ -790,7 +791,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
                 height: 44,
                 width: 44,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFD8F1E2),
+                  color: AppTheme.surface(context, Color(0xFFD8F1E2)),
                   borderRadius: BorderRadius.circular(13),
                 ),
                 child: const Icon(
@@ -841,7 +842,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
 
           Container(
             height: 1,
-            color: const Color(0xFFD8EBDD),
+            color: AppTheme.surface(context, Color(0xFFD8EBDD)),
           ),
 
           const SizedBox(height: 13),
@@ -920,7 +921,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
         14,
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(.10),
@@ -1074,7 +1075,7 @@ class _VendorReplyScreenState extends ConsumerState<VendorReplyScreen> {
 
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
-      color: Colors.white,
+      color: AppTheme.surface(context, Colors.white),
       borderRadius: BorderRadius.circular(17),
       border: Border.all(
         color: const Color(0xFFE5EAF0),

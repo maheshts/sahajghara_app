@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -55,7 +56,7 @@ class _VendorListState extends ConsumerState<VendorList> {
           bottomNavigationBar: selectedVendors.isNotEmpty
               ? Container(
             padding: EdgeInsets.all(16),
-            color: Colors.white,
+            color: AppTheme.surface(context, Colors.white),
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
@@ -195,7 +196,7 @@ class _VendorListState extends ConsumerState<VendorList> {
       margin: const EdgeInsets.symmetric(vertical: 6),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -219,13 +220,13 @@ class _VendorListState extends ConsumerState<VendorList> {
               placeholder: (_, __) => Container(
                 width: 70,
                 height: 70,
-                color: Colors.grey.shade200,
+                color: AppTheme.surface(context, Colors.grey.shade200),
                 child: const Icon(Icons.store, size: 30),
               ),
               errorWidget: (_, __, ___) => Container(
                 width: 70,
                 height: 70,
-                color: Colors.grey.shade200,
+                color: AppTheme.surface(context, Colors.grey.shade200),
                 child: const Icon(Icons.error, size: 30),
               ),
             ),
@@ -253,7 +254,7 @@ class _VendorListState extends ConsumerState<VendorList> {
                   address,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
-                  style: nunitoItalic14.copyWith(color: Colors.grey.shade600),
+                  style: nunitoItalic14.copyWith(color: AppTheme.muted(context, Colors.grey.shade600)),
                 ),
 
                 const SizedBox(height: 6),
@@ -308,11 +309,11 @@ class _VendorListState extends ConsumerState<VendorList> {
                   fit: BoxFit.cover,
                   placeholder: (_, __) => Container(
                     height: 180,
-                    color: Colors.grey.shade200,
+                    color: AppTheme.surface(context, Colors.grey.shade200),
                   ),
                   errorWidget: (_, __, ___) => Container(
                     height: 180,
-                    color: Colors.grey.shade200,
+                    color: AppTheme.surface(context, Colors.grey.shade200),
                     child: const Icon(Icons.store),
                   ),
                 ),
@@ -387,7 +388,7 @@ class _VendorListState extends ConsumerState<VendorList> {
                 Text(
                   distance,
                   style: TextStyle(
-                    color: Colors.grey.shade600,
+                    color: AppTheme.muted(context, Colors.grey.shade600),
                     fontSize: 12,
                   ),
                 ),
@@ -401,7 +402,7 @@ class _VendorListState extends ConsumerState<VendorList> {
             Text(
               category,
               style: TextStyle(
-                color: Colors.grey.shade600,
+                color: AppTheme.muted(context, Colors.grey.shade600),
                 fontSize: 13,
               ),
             ),
@@ -414,7 +415,7 @@ class _VendorListState extends ConsumerState<VendorList> {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
-              color: Colors.grey.shade500,
+              color: AppTheme.muted(context, Colors.grey.shade500),
               fontSize: 12,
             ),
           ),
@@ -424,13 +425,13 @@ class _VendorListState extends ConsumerState<VendorList> {
           // ⏰ Timing + Days
           Row(
             children: [
-              Icon(Icons.access_time, size: 14, color: Colors.grey.shade600),
+              Icon(Icons.access_time, size: 14, color: AppTheme.muted(context, Colors.grey.shade600)),
               const SizedBox(width: 4),
               Text(
                 timing,
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey.shade700,
+                  color: AppTheme.muted(context, Colors.grey.shade700),
                 ),
               ),
               const SizedBox(width: 10),
@@ -438,7 +439,7 @@ class _VendorListState extends ConsumerState<VendorList> {
                 "• $days",
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey.shade700,
+                  color: AppTheme.muted(context, Colors.grey.shade700),
                 ),
               ),
             ],
@@ -461,11 +462,11 @@ class _VendorListState extends ConsumerState<VendorList> {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 14, color: AppColors.primary),
+          Icon(icon, size: 14, color: AppTheme.accent(context, AppColors.primary)),
           const SizedBox(width: 4),
           Text(
             text,
-            style: nunitoRegular12.copyWith(color: AppColors.primary),
+            style: nunitoRegular12.copyWith(color: AppTheme.accent(context, AppColors.primary)),
           ),
         ],
       ),
@@ -484,7 +485,7 @@ class _VendorListState extends ConsumerState<VendorList> {
       margin: const EdgeInsets.only(bottom: 15,left: 8,right: 8),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: AppColors.bgColor1,
+        color: AppTheme.surface(context, AppColors.bgColor1),
         border: Border.all(color: AppColors.borderColor, width: 1),
         borderRadius: BorderRadius.circular(8),
       ),
@@ -532,14 +533,14 @@ class _VendorListState extends ConsumerState<VendorList> {
               "$label:",
               style: nunitoItalic14.copyWith(
                 fontWeight: FontWeight.w600,
-                color: Colors.black54
+                color: AppTheme.foreground(context, Colors.black54)
               ),
             ),
           ),
           Expanded(
             child: Text(
               value,
-              style:  nunitoItalic14.copyWith(color: AppColors.primary),
+              style:  nunitoItalic14.copyWith(color: AppTheme.accent(context, AppColors.primary)),
             ),
           ),
         ],

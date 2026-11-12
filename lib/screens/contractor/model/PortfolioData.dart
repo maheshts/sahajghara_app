@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class PortfolioData {
   Result? result;
   bool? hasError;
@@ -7,9 +9,9 @@ class PortfolioData {
 
   PortfolioData.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -31,7 +33,7 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     if (json['portfolioList'] != null) {
       portfolioList = <PortfolioList>[];
-      json['portfolioList'].forEach((v) {
+      JsonHelper.objectList(json['portfolioList']).forEach((v) {
         portfolioList!.add(new PortfolioList.fromJson(v));
       });
     }
@@ -70,21 +72,21 @@ class PortfolioList {
         this.imagepath});
 
   PortfolioList.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    title = json['title'];
-    location = json['location'];
-    description = json['description'];
-    userId = json['user_id'];
-    createdAt = json['createdAt'] != null
+    sId = JsonHelper.toStringValue(json['_id']);
+    name = JsonHelper.toStringValue(json['name']);
+    title = JsonHelper.toStringValue(json['title']);
+    location = JsonHelper.toStringValue(json['location']);
+    description = JsonHelper.toStringValue(json['description']);
+    userId = JsonHelper.toStringValue(json['user_id']);
+    createdAt = json['createdAt'] is Map
         ? new CreatedAt.fromJson(json['createdAt'])
         : null;
-    updatedAt = json['updatedAt'] != null
+    updatedAt = json['updatedAt'] is Map
         ? new CreatedAt.fromJson(json['updatedAt'])
         : null;
     if (json['imagepath'] != null) {
       imagepath = <Imagepath>[];
-      json['imagepath'].forEach((v) {
+      JsonHelper.objectList(json['imagepath']).forEach((v) {
         imagepath!.add(new Imagepath.fromJson(v));
       });
     }
@@ -117,7 +119,7 @@ class CreatedAt {
   CreatedAt({this.date});
 
   CreatedAt.fromJson(Map<String, dynamic> json) {
-    date = json['$date'] != null ? new Date.fromJson(json['$date']) : null;
+    date = json[r'$date'] is Map ? new Date.fromJson(json[r'$date']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -135,7 +137,7 @@ class Date {
   Date({this.numberLong});
 
   Date.fromJson(Map<String, dynamic> json) {
-    numberLong = json['$numberLong'];
+    numberLong = JsonHelper.toStringValue(json[r'$numberLong']);
   }
 
   Map<String, dynamic> toJson() {
@@ -152,8 +154,8 @@ class Imagepath {
   Imagepath({this.profileUrl, this.cloudinaryId});
 
   Imagepath.fromJson(Map<String, dynamic> json) {
-    profileUrl = json['profile_url'];
-    cloudinaryId = json['cloudinary_id'];
+    profileUrl = JsonHelper.toStringValue(json['profile_url']);
+    cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
   }
 
   Map<String, dynamic> toJson() {

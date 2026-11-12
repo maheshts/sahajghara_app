@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -119,7 +120,7 @@ class _SubCategoryState extends State<SubCategory> {
                       ),
                       trailing: Icon(
                         Icons.arrow_circle_right,
-                        color: AppColors.primary,
+                        color: AppTheme.accent(context, AppColors.primary),
                         size: 24, // optional: reduce icon size slightly
                       ),
                     ),
@@ -146,8 +147,8 @@ class _SubCategoryState extends State<SubCategory> {
         focusNode: _focusNode,
         hintText: 'Search...',
         elevation: MaterialStateProperty.all(2),
-        backgroundColor: MaterialStateProperty.all(AppColors.bgColor1),
-        shadowColor: MaterialStateProperty.all(AppColors.bgColor1),
+        backgroundColor: MaterialStateProperty.all(AppTheme.surface(context, AppColors.bgColor1)),
+        shadowColor: MaterialStateProperty.all(AppTheme.surface(context, AppColors.bgColor1)),
         shape: MaterialStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
@@ -155,10 +156,10 @@ class _SubCategoryState extends State<SubCategory> {
           ),
         ),
         textStyle: MaterialStateProperty.all(
-          const TextStyle(fontSize: 16, color: Colors.black),
+          TextStyle(fontSize: 16, color: AppTheme.foreground(context, Colors.black)),
         ),
         hintStyle: MaterialStateProperty.all(
-          const TextStyle(color: Colors.grey, fontStyle: FontStyle.italic),
+          TextStyle(color: AppTheme.muted(context, Colors.grey), fontStyle: FontStyle.italic),
         ),
         leading:  Icon(Icons.search, color: AppColors.bgColors),
         trailing: [

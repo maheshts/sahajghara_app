@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class NotificationModel {
   final String? id;
   final String? title;
@@ -24,15 +26,15 @@ class NotificationModel {
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) {
     return NotificationModel(
-      id: json['_id'],
-      title: json['title'],
-      message: json['message'],
-      isRead: json['is_read'],
-      createdAt: json['created_at'],
-        page:json['page'],
-        referenceId: json['reference_id'],
-        type:json['type'],
-      isVendor: json['is_vendor']
+      id: JsonHelper.toStringValue(json['_id']),
+      title: JsonHelper.toStringValue(json['title']),
+      message: JsonHelper.toStringValue(json['message']),
+      isRead: JsonHelper.toNullableBool(json['is_read']),
+      createdAt: JsonHelper.toStringValue(json['created_at']),
+        page:JsonHelper.toStringValue(json['page']),
+        referenceId: JsonHelper.toStringValue(json['reference_id']),
+        type:JsonHelper.toStringValue(json['type']),
+      isVendor: JsonHelper.toNullableBool(json['is_vendor'])
     );
   }
 }

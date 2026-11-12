@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sahajghara/screens/home/home_screen.dart';
@@ -59,7 +60,7 @@ class _OrderSuccessState extends State<OrderSuccess> {
         //return false;
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        backgroundColor: Color(0xfff7f6fb),
+        backgroundColor: AppTheme.surface(context, Color(0xfff7f6fb)),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -117,7 +118,7 @@ class _OrderSuccessState extends State<OrderSuccess> {
                      child: Column(children:[
                        SizedBox(height: 12),
 
-                       Text("#${widget.orderNo} for future reference",textAlign: TextAlign.center,style: nunito16.copyWith(color: AppColors.black,fontWeight: FontWeight.w700),),
+                       Text("#${widget.orderNo} for future reference",textAlign: TextAlign.center,style: nunito16.copyWith(color: AppTheme.foreground(context, AppColors.black),fontWeight: FontWeight.w700),),
                        SizedBox(height: 16),
 
                              Image.asset(AppImages.logo_blue,height: 100,),
@@ -125,7 +126,7 @@ class _OrderSuccessState extends State<OrderSuccess> {
                        SizedBox(height: 16),
                        ElevatedButton(
                          style: ElevatedButton.styleFrom(
-                           backgroundColor: Colors.white, // background color
+                           backgroundColor: AppTheme.surface(context, Colors.white), // background color
                            foregroundColor: Colors.deepPurple, // text color
                            side: BorderSide(color: Colors.deepPurple, width: 1), // border
                            shape: RoundedRectangleBorder(

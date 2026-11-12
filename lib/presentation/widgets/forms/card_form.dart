@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
 // import 'package:ecommerce/src/theme/theme.dart';
@@ -109,7 +110,7 @@ class _CardFormState extends State<CardForm> {
             borderRadius: BorderRadius.circular(8)),
         child: TextFormField(
           // key: widget.key,
-          cursorColor: Colors.grey,
+          cursorColor: AppTheme.muted(context, Colors.grey),
           controller: widget.controller,
 
           style: nunito16,
@@ -156,7 +157,7 @@ class _CardFormState extends State<CardForm> {
       suffixIcon: suffixIcon,
       hintText: hintText,
       labelText: labelText,
-      labelStyle: nunitoItalic14.copyWith(color: Colors.black54),
+      labelStyle: nunitoItalic14.copyWith(color: AppTheme.foreground(context, Colors.black54)),
       contentPadding: contentPadding ??
           const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
       filled: true,

@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class RegisterResponse {
   Result? result;
   bool? hasError;
@@ -7,9 +9,9 @@ class RegisterResponse {
 
   RegisterResponse.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -31,9 +33,9 @@ class Result {
   Result({this.user, this.emailVarify, this.phoneVarify});
 
   Result.fromJson(Map<String, dynamic> json) {
-    user = json['user'] != null ? new User.fromJson(json['user']) : null;
-    emailVarify = json['email_varify'];
-    phoneVarify = json['phone_varify'];
+    user = json['user'] is Map ? new User.fromJson(json['user']) : null;
+    emailVarify = JsonHelper.toNullableBool(json['email_varify']);
+    phoneVarify = JsonHelper.toNullableBool(json['phone_varify']);
   }
 
   Map<String, dynamic> toJson() {
@@ -76,18 +78,18 @@ class User {
         this.password});
 
   User.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    name = json['name'];
-    phone = json['phone'];
-    email = json['email'];
-    emailVarifyOtp = json['email_varify_otp'];
-    emailVerifiedAt = json['email_verified_at'];
-    phoneVarifyOtp = json['phone_varify_otp'];
-    phoneVerifiedAt = json['phone_verified_at'];
-    status = json['status'];
-    type = json['type'];
-    createdAt = json['created_at'];
-    password = json['password'];
+    sId = JsonHelper.toStringValue(json['_id']);
+    name = JsonHelper.toStringValue(json['name']);
+    phone = JsonHelper.toStringValue(json['phone']);
+    email = JsonHelper.toStringValue(json['email']);
+    emailVarifyOtp = JsonHelper.toStringValue(json['email_varify_otp']);
+    emailVerifiedAt = JsonHelper.toStringValue(json['email_verified_at']);
+    phoneVarifyOtp = JsonHelper.toStringValue(json['phone_varify_otp']);
+    phoneVerifiedAt = JsonHelper.toStringValue(json['phone_verified_at']);
+    status = JsonHelper.toInt(json['status']);
+    type = JsonHelper.toStringValue(json['type']);
+    createdAt = JsonHelper.toStringValue(json['created_at']);
+    password = JsonHelper.toStringValue(json['password']);
   }
 
   Map<String, dynamic> toJson() {

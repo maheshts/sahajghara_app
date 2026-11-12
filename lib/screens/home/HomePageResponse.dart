@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class HomePageResponse {
   Result? result;
   bool? hasError;
@@ -7,9 +9,9 @@ class HomePageResponse {
 
   HomePageResponse.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -50,31 +52,31 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     if (json['imagegalleryList'] != null) {
       imagegalleryList = <ImagegalleryList>[];
-      json['imagegalleryList'].forEach((v) {
+      JsonHelper.objectList(json['imagegalleryList']).forEach((v) {
         imagegalleryList!.add(new ImagegalleryList.fromJson(v));
       });
     }
     if (json['category'] != null) {
       category = <Category>[];
-      json['category'].forEach((v) {
+      JsonHelper.objectList(json['category']).forEach((v) {
         category!.add(new Category.fromJson(v));
       });
     }
     if (json['brand'] != null) {
       brand = <Brand>[];
-      json['brand'].forEach((v) {
+      JsonHelper.objectList(json['brand']).forEach((v) {
         brand!.add(new Brand.fromJson(v));
       });
     }
-    enableVendor = json['enable_vendor'];
-    enableContractor = json['enable_contractor'];
-    contractorCode = json['contractor_code'];
-    vendorCode = json['vendor_code'].toString();
-    requestVendor = json['request_vendor'];
-    requestContractor = json['request_contractor'];
+    enableVendor = JsonHelper.toNullableBool(json['enable_vendor']);
+    enableContractor = JsonHelper.toNullableBool(json['enable_contractor']);
+    contractorCode = JsonHelper.toStringValue(json['contractor_code']);
+    vendorCode = JsonHelper.toStringValue(json['vendor_code']);
+    requestVendor = JsonHelper.toNullableBool(json['request_vendor']);
+    requestContractor = JsonHelper.toNullableBool(json['request_contractor']);
     if (json['vendorSummery'] != null) {
       vendorSummery = <VendorSummery>[];
-      json['vendorSummery'].forEach((v) {
+      JsonHelper.objectList(json['vendorSummery']).forEach((v) {
         vendorSummery!.add(new VendorSummery.fromJson(v));
       });
     }
@@ -117,11 +119,11 @@ class ImagegalleryList {
       {this.sId, this.title, this.description, this.status, this.photoUrl});
 
   ImagegalleryList.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    title = json['title'];
-    description = json['description'];
-    status = json['status'];
-    photoUrl = json['photo_url'];
+    sId = JsonHelper.toStringValue(json['_id']);
+    title = JsonHelper.toStringValue(json['title']);
+    description = JsonHelper.toStringValue(json['description']);
+    status = JsonHelper.toStringValue(json['status']);
+    photoUrl = JsonHelper.toStringValue(json['photo_url']);
   }
 
   Map<String, dynamic> toJson() {
@@ -163,22 +165,22 @@ class Category {
         this.photoUrlIcon,this.units});
 
   Category.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    title = json['title'];
-    description = json['description'];
-    status = json['status'];
-    createdAt = json['createdAt'] != null
+    sId = JsonHelper.toStringValue(json['_id']);
+    title = JsonHelper.toStringValue(json['title']);
+    description = JsonHelper.toStringValue(json['description']);
+    status = JsonHelper.toStringValue(json['status']);
+    createdAt = json['createdAt'] is Map
         ? new CreatedAt.fromJson(json['createdAt'])
         : null;
-    updatedAt = json['updatedAt'] != null
+    updatedAt = json['updatedAt'] is Map
         ? new CreatedAt.fromJson(json['updatedAt'])
         : null;
-    cloudinaryId = json['cloudinary_id'];
-    photoUrl = json['photo_url'];
-    subcategory = json['subcategory'].cast<String>();
-    cloudinaryIdIcon = json['cloudinary_id_icon'];
-    photoUrlIcon = json['photo_url_icon'];
-    units = json['units'].cast<String>();
+    cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
+    photoUrl = JsonHelper.toStringValue(json['photo_url']);
+    subcategory = JsonHelper.stringList(json['subcategory']);
+    cloudinaryIdIcon = JsonHelper.toStringValue(json['cloudinary_id_icon']);
+    photoUrlIcon = JsonHelper.toStringValue(json['photo_url_icon']);
+    units = JsonHelper.stringList(json['units']);
   }
 
   Map<String, dynamic> toJson() {
@@ -209,7 +211,7 @@ class CreatedAt {
   CreatedAt({this.date});
 
   CreatedAt.fromJson(Map<String, dynamic> json) {
-    date = json['$date'] != null ? new Date.fromJson(json['$date']) : null;
+    date = json[r'$date'] is Map ? new Date.fromJson(json[r'$date']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -227,7 +229,7 @@ class Date {
   Date({this.numberLong});
 
   Date.fromJson(Map<String, dynamic> json) {
-    numberLong = json['$numberLong'];
+    numberLong = JsonHelper.toStringValue(json[r'$numberLong']);
   }
 
   Map<String, dynamic> toJson() {
@@ -258,18 +260,18 @@ class Brand {
         this.photoUrl});
 
   Brand.fromJson(Map<String, dynamic> json) {
-    sId = json['_id'];
-    title = json['title'];
-    description = json['description'];
-    status = json['status'];
-    createdAt = json['createdAt'] != null
+    sId = JsonHelper.toStringValue(json['_id']);
+    title = JsonHelper.toStringValue(json['title']);
+    description = JsonHelper.toStringValue(json['description']);
+    status = JsonHelper.toStringValue(json['status']);
+    createdAt = json['createdAt'] is Map
         ? new CreatedAt.fromJson(json['createdAt'])
         : null;
-    updatedAt = json['updatedAt'] != null
+    updatedAt = json['updatedAt'] is Map
         ? new CreatedAt.fromJson(json['updatedAt'])
         : null;
-    cloudinaryId = json['cloudinary_id'];
-    photoUrl = json['photo_url'];
+    cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
+    photoUrl = JsonHelper.toStringValue(json['photo_url']);
   }
 
   Map<String, dynamic> toJson() {
@@ -298,9 +300,9 @@ class VendorSummery {
   VendorSummery({this.level, this.status, this.count});
 
   VendorSummery.fromJson(Map<String, dynamic> json) {
-    level = json['level'];
-    status = json['status'];
-    count = json['count'];
+    level = JsonHelper.toStringValue(json['level']);
+    status = JsonHelper.toInt(json['status']);
+    count = JsonHelper.toInt(json['count']);
   }
 
   Map<String, dynamic> toJson() {

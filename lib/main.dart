@@ -1,10 +1,11 @@
+import 'presentation/theme/app_theme.dart';
+import 'presentation/theme/theme_controller.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:sahajghara/helpers/utillls.dart';
-import 'package:sahajghara/presentation/theme/app_colors.dart';
 import 'package:sahajghara/screens/home/home_screen.dart';
 import 'package:sahajghara/screens/intro_screen.dart';
 import 'package:sahajghara/screens/auth/login_screen.dart';
@@ -76,6 +77,7 @@ Future<void> main() async {
   runApp(ProviderScope(
     overrides: [
       sharedPreferencesProvider.overrideWithValue(sharedPreferences),
+      themePreferencesProvider.overrideWithValue(sharedPreferences),
     ],
     child: MyApp(),
   ));
@@ -166,6 +168,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final currentRoute = ref.watch(currentRouteProvider);
+    final themeMode = ref.watch(themeModeProvider);
 
     final shouldHide = hideIdentifiers.contains(currentRoute);
 
@@ -177,10 +180,9 @@ class MyApp extends ConsumerWidget {
           debugShowCheckedModeBanner: false,
           title: 'SahajGhara',
           scrollBehavior: NoScrollBehaviour(),
-          theme: ThemeData(
-            colorScheme:
-            ColorScheme.fromSeed(seedColor: AppColors.primary),
-          ),
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.darkTheme,
+          themeMode: themeMode,
           // 👇 Inject observer with ref
           navigatorObservers: [
             //NavObserver(ref),

@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,14 +39,14 @@ class _ContractorPortfolioScreenState
         );
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
       // =========================================================
       // APP BAR
       // =========================================================
 
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 0,
 
         leading: IconButton(
@@ -228,7 +229,7 @@ class _ContractorPortfolioScreenState
             height: 52,
 
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.14),
+              color: AppTheme.surface(context, Colors.white).withOpacity(0.14),
               borderRadius: BorderRadius.circular(14),
             ),
 
@@ -283,7 +284,7 @@ class _ContractorPortfolioScreenState
             ),
 
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.12),
+              color: AppTheme.surface(context, Colors.white).withOpacity(0.12),
               borderRadius: BorderRadius.circular(12),
             ),
 
@@ -364,7 +365,7 @@ class _ContractorPortfolioScreenState
 
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppTheme.surface(context, Colors.white),
           borderRadius: BorderRadius.circular(16),
 
           boxShadow: [
@@ -401,7 +402,7 @@ class _ContractorPortfolioScreenState
                           (context, url) {
                         return Container(
                           color:
-                          const Color(0xFFEFF2F6),
+                          AppTheme.surface(context, Color(0xFFEFF2F6)),
 
                           child: const Center(
                             child: SizedBox(
@@ -420,7 +421,7 @@ class _ContractorPortfolioScreenState
                           (context, url, error) {
                         return Container(
                           color:
-                          const Color(0xFFEFF2F6),
+                          AppTheme.surface(context, Color(0xFFEFF2F6)),
 
                           child: const Center(
                             child: Icon(
@@ -712,7 +713,7 @@ class _ContractorPortfolioScreenState
       ),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
 
         boxShadow: [
           BoxShadow(
@@ -800,7 +801,7 @@ class _ContractorPortfolioScreenState
               height: 90,
 
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF2F9),
+                color: AppTheme.surface(context, Color(0xFFEAF2F9)),
                 shape: BoxShape.circle,
               ),
 

@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -90,8 +91,8 @@ class _ContractorEnquiryDetailsState
         // ------------------------------------------------------
 
         loading: () {
-          return const Scaffold(
-            backgroundColor: Color(0xFFF5F7FA),
+          return Scaffold(
+            backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
             body: Center(
               child: CircularProgressIndicator(
                 color: Color(0xFF003B73),
@@ -106,7 +107,7 @@ class _ContractorEnquiryDetailsState
 
         error: (error, stack) {
           return Scaffold(
-            backgroundColor: const Color(0xFFF5F7FA),
+            backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
             appBar: _buildAppBar(null),
             body: _buildErrorState(),
           );
@@ -120,7 +121,7 @@ class _ContractorEnquiryDetailsState
 
           if (data == null || data.data == null) {
             return Scaffold(
-              backgroundColor: const Color(0xFFF5F7FA),
+              backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
               appBar: _buildAppBar(null),
               body: _buildEmptyState(),
             );
@@ -131,7 +132,7 @@ class _ContractorEnquiryDetailsState
 
           if (details == null) {
             return Scaffold(
-              backgroundColor: const Color(0xFFF5F7FA),
+              backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
               appBar: _buildAppBar(null),
               body: _buildEmptyState(),
             );
@@ -141,7 +142,7 @@ class _ContractorEnquiryDetailsState
           final Map<String, StatusMessage>? messages = result.messages;
 
           return Scaffold(
-            backgroundColor: const Color(0xFFF5F7FA),
+            backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
             appBar: _buildAppBar(details),
 
@@ -163,7 +164,7 @@ class _ContractorEnquiryDetailsState
       EnquiryDetails? details,
       ) {
     return AppBar(
-      backgroundColor: Colors.white,
+      backgroundColor: AppTheme.surface(context, Colors.white),
       elevation: 0,
       centerTitle: false,
 
@@ -233,7 +234,7 @@ class _ContractorEnquiryDetailsState
                   vertical: 7,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF3FF),
+                  color: AppTheme.surface(context, Color(0xFFEAF3FF)),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: const Color(0xFFD3E5F8)),
                 ),
@@ -385,7 +386,7 @@ class _ContractorEnquiryDetailsState
       padding: const EdgeInsets.all(16),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: const Color(0xFFE3E8EF)),
         boxShadow: [
@@ -682,7 +683,7 @@ class _ContractorEnquiryDetailsState
                 width: 52,
                 height: 52,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF3FF),
+                  color: AppTheme.surface(context, Color(0xFFEAF3FF)),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: const Icon(
@@ -724,7 +725,7 @@ class _ContractorEnquiryDetailsState
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF7EC),
+                  color: AppTheme.surface(context, Color(0xFFEAF7EC)),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: const Text(
@@ -744,7 +745,7 @@ class _ContractorEnquiryDetailsState
           Container(
             padding: const EdgeInsets.all(13),
             decoration: BoxDecoration(
-              color: const Color(0xFFF7F9FC),
+              color: AppTheme.surface(context, Color(0xFFF7F9FC)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -803,7 +804,7 @@ class _ContractorEnquiryDetailsState
           Container(
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
-              color: const Color(0xFFEAF3FF),
+              color: AppTheme.surface(context, Color(0xFFEAF3FF)),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
@@ -847,7 +848,7 @@ class _ContractorEnquiryDetailsState
         width: double.infinity,
         padding: const EdgeInsets.all(13),
         decoration: BoxDecoration(
-          color: const Color(0xFFF7F9FC),
+          color: AppTheme.surface(context, Color(0xFFF7F9FC)),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -857,7 +858,7 @@ class _ContractorEnquiryDetailsState
               width: 30,
               height: 30,
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF3FF),
+                color: AppTheme.surface(context, Color(0xFFEAF3FF)),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: const Icon(
@@ -901,8 +902,8 @@ class _ContractorEnquiryDetailsState
 
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
-      decoration: const BoxDecoration(
-        color: Colors.white,
+      decoration: BoxDecoration(
+        color: AppTheme.surface(context, Colors.white),
         boxShadow: [
           BoxShadow(
             color: Color(0x18000000),
@@ -1081,7 +1082,7 @@ class _ContractorEnquiryDetailsState
       width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: const Color(0xFFE5E9EF)),
         boxShadow: [
@@ -1102,7 +1103,7 @@ class _ContractorEnquiryDetailsState
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF3FF),
+                  color: AppTheme.surface(context, Color(0xFFEAF3FF)),
                   borderRadius: BorderRadius.circular(9),
                 ),
                 child: Icon(
@@ -1371,7 +1372,7 @@ class _ContractorEnquiryDetailsState
               width: 75,
               height: 75,
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF1F1),
+                color: AppTheme.surface(context, Color(0xFFFFF1F1)),
                 shape: BoxShape.circle,
               ),
               child: const Icon(

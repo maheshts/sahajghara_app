@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/helpers/CommonResponse.dart';
@@ -63,7 +64,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
           final EnquiryDetails details = data.data as EnquiryDetails;
 
           return Scaffold(
-            appBar: _buildAppBar1(details),
+            appBar: _buildAppBar1(context, details),
             bottomNavigationBar: _buildBottomBar(details),
             body: _buildBody(details),
           );
@@ -132,7 +133,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 label: Text(
                   "Add Quote",
                   style: TextStyle(
-                    color: AppColors.primary,
+                    color: AppTheme.accent(context, AppColors.primary),
                     fontSize: 14,
                   ),
                 ),
@@ -261,7 +262,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                   ),
                 ),
                 const Spacer(),
-                _buildStatusBadge(details.statusMessage),
+                _buildStatusBadge(context, details.statusMessage),
               ],
             ),
 
@@ -364,7 +365,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.18),
+                  color: AppTheme.surface(context, Colors.white).withOpacity(0.18),
                   borderRadius: BorderRadius.circular(14),
                 ),
                 child: const Icon(
@@ -492,7 +493,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
     return Container(
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F8FC),
+        color: AppTheme.surface(context, Color(0xFFF4F8FC)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -501,7 +502,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 
           Icon(
             icon,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
             size: 20,
           ),
 
@@ -511,7 +512,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
             title,
             style: TextStyle(
               fontSize: 10,
-              color: Colors.grey.shade600,
+              color: AppTheme.muted(context, Colors.grey.shade600),
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -522,9 +523,9 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
             value,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 13,
-              color: Color(0xFF172B4D),
+              color: AppTheme.foreground(context, Color(0xFF172B4D)),
               fontWeight: FontWeight.w800,
             ),
           ),
@@ -537,7 +538,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF8ED),
+        color: AppTheme.surface(context, Color(0xFFFFF8ED)),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -569,7 +570,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                   "Project Location",
                   style: TextStyle(
                     fontSize: 10,
-                    color: Colors.grey.shade600,
+                    color: AppTheme.muted(context, Colors.grey.shade600),
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -621,7 +622,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 showCustomer
                     ? Icons.person_rounded
                     : Icons.engineering_rounded,
-                color: AppColors.primary,
+                color: AppTheme.accent(context, AppColors.primary),
               ),
             ),
 
@@ -636,10 +637,10 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     name,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 15,
                       fontWeight: FontWeight.w800,
-                      color: Color(0xFF172B4D),
+                      color: AppTheme.foreground(context, Color(0xFF172B4D)),
                     ),
                   ),
 
@@ -649,7 +650,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     role,
                     style: TextStyle(
                       fontSize: 11,
-                      color: Colors.grey.shade600,
+                      color: AppTheme.muted(context, Colors.grey.shade600),
                     ),
                   ),
                 ],
@@ -675,7 +676,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFFF6F8FA),
+              color: AppTheme.surface(context, Color(0xFFF6F8FA)),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Row(
@@ -684,7 +685,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 Icon(
                   Icons.phone_outlined,
                   size: 17,
-                  color: Colors.grey.shade600,
+                  color: AppTheme.muted(context, Colors.grey.shade600),
                 ),
 
                 const SizedBox(width: 8),
@@ -714,7 +715,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
       width: double.infinity,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: const Color(0xFFE5EAF0),
@@ -743,7 +744,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 ),
                 child: Icon(
                   icon,
-                  color: AppColors.primary,
+                  color: AppTheme.accent(context, AppColors.primary),
                   size: 19,
                 ),
               ),
@@ -752,10 +753,10 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w800,
-                  color: Color(0xFF172B4D),
+                  color: AppTheme.foreground(context, Color(0xFF172B4D)),
                 ),
               ),
             ],
@@ -803,7 +804,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
       width: double.infinity,
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFFF7F9FC),
+        color: AppTheme.surface(context, Color(0xFFF7F9FC)),
         borderRadius: BorderRadius.circular(11),
       ),
       child: Row(
@@ -813,7 +814,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
           Icon(
             icon,
             size: 19,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
           ),
 
           const SizedBox(width: 9),
@@ -825,10 +826,10 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w800,
-                    color: Color(0xFF172B4D),
+                    color: AppTheme.foreground(context, Color(0xFF172B4D)),
                   ),
                 ),
 
@@ -838,7 +839,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                   comment,
                   style: TextStyle(
                     fontSize: 12,
-                    color: Colors.grey.shade700,
+                    color: AppTheme.muted(context, Colors.grey.shade700),
                     height: 1.4,
                   ),
                 ),
@@ -849,7 +850,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
       ),
     );
   }
-  Widget _buildStatusBadge(String? status) {
+  Widget _buildStatusBadge(BuildContext context, String? status) {
     final String value = (status ?? "Pending").toLowerCase();
 
     Color bgColor;
@@ -990,8 +991,8 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                 top: 20,
                 bottom: MediaQuery.of(context).viewInsets.bottom + 20,
               ),
-              decoration: const BoxDecoration(
-                color: Colors.white,
+              decoration: BoxDecoration(
+                color: AppTheme.surface(context, Colors.white),
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(24),
                 ),
@@ -1024,7 +1025,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
 
                         const SizedBox(width: 12),
 
-                        const Expanded(
+                        Expanded(
                           child: Column(
                             crossAxisAlignment:
                             CrossAxisAlignment.start,
@@ -1035,7 +1036,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w800,
-                                  color: Color(0xFF172B4D),
+                                  color: AppTheme.foreground(context, Color(0xFF172B4D)),
                                 ),
                               ),
 
@@ -1045,7 +1046,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                                 "Your feedback helps us improve",
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Colors.grey,
+                                  color: AppTheme.muted(context, Colors.grey),
                                 ),
                               ),
                             ],
@@ -1067,7 +1068,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     // RATING 1
                     // =====================================================
 
-                    _ratingBar(
+                    _ratingBar(context: context,
                       title: "Contractor Service",
                       subtitle: "How was the contractor service?",
                       rating: contractorRating,
@@ -1084,7 +1085,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     // RATING 2
                     // =====================================================
 
-                    _ratingBar(
+                    _ratingBar(context: context,
                       title: "Timely Completion",
                       subtitle: "Was your project complete in time?",
                       rating: serviceRating,
@@ -1101,7 +1102,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     // RATING 3
                     // =====================================================
 
-                    _ratingBar(
+                    _ratingBar(context: context,
                       title: "Overall Experience(Communication,Behaviour,Quality)",
                       subtitle: "How would you rate overall?",
                       rating: overallRating,
@@ -1118,12 +1119,12 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                     // COMMENT
                     // =====================================================
 
-                    const Text(
+                    Text(
                       "Comment",
                       style: TextStyle(
                         fontSize: 13,
                         fontWeight: FontWeight.w800,
-                        color: Color(0xFF172B4D),
+                        color: AppTheme.foreground(context, Color(0xFF172B4D)),
                       ),
                     ),
 
@@ -1139,7 +1140,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
                           color: Colors.grey.shade400,
                         ),
                         filled: true,
-                        fillColor: const Color(0xFFF6F8FA),
+                        fillColor: AppTheme.surface(context, Color(0xFFF6F8FA)),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
                           borderSide: BorderSide.none,
@@ -1350,7 +1351,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
         return AlertDialog(
           title: Text(
             "Add Quote",
-            style: nunitoItalic15.copyWith(color: AppColors.primary),
+            style: nunitoItalic15.copyWith(color: AppTheme.accent(context, AppColors.primary)),
           ),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -1385,7 +1386,7 @@ class _VendorEnquiryDetailsState extends ConsumerState<ContractorEnquiryDetails>
     );
   }
 }
-Widget _ratingBar({
+Widget _ratingBar({required BuildContext context,
   required String title,
   required String subtitle,
   required int rating,
@@ -1394,7 +1395,7 @@ Widget _ratingBar({
   return Container(
     padding: const EdgeInsets.all(13),
     decoration: BoxDecoration(
-      color: const Color(0xFFF7F9FC),
+      color: AppTheme.surface(context, Color(0xFFF7F9FC)),
       borderRadius: BorderRadius.circular(13),
       border: Border.all(
         color: const Color(0xFFE7EBF0),
@@ -1406,10 +1407,10 @@ Widget _ratingBar({
 
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             fontWeight: FontWeight.w800,
-            color: Color(0xFF172B4D),
+            color: AppTheme.foreground(context, Color(0xFF172B4D)),
           ),
         ),
 
@@ -1419,7 +1420,7 @@ Widget _ratingBar({
           subtitle,
           style: TextStyle(
             fontSize: 10,
-            color: Colors.grey.shade600,
+            color: AppTheme.muted(context, Colors.grey.shade600),
           ),
         ),
 
@@ -1452,21 +1453,21 @@ Widget _ratingBar({
     ),
   );
 }
-PreferredSizeWidget _buildAppBar1(EnquiryDetails details) {
+PreferredSizeWidget _buildAppBar1(BuildContext context, EnquiryDetails details) {
   return AppBar(
-    backgroundColor: Colors.white,
+    backgroundColor: AppTheme.surface(context, Colors.white),
     elevation: 0,
-    iconTheme: const IconThemeData(
-      color: Color(0xFF172B4D),
+    iconTheme: IconThemeData(
+      color: AppTheme.foreground(context, Color(0xFF172B4D)),
     ),
     titleSpacing: 0,
     title: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
+        Text(
           "Inquiry Details",
           style: TextStyle(
-            color: Color(0xFF172B4D),
+            color: AppTheme.foreground(context, Color(0xFF172B4D)),
             fontSize: 16,
             fontWeight: FontWeight.w800,
           ),
@@ -1474,7 +1475,7 @@ PreferredSizeWidget _buildAppBar1(EnquiryDetails details) {
         Text(
           "#${details.code ?? "-"}",
           style: TextStyle(
-            color: Colors.grey.shade500,
+            color: AppTheme.muted(context, Colors.grey.shade500),
             fontSize: 10,
             fontWeight: FontWeight.w600,
           ),
@@ -1527,14 +1528,14 @@ PreferredSizeWidget _buildAppBar1(EnquiryDetails details) {
     // ],
   );
 }
-Widget _buildStatusBadge(String? status) {
+Widget _buildStatusBadge(BuildContext context, String? status) {
   return Container(
     padding: const EdgeInsets.symmetric(
       horizontal: 12,
       vertical: 6,
     ),
     decoration: BoxDecoration(
-      color: Colors.orange.shade100,
+      color: AppTheme.surface(context, Colors.orange.shade100),
       borderRadius: BorderRadius.circular(20),
     ),
     child: Text(

@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -7,15 +8,15 @@ class DetailShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      highlightColor: Theme.of(context).colorScheme.surfaceContainerLow,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // 🔹 Banner image shimmer (SliverAppBar background)
           Text("Details",
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                    color: Colors.black,
+                    color: AppTheme.foreground(context, Colors.black),
                     fontWeight: FontWeight.bold,
                   )),
           Container(
@@ -31,7 +32,7 @@ class DetailShimmer extends StatelessWidget {
           const SizedBox(height: 8),
           Text("Details",
               style: Theme.of(context).textTheme.headlineLarge!.copyWith(
-                color: Colors.black,
+                color: AppTheme.foreground(context, Colors.black),
                 fontWeight: FontWeight.bold,
               )),
           // 🔹 Horizontal list of photos shimmer

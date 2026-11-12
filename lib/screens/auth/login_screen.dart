@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:animate_do/animate_do.dart';
 
 import 'package:flutter/cupertino.dart';
@@ -53,7 +54,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     return Scaffold(
       resizeToAvoidBottomInset: false,
-      backgroundColor: AppColors.white,
+      backgroundColor: AppTheme.surface(context, AppColors.white),
 
       body: SingleChildScrollView(
         child: Padding(
@@ -89,7 +90,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 style: GoogleFonts.anuphan(
                   fontSize: 28,
 
-                  color: Colors.black,
+                  color: AppTheme.foreground(context, Colors.black),
                 ),
               ),
               SizedBox(
@@ -115,7 +116,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       child: Container(
                         //padding: EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppTheme.surface(context, Colors.white),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Column(
@@ -131,10 +132,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 style: nunitoItalic15,
 
                                 decoration: InputDecoration(
-                                  fillColor: AppColors.txtBgColor,
+                                  fillColor: AppTheme.surface(context, AppColors.txtBgColor),
                                   hintText: "Enter mobile number", // Add hint text
                                   hintStyle: TextStyle(
-                                    color: Colors.grey, // Hint text color
+                                    color: AppTheme.muted(context, Colors.grey), // Hint text color
                                     fontSize: 15,
                                   ),
                                   enabledBorder: OutlineInputBorder(

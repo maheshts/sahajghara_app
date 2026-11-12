@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
@@ -42,7 +43,7 @@ class ThankYouScreen extends StatelessWidget {
               const SizedBox(height: 10),
                Text(
                 "Thank you for your inquiry. \n Our support team will reach out to you at the earliest.",
-                textAlign: TextAlign.center,style: nunitoItalic14.copyWith(color: AppColors.primary,fontWeight: FontWeight.w200),
+                textAlign: TextAlign.center,style: nunitoItalic14.copyWith(color: AppTheme.accent(context, AppColors.primary),fontWeight: FontWeight.w200),
               ),
               const SizedBox(height: 40),
               ElevatedButton(

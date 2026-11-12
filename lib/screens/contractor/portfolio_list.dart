@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/controllers/contractor_controler.dart';
@@ -110,8 +111,8 @@ class _PortfolioScreenState extends ConsumerState<PortfolioScreen> {
   }
   Widget _shimmerCard() {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      highlightColor: Theme.of(context).colorScheme.surfaceContainerLow,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -119,14 +120,14 @@ class _PortfolioScreenState extends ConsumerState<PortfolioScreen> {
             height: 150,
             width: double.infinity,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: AppTheme.surface(context, Colors.white),
               borderRadius: BorderRadius.circular(14),
             ),
           ),
           const SizedBox(height: 8),
-          Container(height: 12, width: 100, color: Colors.white),
+          Container(height: 12, width: 100, color: AppTheme.surface(context, Colors.white)),
           const SizedBox(height: 6),
-          Container(height: 10, width: 70, color: Colors.white),
+          Container(height: 10, width: 70, color: AppTheme.surface(context, Colors.white)),
         ],
       ),
     );
@@ -152,7 +153,7 @@ class _PortfolioScreenState extends ConsumerState<PortfolioScreen> {
               const Icon(Icons.broken_image, size: 40),
             )
                 : Container(
-              color: Colors.grey.shade300,
+              color: AppTheme.surface(context, Colors.grey.shade300),
               child: const Icon(Icons.image, size: 40),
             ),
           ),
@@ -171,7 +172,7 @@ class _PortfolioScreenState extends ConsumerState<PortfolioScreen> {
 
         Text(
           item.location ?? "",
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+          style: TextStyle(color: AppTheme.muted(context, Colors.grey.shade600), fontSize: 12),
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
         ),

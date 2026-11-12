@@ -1,3 +1,6 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
+import 'package:sahajghara/presentation/widgets/theme_setting.dart';
+import 'package:sahajghara/presentation/theme/theme_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
@@ -139,19 +142,19 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
               },
               icon: Icon(
                 Icons.handshake_outlined,
-                color: Colors.black87,
+                color: AppTheme.foreground(context, Colors.black87),
                 size: 18,
               ),
               label: Text(
                 "Partner with us",
                 style: nunitoItalic15.copyWith(
-                  color: Colors.black87,
+                  color: AppTheme.foreground(context, Colors.black87),
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
               ),
               style: TextButton.styleFrom(
-                backgroundColor: Colors.grey.shade100,
+                backgroundColor: AppTheme.surface(context, Colors.grey.shade100),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(18),
                 ),
@@ -169,16 +172,18 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
             children: [
               _profileCard(),
               const SizedBox(height: 16),
+              // _sectionCard(title: 'Appearance', items: [const ThemeSetting()]),
+              // const SizedBox(height: 16),
 
               if (requestContractor)
-                pendingRequestCard(
+                pendingRequestCard(context: context,
                   title: "Contractor verification pending",
                   message:
                       "Your contractor request is under verification. This usually takes 24–48 hours.",
                 ),
 
               if (requestVendor)
-                pendingRequestCard(
+                pendingRequestCard(context: context,
                   title: "Vendor verification pending",
                   message:
                       "Your vendor request is under verification. You will be notified once approved.",
@@ -265,7 +270,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
               SizedBox(height: 8),
               Text(
                 "App Versions: $_version",
-                style: nunitoItalic12White.copyWith(color: Colors.grey),
+                style: nunitoItalic12White.copyWith(color: AppTheme.muted(context, Colors.grey)),
               ),
             ],
           ),
@@ -291,7 +296,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 4),
-                Text("$phone", style: TextStyle(color: Colors.grey)),
+                Text("$phone", style: TextStyle(color: AppTheme.muted(context, Colors.grey))),
                 // SizedBox(height: 2),
                 // Text("+91 7735625005",
                 //     style: TextStyle(color: Colors.grey)),
@@ -344,16 +349,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreens> {
       leading: Icon(
         icon,
         size: 20,
-        color: isLogout || isDelete ? Colors.red : AppColors.primary,
+        color: isLogout || isDelete ? Colors.red : Theme.of(context).colorScheme.primary,
       ),
       title: Text(
         title,
         style: TextStyle(
-          color: isLogout || isDelete ? Colors.red : Colors.black87,
+          color: isLogout || isDelete ? Colors.red : Theme.of(context).colorScheme.onSurface,
           fontSize: 14,
         ),
       ),
-      trailing: const Icon(Icons.chevron_right, size: 18, color: Colors.grey),
+      trailing: Icon(Icons.chevron_right, size: 18, color: AppTheme.muted(context, Colors.grey)),
       onTap: () => _onItemTap(action),
     );
   }
@@ -430,7 +435,7 @@ https://play.google.com/store/apps/details?id=com.app.sahajghara
 
   BoxDecoration _cardDecoration() {
     return BoxDecoration(
-      color: Colors.white,
+      color: AppTheme.surface(context, Colors.white),
       borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(
@@ -516,7 +521,9 @@ Future<void> _logout(BuildContext context) async {
   SharedPreferences pref = await SharedPreferences.getInstance();
   // bool isLogin = pref.getBool(APIConstants.authenticated) ?? false;
   // Utills.customPrint('isLocation isLogin$isLogin');
-  pref.clear();
+  final savedTheme = pref.getString(themePreferenceKey);
+  await pref.clear();
+  if (savedTheme != null) await pref.setString(themePreferenceKey, savedTheme);
   ScaffoldMessenger.of(
     context,
   ).showSnackBar(SnackBar(content: Text("Logged out successfully")));
@@ -539,7 +546,7 @@ void showPartnerBottomSheet(
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
     ),
-    backgroundColor: Colors.white,
+    backgroundColor: AppTheme.surface(context, Colors.white),
     builder: (context) {
       return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
@@ -551,7 +558,7 @@ void showPartnerBottomSheet(
               height: 5,
               margin: EdgeInsets.only(bottom: 16),
               decoration: BoxDecoration(
-                color: Colors.grey.shade300,
+                color: AppTheme.surface(context, Colors.grey.shade300),
                 borderRadius: BorderRadius.circular(10),
               ),
             ),
@@ -560,13 +567,13 @@ void showPartnerBottomSheet(
               "Partner With Us",
               style: nunitoItalic16.copyWith(
                 fontWeight: FontWeight.bold,
-                color: AppColors.primaryDeep,
+                color: AppTheme.accent(context, AppColors.primaryDeep),
               ),
             ),
 
             SizedBox(height: 20),
 
-        enableVendor ?SizedBox(): _partnerOption(
+        enableVendor ?SizedBox(): _partnerOption(context: context,
               icon: Icons.store_mall_directory_outlined,
               title: "Vendor",
               onTap: () {
@@ -584,7 +591,7 @@ void showPartnerBottomSheet(
 
             SizedBox(height: 12),
 
-           enableContractor ?SizedBox(): _partnerOption(
+           enableContractor ?SizedBox(): _partnerOption(context: context,
               icon: Icons.handshake_outlined,
               title: "Contractor",
               onTap: () {
@@ -609,7 +616,7 @@ void showPartnerBottomSheet(
   );
 }
 
-Widget _partnerOption({
+Widget _partnerOption({required BuildContext context,
   required IconData icon,
   required String title,
   required VoidCallback onTap,
@@ -619,20 +626,20 @@ Widget _partnerOption({
     child: Container(
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
-        color: Colors.grey.shade100,
+        color: AppTheme.surface(context, Colors.grey.shade100),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: Colors.grey.shade300),
       ),
       child: Row(
         children: [
-          Icon(icon, color: AppColors.primaryDeep, size: 26),
+          Icon(icon, color: AppTheme.accent(context, AppColors.primaryDeep), size: 26),
           SizedBox(width: 14),
           Text(
             title,
-            style: nunitoItalic16.copyWith(color: AppColors.primaryDeep),
+            style: nunitoItalic16.copyWith(color: AppTheme.accent(context, AppColors.primaryDeep)),
           ),
           Spacer(),
-          Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+          Icon(Icons.arrow_forward_ios, size: 16, color: AppTheme.muted(context, Colors.grey)),
         ],
       ),
     ),
@@ -652,7 +659,7 @@ void showThankYouDialog(BuildContext context, String type) {
             children: [
               Icon(
                 Icons.check_circle_outline,
-                color: AppColors.primaryDeep,
+                color: AppTheme.accent(context, AppColors.primaryDeep),
                 size: 60,
               ),
 
@@ -662,7 +669,7 @@ void showThankYouDialog(BuildContext context, String type) {
                 "Thank You!",
                 style: nunitoItalic16.copyWith(
                   fontWeight: FontWeight.bold,
-                  color: AppColors.primaryDeep,
+                  color: AppTheme.accent(context, AppColors.primaryDeep),
                 ),
               ),
 
@@ -671,7 +678,7 @@ void showThankYouDialog(BuildContext context, String type) {
               Text(
                 "Thank you for your interest.\nOur team will connect with you shortly.",
                 textAlign: TextAlign.center,
-                style: nunitoItalic14.copyWith(color: Colors.black87),
+                style: nunitoItalic14.copyWith(color: AppTheme.foreground(context, Colors.black87)),
               ),
 
               SizedBox(height: 22),
@@ -700,7 +707,7 @@ void showThankYouDialog(BuildContext context, String type) {
   );
 }
 
-Widget pendingRequestCard({
+Widget pendingRequestCard({required BuildContext context,
   required String title,
   required String message,
   IconData icon = Icons.hourglass_top_rounded,
@@ -709,7 +716,7 @@ Widget pendingRequestCard({
     margin: const EdgeInsets.only(bottom: 16),
     padding: const EdgeInsets.all(14),
     decoration: BoxDecoration(
-      color: const Color(0xFFFFF7E6),
+      color: AppTheme.surface(context, Color(0xFFFFF7E6)),
       borderRadius: BorderRadius.circular(12),
       border: Border.all(color: const Color(0xFFFFD59A)),
       boxShadow: [
@@ -746,7 +753,7 @@ Widget pendingRequestCard({
               const SizedBox(height: 4),
               Text(
                 message,
-                style: TextStyle(color: Colors.grey.shade700, fontSize: 13),
+                style: TextStyle(color: AppTheme.muted(context, Colors.grey.shade700), fontSize: 13),
               ),
               const SizedBox(height: 8),
               GestureDetector(

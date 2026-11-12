@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../theme/app_colors.dart';
-import '../../theme/app_theme.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
@@ -14,7 +13,7 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ThemeData theme = AppTheme.run();
+    ThemeData theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h),
       alignment: Alignment.center,

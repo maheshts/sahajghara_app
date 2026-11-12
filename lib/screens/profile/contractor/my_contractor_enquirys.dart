@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/screens/profile/contractor/contractor_enquiry_details.dart';
@@ -34,16 +35,16 @@ class _VendorEnquirysState extends  ConsumerState<MyContractorEnquirys> {
     var enquiryWatch = ref.watch(listControllerProvider);
     final cinquiryList = enquiryWatch.contractorEnquiryList ?? [];
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F9),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF4F6F9)),
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "My Inquiry List",
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600,fontSize: 20),
+          style: TextStyle(color: AppTheme.foreground(context, Colors.black87), fontWeight: FontWeight.w600,fontSize: 20),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 1,
         //centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black87),
+        iconTheme: IconThemeData(color: AppTheme.foreground(context, Colors.black87)),
       ),
       body:enquiryWatch.contractorEnquiryStatus == ContractorEnquiryListStatus.loading?Center(child: CircularProgressIndicator()): RefreshIndicator(
         onRefresh: _refresh,
@@ -66,7 +67,7 @@ class _VendorEnquirysState extends  ConsumerState<MyContractorEnquirys> {
                   // Navigate to details page with item data
                  Navigator.push(context, MaterialPageRoute(builder: (_) => ContractorEnquiryDetails(inquiryId:  item.sId.toString(),isVendor: true,)));
                 },
-                child: _InquiryCard(item));
+                child: _InquiryCard(context, item));
           },
         ),
       ),
@@ -74,19 +75,19 @@ class _VendorEnquirysState extends  ConsumerState<MyContractorEnquirys> {
   }
 }
 
-Widget _InquiryCard(CList item) {
+Widget _InquiryCard(BuildContext context, CList item) {
   return Container(
     margin: EdgeInsets.symmetric(horizontal: 4, vertical: 8),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
+        colors: AppTheme.gradient(context, [
           Color(0xFFF3F8FF),
           Color(0xFFE4F0FF),
           Color(0xFFD7E9FF),
-        ],
+        ]),
       ),
       border: Border.all(
         color: const Color(0xFFD1E3F5),
@@ -124,7 +125,7 @@ Widget _InquiryCard(CList item) {
           SizedBox(height: 5),
           Text(
             "Posted On: ${item.createdAt}",
-            style: TextStyle(color: Colors.grey[600], fontSize: 12),
+            style: TextStyle(color: AppTheme.muted(context, Colors.grey.shade600), fontSize: 12),
           ),
         ],
       ),

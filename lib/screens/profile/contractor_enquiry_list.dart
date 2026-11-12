@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
@@ -36,16 +37,16 @@ class _ContractorEnquiryListState extends ConsumerState<ContractorEnquiryList> {
     var enquiryWatch = ref.watch(listControllerProvider);
    final cinquiryList = enquiryWatch.contractorEnquiryList ?? [];
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F9),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF4F6F9)),
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "Contractor Inquiry List",
-          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600,fontSize: 20),
+          style: TextStyle(color: AppTheme.foreground(context, Colors.black87), fontWeight: FontWeight.w600,fontSize: 20),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 1,
         //centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.black87),
+        iconTheme: IconThemeData(color: AppTheme.foreground(context, Colors.black87)),
       ),
       body:enquiryWatch.contractorEnquiryStatus == ContractorEnquiryListStatus.loading?Center(child: CircularProgressIndicator()): RefreshIndicator(
         onRefresh: _refresh,
@@ -83,14 +84,14 @@ Widget _InquiryCard(CList item, BuildContext context) {
   return Container(
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(16),
-      gradient: const LinearGradient(
+      gradient: LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
-        colors: [
+        colors: AppTheme.gradient(context, [
           Color(0xFFF3F8FF),
           Color(0xFFE4F0FF),
           Color(0xFFD7E9FF),
-        ],
+        ]),
       ),
       border: Border.all(
         color: const Color(0xFFD1E3F5),
@@ -141,7 +142,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                     ),
                     child: Icon(
                       Icons.home_work_rounded,
-                      color: AppColors.primary,
+                      color: AppTheme.accent(context, AppColors.primary),
                       size: 24,
                     ),
                   ),
@@ -160,7 +161,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                           style: nunitoItalic15.copyWith(
                             fontSize: 16,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF18324B),
+                            color: AppTheme.foreground(context, const Color(0xFF18324B)),
                           ),
                         ),
 
@@ -171,7 +172,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: Colors.grey.shade600,
+                            color: AppTheme.muted(context, Colors.grey.shade600),
                           ),
                         ),
                       ],
@@ -185,7 +186,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.75),
+                      color: AppTheme.surface(context, Colors.white).withOpacity(0.75),
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
                         color: const Color(0xFFD0E2F5),
@@ -196,7 +197,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                       style: TextStyle(
                         fontSize: 10,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.primary,
+                        color: AppTheme.accent(context, AppColors.primary),
                       ),
                     ),
                   ),
@@ -212,7 +213,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                 children: [
 
                   Expanded(
-                    child: _projectInfoBox(
+                    child: _projectInfoBox(context: context,
                       icon: Icons.category_outlined,
                       title: "Project Type",
                       value: item.projectType?.toString() ?? "-",
@@ -222,7 +223,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                   const SizedBox(width: 10),
 
                   Expanded(
-                    child: _projectInfoBox(
+                    child: _projectInfoBox(context: context,
                       icon: Icons.straighten_rounded,
                       title: "Project Size",
                       value: "${item.projectSize ?? "-"} Feet",
@@ -240,7 +241,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                 width: double.infinity,
                 padding: const EdgeInsets.all(11),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.65),
+                  color: AppTheme.surface(context, Colors.white).withOpacity(0.65),
                   borderRadius: BorderRadius.circular(11),
                   border: Border.all(
                     color: Colors.white.withOpacity(0.8),
@@ -254,7 +255,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                       width: 32,
                       height: 32,
                       decoration: BoxDecoration(
-                        color: const Color(0xFFFFF3E0),
+                        color: AppTheme.surface(context, Color(0xFFFFF3E0)),
                         borderRadius: BorderRadius.circular(9),
                       ),
                       child: const Icon(
@@ -275,7 +276,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                             "Project Location",
                             style: TextStyle(
                               fontSize: 10,
-                              color: Colors.grey.shade600,
+                              color: AppTheme.muted(context, Colors.grey.shade600),
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -310,7 +311,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                   Icon(
                     Icons.access_time_rounded,
                     size: 15,
-                    color: Colors.grey.shade600,
+                    color: AppTheme.muted(context, Colors.grey.shade600),
                   ),
 
                   const SizedBox(width: 5),
@@ -321,7 +322,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
-                        color: Colors.grey.shade600,
+                        color: AppTheme.muted(context, Colors.grey.shade600),
                         fontSize: 11,
                         fontWeight: FontWeight.w600,
                       ),
@@ -373,7 +374,7 @@ Widget _InquiryCard(CList item, BuildContext context) {
   );
 }
 
-Widget _projectInfoBox({
+Widget _projectInfoBox({required BuildContext context,
   required IconData icon,
   required String title,
   required String value,
@@ -384,7 +385,7 @@ Widget _projectInfoBox({
       vertical: 10,
     ),
     decoration: BoxDecoration(
-      color: Colors.white.withOpacity(0.65),
+      color: AppTheme.surface(context, Colors.white).withOpacity(0.65),
       borderRadius: BorderRadius.circular(11),
       border: Border.all(
         color: Colors.white.withOpacity(0.8),
@@ -404,7 +405,7 @@ Widget _projectInfoBox({
           child: Icon(
             icon,
             size: 16,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
           ),
         ),
 
@@ -421,7 +422,7 @@ Widget _projectInfoBox({
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 9,
-                  color: Colors.grey.shade600,
+                  color: AppTheme.muted(context, Colors.grey.shade600),
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -432,9 +433,9 @@ Widget _projectInfoBox({
                 value,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
-                  color: Color(0xFF18324B),
+                  color: AppTheme.foreground(context, Color(0xFF18324B)),
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -446,7 +447,7 @@ Widget _projectInfoBox({
   );
 }
 
-Widget _InquiryCard1(CList item) {
+Widget _InquiryCard1(BuildContext context, CList item) {
   return Card(
     elevation: 3,
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
@@ -465,7 +466,7 @@ Widget _InquiryCard1(CList item) {
             children: [
               Icon(Icons.engineering_rounded)
               ,
-              Text("${item.contractorName}-${item.contractorCode}",style: nunitoItalic15.copyWith(color: AppColors.primary)),
+              Text("${item.contractorName}-${item.contractorCode}",style: nunitoItalic15.copyWith(color: AppTheme.accent(context, AppColors.primary))),
             ],
           ),
           SizedBox(height: 8),
@@ -481,7 +482,7 @@ Widget _InquiryCard1(CList item) {
           SizedBox(height: 5),
           Text(
             "Posted On: ${item.createdAt}",
-            style: TextStyle(color: Colors.grey[600], fontSize: 12),
+            style: TextStyle(color: AppTheme.muted(context, Colors.grey.shade600), fontSize: 12),
           ),
         ],
       ),

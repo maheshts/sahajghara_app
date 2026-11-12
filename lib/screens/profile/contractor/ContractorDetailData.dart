@@ -26,9 +26,9 @@ class ContractorDetailData {
 
   ContractorDetailData.fromJson(Map<String, dynamic> json) {
     _result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    _hasError = json['HasError'];
-    _message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    _hasError = JsonHelper.toNullableBool(json['HasError']);
+    _message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -56,7 +56,7 @@ class Result {
 
   Result.fromJson(Map<String, dynamic> json) {
     _details =
-    json['details'] != null ? new Details.fromJson(json['details']) : null;
+    json['details'] is Map ? new Details.fromJson(json['details']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -312,74 +312,66 @@ class Details {
   set stats(Stats? stats) => _stats = stats;
 
   Details.fromJson(Map<String, dynamic> json) {
-    int? _parseInt(dynamic value) {
-      if (value == null) return null;
-      if (value is int) return value;
-      return int.tryParse(value.toString());
-    }
-
-    _sId = json['_id'];
-    _name = json['name'];
-    _companyName = json['company_name'];
-    _contractorCode = json['contractor_code'];
-    _experience = json['experience'];
-    _city = json['city'];
-    _grade = json['grade'];
-    _specializations = json['specializations'].cast<String>();
-    _profileUrl = json['profile_url'];
-    _coverUrl = json['cover_url'];
-    _bio = json['bio'];
-    _numberofproject = _parseInt(json['numberofproject']);
-    _ratingAvg = json['rating_avg'] == null
-        ? null
-        : double.tryParse(json['rating_avg'].toString());
-    _ratingCount = json['rating_count'];
-    _isActive = json['is_active'];
-    _verifications = json['verifications'] != null
+_sId = JsonHelper.toStringValue(json['_id']);
+    _name = JsonHelper.toStringValue(json['name']);
+    _companyName = JsonHelper.toStringValue(json['company_name']);
+    _contractorCode = JsonHelper.toStringValue(json['contractor_code']);
+    _experience = JsonHelper.toStringValue(json['experience']);
+    _city = JsonHelper.toStringValue(json['city']);
+    _grade = JsonHelper.toStringValue(json['grade']);
+    _specializations = JsonHelper.stringList(json['specializations']);
+    _profileUrl = JsonHelper.toStringValue(json['profile_url']);
+    _coverUrl = JsonHelper.toStringValue(json['cover_url']);
+    _bio = JsonHelper.toStringValue(json['bio']);
+    _numberofproject = JsonHelper.toInt(json['numberofproject']);
+    _ratingAvg = JsonHelper.toDouble(json['rating_avg']);
+    _ratingCount = JsonHelper.toInt(json['rating_count']);
+    _isActive = JsonHelper.toInt(json['is_active']);
+    _verifications = json['verifications'] is Map
         ? new Verifications.fromJson(json['verifications'])
         : null;
-    _phone = json['phone'];
-    _email = json['email'];
-    _alternateNumber = json['alternate_number'];
-    _addressDetails = json['address_details'];
-    _lat = json['lat']?.toString();
-    _long = json['long']?.toString();
-    _minProjectBudget =  _parseInt(json['min_project_budget']);
-    _maxProjectBudget = _parseInt(json['max_project_budget']);
+    _phone = JsonHelper.toStringValue(json['phone']);
+    _email = JsonHelper.toStringValue(json['email']);
+    _alternateNumber = JsonHelper.toStringValue(json['alternate_number']);
+    _addressDetails = JsonHelper.toStringValue(json['address_details']);
+    _lat = JsonHelper.toStringValue(json['lat']);
+    _long = JsonHelper.toStringValue(json['long']);
+    _minProjectBudget =  JsonHelper.toInt(json['min_project_budget']);
+    _maxProjectBudget = JsonHelper.toInt(json['max_project_budget']);
     if (json['pricing'] != null) {
       _pricing = <Pricing>[];
-      json['pricing'].forEach((v) {
+      JsonHelper.objectList(json['pricing']).forEach((v) {
         _pricing!.add(new Pricing.fromJson(v));
       });
     }
-    _ratingBreakdown = json['rating_breakdown'] != null
+    _ratingBreakdown = json['rating_breakdown'] is Map
         ? new RatingBreakdown.fromJson(json['rating_breakdown'])
         : null;
-    _ratingStars = json['rating_stars'] != null
+    _ratingStars = json['rating_stars'] is Map
         ? new RatingStars.fromJson(json['rating_stars'])
         : null;
     if (json['portfolioList'] != null) {
       _portfolioList = <PortfolioList>[];
-      json['portfolioList'].forEach((v) {
+      JsonHelper.objectList(json['portfolioList']).forEach((v) {
         _portfolioList!.add(new PortfolioList.fromJson(v));
       });
     }
-    _portfolioCounts = json['portfolio_counts'] != null
+    _portfolioCounts = json['portfolio_counts'] is Map
         ? new PortfolioCounts.fromJson(json['portfolio_counts'])
         : null;
     if (json['portfolio_photos'] != null) {
       _portfolioPhotos = <PortfolioPhotos>[];
-      json['portfolio_photos'].forEach((v) {
+      JsonHelper.objectList(json['portfolio_photos']).forEach((v) {
         _portfolioPhotos!.add(new PortfolioPhotos.fromJson(v));
       });
     }
     if (json['recent_reviews'] != null) {
       _recentReviews = <RecentReviews>[];
-      json['recent_reviews'].forEach((v) {
+      JsonHelper.objectList(json['recent_reviews']).forEach((v) {
         _recentReviews!.add(new RecentReviews.fromJson(v));
       });
     }
-    _stats = json['stats'] != null ? new Stats.fromJson(json['stats']) : null;
+    _stats = json['stats'] is Map ? new Stats.fromJson(json['stats']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -466,9 +458,9 @@ class Verifications {
   set bank(int? bank) => _bank = bank;
 
   Verifications.fromJson(Map<String, dynamic> json) {
-    _aadhaar = json['aadhaar'];
-    _gst = json['gst'];
-    _bank = json['bank'];
+    _aadhaar = JsonHelper.toInt(json['aadhaar']);
+    _gst = JsonHelper.toInt(json['gst']);
+    _bank = JsonHelper.toInt(json['bank']);
   }
 
   Map<String, dynamic> toJson() {
@@ -511,10 +503,10 @@ class Pricing {
   set unit(String? unit) => _unit = unit;
 
   Pricing.fromJson(Map<String, dynamic> json) {
-    _category = json['category'];
-    _min = json['min'];
-    _max = json['max'];
-    _unit = json['unit'];
+    _category = JsonHelper.toStringValue(json['category']);
+    _min = JsonHelper.toInt(json['min']);
+    _max = JsonHelper.toInt(json['max']);
+    _unit = JsonHelper.toStringValue(json['unit']);
   }
 
   Map<String, dynamic> toJson() {
@@ -556,9 +548,9 @@ class RatingBreakdown {
   set communication(double? communication) => _communication = communication;
 
   RatingBreakdown.fromJson(Map<String, dynamic> json) {
-    _qualityOfWork = json['quality_of_work'];
-    _timelyCompletion = json['timely_completion'];
-    _communication = json['communication'];
+    _qualityOfWork = JsonHelper.toDouble(json['quality_of_work']);
+    _timelyCompletion = JsonHelper.toDouble(json['timely_completion']);
+    _communication = JsonHelper.toDouble(json['communication']);
   }
 
   Map<String, dynamic> toJson() {
@@ -607,11 +599,11 @@ class RatingStars {
   set i5(int? i5) => _i5 = i5;
 
   RatingStars.fromJson(Map<String, dynamic> json) {
-    _i1 = json['1'];
-    _i2 = json['2'];
-    _i3 = json['3'];
-    _i4 = json['4'];
-    _i5 = json['5'];
+    _i1 = JsonHelper.toInt(json['1']);
+    _i2 = JsonHelper.toInt(json['2']);
+    _i3 = JsonHelper.toInt(json['3']);
+    _i4 = JsonHelper.toInt(json['4']);
+    _i5 = JsonHelper.toInt(json['5']);
   }
 
   Map<String, dynamic> toJson() {
@@ -723,28 +715,28 @@ class PortfolioList {
   set imageCount(int? imageCount) => _imageCount = imageCount;
 
   PortfolioList.fromJson(Map<String, dynamic> json) {
-    _sId = json['_id'];
-    _userId = json['user_id'];
-    _name = json['name'];
-    _title = json['title'];
-    _location = json['location'];
-    _description = json['description'];
-    _status = json['status'];
-    _completedOn = json['completed_on'];
+    _sId = JsonHelper.toStringValue(json['_id']);
+    _userId = JsonHelper.toStringValue(json['user_id']);
+    _name = JsonHelper.toStringValue(json['name']);
+    _title = JsonHelper.toStringValue(json['title']);
+    _location = JsonHelper.toStringValue(json['location']);
+    _description = JsonHelper.toStringValue(json['description']);
+    _status = JsonHelper.toStringValue(json['status']);
+    _completedOn = JsonHelper.toStringValue(json['completed_on']);
     if (json['imagepath'] != null) {
       _imagepath = <Imagepath>[];
-      json['imagepath'].forEach((v) {
+      JsonHelper.objectList(json['imagepath']).forEach((v) {
         _imagepath!.add(new Imagepath.fromJson(v));
       });
     }
-    _isSample = json['is_sample'];
-    _createdAt = json['createdAt'] != null
+    _isSample = JsonHelper.toNullableBool(json['is_sample']);
+    _createdAt = json['createdAt'] is Map
         ? new CreatedAt.fromJson(json['createdAt'])
         : null;
-    _updatedAt = json['updatedAt'] != null
+    _updatedAt = json['updatedAt'] is Map
         ? new CreatedAt.fromJson(json['updatedAt'])
         : null;
-    _imageCount = json['image_count'];
+    _imageCount = JsonHelper.toInt(json['image_count']);
   }
 
   Map<String, dynamic> toJson() {
@@ -791,8 +783,8 @@ class Imagepath {
   set cloudinaryId(String? cloudinaryId) => _cloudinaryId = cloudinaryId;
 
   Imagepath.fromJson(Map<String, dynamic> json) {
-    _profileUrl = json['profile_url'];
-    _cloudinaryId = json['cloudinary_id'];
+    _profileUrl = JsonHelper.toStringValue(json['profile_url']);
+    _cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
   }
 
   Map<String, dynamic> toJson() {
@@ -816,7 +808,7 @@ class CreatedAt {
   set date(Date? date) => _date = date;
 
   CreatedAt.fromJson(Map<String, dynamic> json) {
-    _date = json['$date'] != null ? new Date.fromJson(json['$date']) : null;
+    _date = json[r'$date'] is Map ? new Date.fromJson(json[r'$date']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -841,7 +833,7 @@ class Date {
   set numberLong(String? numberLong) => _numberLong = numberLong;
 
   Date.fromJson(Map<String, dynamic> json) {
-    _numberLong = json['$numberLong'];
+    _numberLong = JsonHelper.toStringValue(json[r'$numberLong']);
   }
 
   Map<String, dynamic> toJson() {
@@ -882,10 +874,10 @@ class PortfolioCounts {
   set photos(int? photos) => _photos = photos;
 
   PortfolioCounts.fromJson(Map<String, dynamic> json) {
-    _all = json['all'];
-    _completed = json['completed'];
-    _inprogress = json['inprogress'];
-    _photos = json['photos'];
+    _all = JsonHelper.toInt(json['all']);
+    _completed = JsonHelper.toInt(json['completed']);
+    _inprogress = JsonHelper.toInt(json['inprogress']);
+    _photos = JsonHelper.toInt(json['photos']);
   }
 
   Map<String, dynamic> toJson() {
@@ -917,8 +909,8 @@ class PortfolioPhotos {
   set title(String? title) => _title = title;
 
   PortfolioPhotos.fromJson(Map<String, dynamic> json) {
-    _url = json['url'];
-    _title = json['title'];
+    _url = JsonHelper.toStringValue(json['url']);
+    _title = JsonHelper.toStringValue(json['title']);
   }
 
   Map<String, dynamic> toJson() {
@@ -1000,15 +992,15 @@ class RecentReviews {
   set createdAt(String? createdAt) => _createdAt = createdAt;
 
   RecentReviews.fromJson(Map<String, dynamic> json) {
-    _sId = json['_id'];
-    _customerName = json['customer_name'];
-    _customerId = json['customer_id'];
-    _rating = json['rating'];
-    _qualityOfWork = json['quality_of_work'];
-    _timelyCompletion = json['timely_completion'];
-    _communication = json['communication'];
-    _comment = json['comment'];
-    _createdAt = json['createdAt'];
+    _sId = JsonHelper.toStringValue(json['_id']);
+    _customerName = JsonHelper.toStringValue(json['customer_name']);
+    _customerId = JsonHelper.toStringValue(json['customer_id']);
+    _rating = JsonHelper.toInt(json['rating']);
+    _qualityOfWork = JsonHelper.toInt(json['quality_of_work']);
+    _timelyCompletion = JsonHelper.toInt(json['timely_completion']);
+    _communication = JsonHelper.toInt(json['communication']);
+    _comment = JsonHelper.toStringValue(json['comment']);
+    _createdAt = JsonHelper.toStringValue(json['createdAt']);
   }
 
   Map<String, dynamic> toJson() {
@@ -1091,14 +1083,14 @@ class Stats {
   set responseLabel(String? responseLabel) => _responseLabel = responseLabel;
 
   Stats.fromJson(Map<String, dynamic> json) {
-    _projects = json['projects'];
-    _projectsCompleted = json['projects_completed'];
-    _projectsInprogress = json['projects_inprogress'];
-    _activeRequests = json['active_requests'];
-    _completed = json['completed'];
-    _totalRequests = json['total_requests'];
-    _responseHours = json['response_hours'];
-    _responseLabel = json['response_label'];
+    _projects = JsonHelper.toInt(json['projects']);
+    _projectsCompleted = JsonHelper.toInt(json['projects_completed']);
+    _projectsInprogress = JsonHelper.toInt(json['projects_inprogress']);
+    _activeRequests = JsonHelper.toInt(json['active_requests']);
+    _completed = JsonHelper.toInt(json['completed']);
+    _totalRequests = JsonHelper.toInt(json['total_requests']);
+    _responseHours = JsonHelper.toInt(json['response_hours']);
+    _responseLabel = JsonHelper.toStringValue(json['response_label']);
   }
 
   Map<String, dynamic> toJson() {

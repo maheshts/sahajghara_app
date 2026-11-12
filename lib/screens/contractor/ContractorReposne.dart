@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 import '../profile/contractor/ContractorDetailData.dart';
 
 class ContractorResponse {
@@ -9,9 +11,9 @@ class ContractorResponse {
 
   ContractorResponse.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -33,7 +35,7 @@ class Result {
   Result.fromJson(Map<String, dynamic> json) {
     if (json['contractorlist'] != null) {
       contractorlist = <Contractorlist>[];
-      json['contractorlist'].forEach((v) {
+      JsonHelper.objectList(json['contractorlist']).forEach((v) {
         contractorlist!.add(new Contractorlist.fromJson(v));
       });
     }
@@ -372,84 +374,70 @@ class Contractorlist {
 
   Contractorlist.fromJson(Map<String, dynamic> json) {
     // Helper function to safely parse integer fields
-    int? _parseInt(dynamic value) {
-      if (value == null) return null;
-      if (value is int) return value;
-      return int.tryParse(value.toString());
-    }
-
-    _sId = json['_id']?.toString();
-    _name = json['name']?.toString();
-    _companyName = json['company_name']?.toString();
-    _phone = json['phone']?.toString();
-    _email = json['email']?.toString();
-    _alternateNumber = json['alternate_number']?.toString();
-    _experience = json['experience']?.toString();
-    _grade = json['grade']?.toString();
-    _city = json['city']?.toString();
+_sId = JsonHelper.toStringValue(json['_id']);
+    _name = JsonHelper.toStringValue(json['name']);
+    _companyName = JsonHelper.toStringValue(json['company_name']);
+    _phone = JsonHelper.toStringValue(json['phone']);
+    _email = JsonHelper.toStringValue(json['email']);
+    _alternateNumber = JsonHelper.toStringValue(json['alternate_number']);
+    _experience = JsonHelper.toStringValue(json['experience']);
+    _grade = JsonHelper.toStringValue(json['grade']);
+    _city = JsonHelper.toStringValue(json['city']);
 
     // Safely handled int fields
-    numberofproject = _parseInt(json['numberofproject']);
-    _minProjectBudget = _parseInt(json['min_project_budget']);
-    _maxProjectBudget = _parseInt(json['max_project_budget']);
-    _aadhaarVerified = _parseInt(json['aadhaar_verified']);
-    _gstVerified = _parseInt(json['gst_verified']);
-    _bankVerified = _parseInt(json['bank_verified']);
-    _enableContractor = _parseInt(json['enable_contractor']);
-    _enableVendor = _parseInt(json['enable_vendor']);
-    _isActive = _parseInt(json['is_active']);
+    numberofproject = JsonHelper.toInt(json['numberofproject']);
+    _minProjectBudget = JsonHelper.toInt(json['min_project_budget']);
+    _maxProjectBudget = JsonHelper.toInt(json['max_project_budget']);
+    _aadhaarVerified = JsonHelper.toInt(json['aadhaar_verified']);
+    _gstVerified = JsonHelper.toInt(json['gst_verified']);
+    _bankVerified = JsonHelper.toInt(json['bank_verified']);
+    _enableContractor = JsonHelper.toInt(json['enable_contractor']);
+    _enableVendor = JsonHelper.toInt(json['enable_vendor']);
+    _isActive = JsonHelper.toInt(json['is_active']);
 
-    _addressDetails = json['address_details']?.toString();
-    _lat = json['lat']?.toString();
-    _long = json['long']?.toString();
+    _addressDetails = JsonHelper.toStringValue(json['address_details']);
+    _lat = JsonHelper.toStringValue(json['lat']);
+    _long = JsonHelper.toStringValue(json['long']);
 
     // Safe handling for string lists to prevent crashes if key is null
     if (json['specializations'] != null) {
-      _specializations = List<String>.from(json['specializations'].map((x) => x.toString()));
+      _specializations = JsonHelper.stringList(json['specializations']);
     } else {
       _specializations = null;
     }
 
-    _bio = json['bio']?.toString();
-    _type = json['type']?.toString();
-    _contractorCode = json['contractor_code']?.toString();
-    _password = json['password']?.toString();
-    _locale = json['locale']?.toString();
+    _bio = JsonHelper.toStringValue(json['bio']);
+    _type = JsonHelper.toStringValue(json['type']);
+    _contractorCode = JsonHelper.toStringValue(json['contractor_code']);
+    _password = JsonHelper.toStringValue(json['password']);
+    _locale = JsonHelper.toStringValue(json['locale']);
 
     // Safely parse boolean field
-    if (json['is_sample'] is bool) {
-      _isSample = json['is_sample'];
-    } else if (json['is_sample'] != null) {
-      _isSample = json['is_sample'].toString().toLowerCase() == 'true';
-    } else {
-      _isSample = null;
-    }
+    _isSample = JsonHelper.toNullableBool(json['is_sample']);
 
-    _cloudinaryId = json['cloudinary_id']?.toString();
-    _coverCloudinaryId = json['cover_cloudinary_id']?.toString();
-    _coverUrl = json['cover_url']?.toString();
-    _profileUrl = json['profile_url']?.toString();
+    _cloudinaryId = JsonHelper.toStringValue(json['cloudinary_id']);
+    _coverCloudinaryId = JsonHelper.toStringValue(json['cover_cloudinary_id']);
+    _coverUrl = JsonHelper.toStringValue(json['cover_url']);
+    _profileUrl = JsonHelper.toStringValue(json['profile_url']);
 
     // Safely parse double field
-    _ratingAvg = json['rating_avg'] == null
-        ? null
-        : double.tryParse(json['rating_avg'].toString());
+    _ratingAvg = JsonHelper.toDouble(json['rating_avg']);
 
-    _ratingCount = _parseInt(json['rating_count']);
+    _ratingCount = JsonHelper.toInt(json['rating_count']);
 
     if (json['portfolioList'] != null) {
       _portfolioList = <PortfolioList>[];
-      json['portfolioList'].forEach((v) {
+      JsonHelper.objectList(json['portfolioList']).forEach((v) {
         _portfolioList!.add(new PortfolioList.fromJson(v));
       });
     }
-    _remark = json['remark']?.toString();
-    _requestContractor = json['request_contractor']?.toString();
-    _vendorCode = json['vendor_code']?.toString();
-    _requestVendor = _parseInt(json['request_vendor']);
+    _remark = JsonHelper.toStringValue(json['remark']);
+    _requestContractor = JsonHelper.toStringValue(json['request_contractor']);
+    _vendorCode = JsonHelper.toStringValue(json['vendor_code']);
+    _requestVendor = JsonHelper.toInt(json['request_vendor']);
 
-    _fcmToken = json['fcm_token']?.toString();
-    _fcmTokenUpdateAt = json['fcm_token_update_at']?.toString();
+    _fcmToken = JsonHelper.toStringValue(json['fcm_token']);
+    _fcmTokenUpdateAt = JsonHelper.toStringValue(json['fcm_token_update_at']);
   }
 
   Map<String, dynamic> toJson() {

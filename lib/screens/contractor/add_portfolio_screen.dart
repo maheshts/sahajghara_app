@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -103,13 +104,13 @@ class _AddPortfolioScreenState extends ConsumerState<AddPortfolioScreen> {
             children: [
               _inputField("Project name", nameController),
               const SizedBox(height: 10),
-        
+
               _inputField("Project area", areaController),
               const SizedBox(height: 10),
 
               _inputField("Description", descriptionController),
               const SizedBox(height: 10),
-        
+
               // Add more photos button
               Align(
                 alignment: Alignment.centerRight,
@@ -133,14 +134,14 @@ class _AddPortfolioScreenState extends ConsumerState<AddPortfolioScreen> {
               //     child:  Text("Add photos",style: nunitoItalic14White,),
               //   ),
               // ),
-        
+
               const SizedBox(height: 12),
-        
+
               // Image preview grid
               if (selectedImages.isNotEmpty) _imagePreview(),
-        
+
               const Spacer(),
-        
+
               // Save button
               SizedBox(
                 width: double.infinity,
@@ -172,7 +173,7 @@ class _AddPortfolioScreenState extends ConsumerState<AddPortfolioScreen> {
       decoration: InputDecoration(
         hintText: hint,
         filled: true,
-        fillColor: Colors.grey.shade100,
+        fillColor: AppTheme.surface(context, Colors.grey.shade100),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

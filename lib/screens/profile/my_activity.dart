@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:sahajghara/presentation/theme/app_colors.dart';
@@ -33,20 +34,20 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
     final inquiryList = enquiryWatch.enquiryList;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF4F6F9),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF4F6F9)),
 
       appBar: AppBar(
-        title: const Text(
+        title: Text(
           "My Orders",
           style: TextStyle(
-            color: Colors.black87,
+            color: AppTheme.foreground(context, Colors.black87),
             fontWeight: FontWeight.w600,
           ),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 3,
-        iconTheme: const IconThemeData(
-          color: Colors.black87,
+        iconTheme: IconThemeData(
+          color: AppTheme.foreground(context, Colors.black87),
         ),
       ),
 
@@ -183,7 +184,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
 
                       child: Icon(
                         Icons.receipt_long_rounded,
-                        color: AppColors.primary,
+                        color: AppTheme.accent(context, AppColors.primary),
                         size: 24,
                       ),
                     ),
@@ -211,7 +212,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                               fontWeight:
                               FontWeight.w800,
                               color:
-                              Colors.black87,
+                              AppTheme.foreground(context, Colors.black87),
                             ),
                           ),
 
@@ -223,7 +224,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                             style:
                             nunitoItalic12White.copyWith(
                               color:
-                              AppColors.primary,
+                              AppTheme.accent(context, AppColors.primary),
                               fontSize: 12,
                               fontWeight:
                               FontWeight.w700,
@@ -322,7 +323,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                   ),
 
                   decoration: BoxDecoration(
-                    color: Colors.white
+                    color: AppTheme.surface(context, Colors.white)
                         .withOpacity(0.65),
 
                     borderRadius:
@@ -339,7 +340,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                             .location_on_outlined,
                         size: 18,
                         color:
-                        Colors.grey.shade600,
+                        AppTheme.muted(context, Colors.grey.shade600),
                       ),
 
                       const SizedBox(width: 7),
@@ -374,10 +375,10 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                               TextOverflow.ellipsis,
 
                               style:
-                              const TextStyle(
+                              TextStyle(
                                 fontSize: 12,
                                 color:
-                                Colors.black87,
+                                AppTheme.foreground(context, Colors.black87),
                                 fontWeight:
                                 FontWeight.w600,
                               ),
@@ -408,7 +409,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                         fontWeight:
                         FontWeight.w700,
                         color:
-                        AppColors.primary,
+                        AppTheme.accent(context, AppColors.primary),
                       ),
                     ),
 
@@ -419,7 +420,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                           .arrow_forward_rounded,
                       size: 16,
                       color:
-                      AppColors.primary,
+                      AppTheme.accent(context, AppColors.primary),
                     ),
                   ],
                 ),
@@ -582,7 +583,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
       ),
 
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.65),
+        color: AppTheme.surface(context, Colors.white).withOpacity(0.65),
         borderRadius:
         BorderRadius.circular(10),
       ),
@@ -595,7 +596,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
           Icon(
             icon,
             size: 17,
-            color: AppColors.primary,
+            color: AppTheme.accent(context, AppColors.primary),
           ),
 
           const SizedBox(width: 7),
@@ -617,7 +618,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                   style: TextStyle(
                     fontSize: 10,
                     color:
-                    Colors.grey.shade500,
+                    AppTheme.muted(context, Colors.grey.shade500),
                     fontWeight:
                     FontWeight.w600,
                   ),
@@ -635,9 +636,9 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
                   overflow:
                   TextOverflow.ellipsis,
 
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 12,
-                    color: Colors.black87,
+                    color: AppTheme.foreground(context, Colors.black87),
                     fontWeight:
                     FontWeight.w700,
                   ),
@@ -878,13 +879,13 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
 
             const SizedBox(height: 8),
 
-            const Text(
+            Text(
               "Please check your internet connection and try again.",
               textAlign:
               TextAlign.center,
               style: TextStyle(
                 fontSize: 14,
-                color: Colors.grey,
+                color: AppTheme.muted(context, Colors.grey),
               ),
             ),
 
@@ -948,10 +949,10 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
           (context, index) {
         return Shimmer.fromColors(
           baseColor:
-          Colors.grey.shade300,
+          Theme.of(context).colorScheme.surfaceContainerHighest,
 
           highlightColor:
-          Colors.grey.shade100,
+          Theme.of(context).colorScheme.surfaceContainerLow,
 
           child: Container(
             height: 280,
@@ -963,7 +964,7 @@ class _InquiryListScreenState extends ConsumerState<MyActivity> {
 
             decoration:
             BoxDecoration(
-              color: Colors.white,
+              color: AppTheme.surface(context, Colors.white),
 
               borderRadius:
               BorderRadius.circular(16),

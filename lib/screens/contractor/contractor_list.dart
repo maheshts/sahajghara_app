@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -42,10 +43,10 @@ class _ContractorListScreenState
     final contractors = bookingWatch.contractorlist ?? [];
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 0,
         centerTitle: true,
 
@@ -88,7 +89,7 @@ class _ContractorListScreenState
                     itemBuilder: (context, index) {
             final Contractorlist contractor =
             contractors[index];
-            
+
             return _contractorCard(
               context,
               contractor,
@@ -140,7 +141,7 @@ class _ContractorListScreenState
       margin: const EdgeInsets.only(bottom: 14),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(18),
 
         border: Border.all(
@@ -281,7 +282,7 @@ class _ContractorListScreenState
                   ),
 
                   decoration: BoxDecoration(
-                    color: const Color(0xFFF6F8FB),
+                    color: AppTheme.surface(context, Color(0xFFF6F8FB)),
                     borderRadius: BorderRadius.circular(10),
                   ),
 
@@ -334,7 +335,7 @@ class _ContractorListScreenState
                     Container(
                       width: 1,
                       height: 40,
-                      color: const Color(0xFFE5E8ED),
+                      color: AppTheme.surface(context, Color(0xFFE5E8ED)),
                     ),
 
                     Expanded(
@@ -360,11 +361,11 @@ class _ContractorListScreenState
                   padding: const EdgeInsets.all(12),
 
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [
+                    gradient: LinearGradient(
+                      colors: AppTheme.gradient(context, [
                         Color(0xFFF1F7FF),
                         Color(0xFFE8F2FF),
-                      ],
+                      ]),
                     ),
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
@@ -380,7 +381,7 @@ class _ContractorListScreenState
                         height: 38,
 
                         decoration: BoxDecoration(
-                          color: Colors.white,
+                          color: AppTheme.surface(context, Colors.white),
                           borderRadius:
                           BorderRadius.circular(10),
                         ),
@@ -575,7 +576,7 @@ class _ContractorListScreenState
       ),
 
       child: CircleAvatar(
-        backgroundColor: const Color(0xFFEAF2FA),
+        backgroundColor: AppTheme.surface(context, Color(0xFFEAF2FA)),
 
         backgroundImage:
         hasImage
@@ -605,7 +606,7 @@ class _ContractorListScreenState
       ),
 
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF4DD),
+        color: AppTheme.surface(context, Color(0xFFFFF4DD)),
         borderRadius: BorderRadius.circular(20),
       ),
 
@@ -732,7 +733,7 @@ class _ContractorListScreenState
               height: 90,
 
               decoration: BoxDecoration(
-                color: const Color(0xFFEAF2FA),
+                color: AppTheme.surface(context, Color(0xFFEAF2FA)),
                 shape: BoxShape.circle,
               ),
 

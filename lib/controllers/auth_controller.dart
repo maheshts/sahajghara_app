@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/theme_controller.dart';
 
 import 'dart:convert';
 
@@ -459,7 +460,9 @@ class AuthController extends ChangeNotifier {
   logOut(context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
+    final savedTheme = prefs.getString(themePreferenceKey);
     await prefs.clear();
+    if (savedTheme != null) await prefs.setString(themePreferenceKey, savedTheme);
 
    // Navigation.removeAll(context, const LoginPage());
   }

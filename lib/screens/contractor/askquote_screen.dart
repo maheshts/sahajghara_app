@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -67,7 +68,7 @@ class _AskquoteScreenState extends ConsumerState<AskquoteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF5F6FA)),
       appBar: AppBar(title: const Text("Inquiry Form")),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -161,10 +162,10 @@ class _AskquoteScreenState extends ConsumerState<AskquoteScreen> {
   Widget selectType(){
     return DropdownButtonFormField<String>(
       value: selectedType,
-      hint: const Text(
+      hint: Text(
         "Select Type",
         style: TextStyle(
-          color: Colors.grey,
+          color: AppTheme.muted(context, Colors.grey),
           fontSize: 14,
         ),
       ),
@@ -192,7 +193,7 @@ class _AskquoteScreenState extends ConsumerState<AskquoteScreen> {
         ),
         contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         filled: true,
-        fillColor: Colors.white,
+        fillColor: AppTheme.surface(context, Colors.white),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: const BorderSide(color: Color(0xFFE0E0E0), width: 1),

@@ -1,3 +1,5 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
+
 class EnquiryResponse {
   Result? result;
   bool? hasError;
@@ -7,9 +9,9 @@ class EnquiryResponse {
 
   EnquiryResponse.fromJson(Map<String, dynamic> json) {
     result =
-    json['result'] != null ? new Result.fromJson(json['result']) : null;
-    hasError = json['HasError'];
-    message = json['Message'];
+    json['result'] is Map ? new Result.fromJson(json['result']) : null;
+    hasError = JsonHelper.toNullableBool(json['HasError']);
+    message = JsonHelper.toStringValue(json['Message']);
   }
 
   Map<String, dynamic> toJson() {
@@ -29,7 +31,7 @@ class Result {
   Result({this.code});
 
   Result.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
+    code = JsonHelper.toInt(json['code']);
   }
 
   Map<String, dynamic> toJson() {

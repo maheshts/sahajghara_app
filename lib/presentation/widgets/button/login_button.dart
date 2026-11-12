@@ -10,7 +10,7 @@ class LoginButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   // ThemeData theme = AppTheme.run();
+   // ThemeData theme = Theme.of(context);
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
 

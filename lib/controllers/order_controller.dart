@@ -1,3 +1,4 @@
+import 'package:sahajghara/screens/utils/JsonHelper.dart';
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
@@ -77,18 +78,21 @@ class OrderController extends ChangeNotifier {
 
       Utills.customPrint('Order api  response: ${response}');
       // orderNumber = response['order_id'];
-      final decodedResponse = jsonDecode(response);
+      final decodedResponse = JsonHelper.toMap(response);
       print(decodedResponse);
       print(decodedResponse['result']);
       print(decodedResponse['result']['paymentdetails']);
 
-      orderNumber = decodedResponse['result']['paymentdetails']['order_id'];
+      orderNumber = JsonHelper.toStringValue(decodedResponse['result']['paymentdetails']['order_id']) ?? '';
     //  accessCode = response['accessCode'];
      // encRequest = response['encRequest'];
      // successUrl = response['succesurl'];
       //cancelUrl = response['cancelurl'];
       //PgType = response['pgType'];
-      rzKey =  decodedResponse['result']['paymentdetails']['key'];
+      rzKey = JsonHelper.toStringValue(decodedResponse['result']['paymentdetails']['key']) ?? '';
+      if (orderNumber.isEmpty || rzKey.isEmpty) {
+        throw const FormatException('Missing payment order ID or key');
+      }
       //
       Utills.customPrint('Home rzKey  $rzKey');
       Utills.customPrint('Home orderNumber  $orderNumber');
@@ -164,12 +168,12 @@ class OrderController extends ChangeNotifier {
 
       paymentStatus = PaymentConfirmStatus.loaded;
       notifyListeners();
-      final decodedResponse = jsonDecode(response);
+      final decodedResponse = JsonHelper.toMap(response);
       print("decodedResponse $decodedResponse");
       if(decodedResponse['HasError'] == false) {
         return CommonResponse(
           isSuccess: true,
-          message: decodedResponse['ErrorMessage'] ?? "Payment success",
+          message: JsonHelper.toStringValue(decodedResponse['ErrorMessage']) ?? "Payment success",
         );
       }else{
 

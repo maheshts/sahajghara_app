@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -5,8 +6,8 @@ class DummyShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: Colors.grey.shade300,
-      highlightColor: Colors.grey.shade100,
+      baseColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+      highlightColor: Theme.of(context).colorScheme.surfaceContainerLow,
       child: ListView.builder(
         itemCount: 5,
         padding: EdgeInsets.all(16),
@@ -18,7 +19,7 @@ class DummyShimmer extends StatelessWidget {
                 width: 64,
                 height: 64,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppTheme.surface(context, Colors.white),
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
@@ -30,13 +31,13 @@ class DummyShimmer extends StatelessWidget {
                     Container(
                       width: double.infinity,
                       height: 14,
-                      color: Colors.white,
+                      color: AppTheme.surface(context, Colors.white),
                     ),
                     SizedBox(height: 8),
                     Container(
                       width: 150,
                       height: 14,
-                      color: Colors.white,
+                      color: AppTheme.surface(context, Colors.white),
                     ),
                   ],
                 ),

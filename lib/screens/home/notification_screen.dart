@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -36,7 +37,7 @@ class _NotificationScreenState
     ref.watch(notificationControllerProvider);
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
       // =========================================================
       // APP BAR
@@ -64,7 +65,7 @@ class _NotificationScreenState
           ? _buildLoadingState()
           : notificationState.notifications.isNotEmpty
           ? RefreshIndicator(
-        color: AppColors.primary,
+        color: AppTheme.accent(context, AppColors.primary),
         onRefresh: () async {
           await ref
               .read(notificationControllerProvider)
@@ -435,10 +436,10 @@ class _NotificationScreenState
           height: 115,
           margin: const EdgeInsets.only(bottom: 12),
           decoration: BoxDecoration(
-            color: Colors.white,
+            color: AppTheme.surface(context, Colors.white),
             borderRadius: BorderRadius.circular(18),
           ),
-          child: const Padding(
+          child: Padding(
             padding: EdgeInsets.all(14),
             child: Row(
               children: [
@@ -447,7 +448,7 @@ class _NotificationScreenState
                   width: 48,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
-                      color: Color(0xFFE9EDF2),
+                      color: AppTheme.surface(context, Color(0xFFE9EDF2)),
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -465,7 +466,7 @@ class _NotificationScreenState
                         width: 180,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: Color(0xFFE9EDF2),
+                            color: AppTheme.surface(context, Color(0xFFE9EDF2)),
                             borderRadius:
                             BorderRadius.all(
                               Radius.circular(5),
@@ -479,7 +480,7 @@ class _NotificationScreenState
                         width: double.infinity,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: Color(0xFFE9EDF2),
+                            color: AppTheme.surface(context, Color(0xFFE9EDF2)),
                             borderRadius:
                             BorderRadius.all(
                               Radius.circular(5),
@@ -493,7 +494,7 @@ class _NotificationScreenState
                         width: 120,
                         child: DecoratedBox(
                           decoration: BoxDecoration(
-                            color: Color(0xFFE9EDF2),
+                            color: AppTheme.surface(context, Color(0xFFE9EDF2)),
                             borderRadius:
                             BorderRadius.all(
                               Radius.circular(5),

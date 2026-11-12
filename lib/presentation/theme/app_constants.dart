@@ -12,32 +12,26 @@ Color kBottomBarColor = const Color(0xff121212);
 TextStyle nunitoRegular12 = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w400,
-  color: kTextColor,
-
 );
 TextStyle nunitoItalic14 = GoogleFonts.anuphan(
   fontSize: 14,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w700,
-  color: AppColors.txtColor,
 );
 TextStyle nunitoItalic15 = GoogleFonts.anuphan(
   fontSize: 15,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w700,
-  color: Colors.black,
 );
 TextStyle nunitoItalic16 = GoogleFonts.anuphan(
   fontSize: 16,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w800,
-  color: AppColors.primary,
 );
 TextStyle nunitoItalic13 = GoogleFonts.anuphan(
   fontSize: 14,
   fontStyle: FontStyle.normal,
   fontWeight: FontWeight.w500,
-  color: Colors.black87,
 );
 TextStyle nunitoItalic12White = GoogleFonts.anuphan(
   fontSize: 12,
@@ -55,26 +49,21 @@ TextStyle nunito14 = TextStyle(
   fontSize: 14,
 
   fontWeight: FontWeight.w400,
-  color: kTextColor,
 );
 TextStyle nunito16 = TextStyle(
   fontSize: 16,
   fontWeight: FontWeight.w400,
-  color: kTextColor,
 );
 TextStyle nunito15 = TextStyle(
   fontSize: 15,
   fontWeight: FontWeight.w300,
-  color: kTextColor,
 );
 TextStyle nunito8 = TextStyle(
   fontSize: 8,
   fontWeight: FontWeight.w600,
-  color: kTextColor,
 );
 TextStyle nunito10 = TextStyle(
   fontSize: 10,
   fontWeight: FontWeight.w600,
-  color: kTextColor,
 );
 

@@ -20,7 +20,7 @@ class NotificationBadgeIcon extends ConsumerWidget {
     return Stack(
       children: [
         IconButton(
-          icon: const Icon(
+          icon: Icon(
             Icons.notifications,
             color: Colors.white,
             size: 18,

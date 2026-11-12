@@ -1,3 +1,4 @@
+import 'package:sahajghara/presentation/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -37,10 +38,10 @@ class _ContractordetailscreenState
     Details? contractor = contractorWatch.contractorDetail;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F7FA),
+      backgroundColor: AppTheme.surface(context, Color(0xFFF5F7FA)),
 
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppTheme.surface(context, Colors.white),
         elevation: 0,
         centerTitle: true,
 
@@ -254,7 +255,7 @@ class _ContractordetailscreenState
       width: double.infinity,
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(18),
 
         boxShadow: [
@@ -311,7 +312,7 @@ class _ContractordetailscreenState
                         height: 130,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: Colors.white
+                          color: AppTheme.surface(context, Colors.white)
                               .withOpacity(0.07),
                         ),
                       ),
@@ -372,7 +373,7 @@ class _ContractordetailscreenState
 
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.white,
+                    color: AppTheme.surface(context, Colors.white),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(0.15),
@@ -383,7 +384,7 @@ class _ContractordetailscreenState
 
                   child: CircleAvatar(
                     backgroundColor:
-                    const Color(0xFFEAF2FA),
+                    AppTheme.surface(context, Color(0xFFEAF2FA)),
 
                     backgroundImage:
                     profileUrl.isNotEmpty
@@ -582,7 +583,7 @@ class _ContractordetailscreenState
       ),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
           color: const Color(0xFFE6EAF0),
@@ -666,7 +667,7 @@ class _ContractordetailscreenState
     return Container(
       width: 1,
       height: 45,
-      color: const Color(0xFFE5E8ED),
+      color: AppTheme.surface(context, Color(0xFFE5E8ED)),
     );
   }
 
@@ -692,7 +693,7 @@ class _ContractordetailscreenState
             ),
 
             decoration: BoxDecoration(
-              color: const Color(0xFFF1F6FC),
+              color: AppTheme.surface(context, Color(0xFFF1F6FC)),
               borderRadius:
               BorderRadius.circular(20),
               border: Border.all(
@@ -811,7 +812,7 @@ class _ContractordetailscreenState
                     borderRadius:
                     BorderRadius.circular(12),
                     color:
-                    const Color(0xFFF2F4F7),
+                    AppTheme.surface(context, Color(0xFFF2F4F7)),
                   ),
 
                   clipBehavior:
@@ -916,7 +917,7 @@ class _ContractordetailscreenState
 
   Widget _portfolioPlaceholder() {
     return Container(
-      color: const Color(0xFFEAF2FA),
+      color: AppTheme.surface(context, Color(0xFFEAF2FA)),
 
       child: const Icon(
         Icons.home_work_rounded,
@@ -949,7 +950,7 @@ class _ContractordetailscreenState
           width: double.infinity,
           padding: const EdgeInsets.all(14),
           decoration: BoxDecoration(
-            color: const Color(0xFFFFF8ED),
+            color: AppTheme.surface(context, Color(0xFFFFF8ED)),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
               color: const Color(0xFFFFE2B5),
@@ -961,7 +962,7 @@ class _ContractordetailscreenState
                 width: 42,
                 height: 42,
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: AppTheme.surface(context, Colors.white),
                   borderRadius: BorderRadius.circular(11),
                 ),
                 child: const Icon(
@@ -1036,7 +1037,7 @@ class _ContractordetailscreenState
               width: 230,
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFFFFF8ED),
+                color: AppTheme.surface(context, Color(0xFFFFF8ED)),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(
                   color: const Color(0xFFFFE2B5),
@@ -1048,7 +1049,7 @@ class _ContractordetailscreenState
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      color: AppTheme.surface(context, Colors.white),
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: const Icon(
@@ -1212,7 +1213,7 @@ class _ContractordetailscreenState
             value: value,
             minHeight: 7,
             backgroundColor:
-            const Color(0xFFE9EDF2),
+            AppTheme.surface(context, Color(0xFFE9EDF2)),
             valueColor:
             const AlwaysStoppedAnimation<Color>(
               Color(0xFFE88900),
@@ -1258,7 +1259,7 @@ class _ContractordetailscreenState
       padding: const EdgeInsets.all(11),
 
       decoration: BoxDecoration(
-        color: const Color(0xFFF8F9FB),
+        color: AppTheme.surface(context, Color(0xFFF8F9FB)),
         borderRadius: BorderRadius.circular(11),
       ),
 
@@ -1271,10 +1272,10 @@ class _ContractordetailscreenState
           Row(
             children: [
 
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 16,
                 backgroundColor:
-                Color(0xFFEAF2FA),
+                AppTheme.surface(context, Color(0xFFEAF2FA)),
 
                 child: Icon(
                   Icons.person,
@@ -1510,7 +1511,7 @@ class _ContractordetailscreenState
       padding: const EdgeInsets.all(14),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
         borderRadius: BorderRadius.circular(16),
 
         border: Border.all(
@@ -1540,7 +1541,7 @@ class _ContractordetailscreenState
                 height: 32,
 
                 decoration: BoxDecoration(
-                  color: const Color(0xFFEAF2FA),
+                  color: AppTheme.surface(context, Color(0xFFEAF2FA)),
                   borderRadius:
                   BorderRadius.circular(9),
                 ),
@@ -1590,7 +1591,7 @@ class _ContractordetailscreenState
       ),
 
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF4DD),
+        color: AppTheme.surface(context, Color(0xFFFFF4DD)),
         borderRadius: BorderRadius.circular(20),
       ),
 
@@ -1674,7 +1675,7 @@ class _ContractordetailscreenState
       ),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
 
         boxShadow: [
           BoxShadow(
@@ -1803,7 +1804,7 @@ class _ContractordetailscreenState
       ),
 
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.surface(context, Colors.white),
 
         boxShadow: [
           BoxShadow(
